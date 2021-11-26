@@ -26,12 +26,14 @@ public class Main {
             //batch.getBatchId();
             //batch.getBatchAmount();
             //cmd.start();
-
+/*
             batch.getBatchId();
             batch.getProductType();
             batch.getAmountToProduce();
             batch.getAmountProduced();
-            batch.getDefective();
+            batch.getDefective();*/
+
+            cmd.setSpeed(600);
 
         } catch (Throwable ex) {
             ex.printStackTrace();
