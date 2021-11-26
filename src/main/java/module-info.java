@@ -1,6 +1,10 @@
 module com.example.sempro {
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.eclipse.milo.opcua.stack.core;
+    requires org.eclipse.milo.opcua.stack.client;
+    requires org.eclipse.milo.opcua.sdk.client;
+    requires java.logging;
 
 
     opens com.example.sempro to javafx.fxml;
