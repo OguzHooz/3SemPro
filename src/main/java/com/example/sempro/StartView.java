@@ -2,33 +2,78 @@ package com.example.sempro;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import domain.CommandController;
 import domain.BatchController;
 import javafx.scene.control.Label;
+
+import java.net.URL;
 import java.util.*;
 import java.lang.Thread;
 
 
-public class StartView {
+public class StartView implements Initializable {
 
-    private CommandController cmdCtrl = new CommandController();
-    private BatchController batchCtrl = new BatchController();
+    private CommandController cmdCtrl;
+    private BatchController batchCtrl;
+    int amount = 5000;
+    /**
+     * tag input fra textfield, speed, product id, batch id,
+     */
+    private Timer timer;
 
     //FXML
     @FXML
-    private Button startBtn;
+    private Label accepted;
+
     @FXML
-    private Button stopBtn;
+    private Label amountCurrentBatch;
+
+    @FXML
+    private Label batchLabel;
+
+    @FXML
+    private Button clearBtn;
+
+    @FXML
+    private Label defective;
+
+    @FXML
+    private Label humidity;
 
     @FXML
     private Label producedLabel;
 
-    int amount = 5000;
+    @FXML
+    private Button resetBtn;
 
     @FXML
-    public void onStartClick(ActionEvent event) {
+    private Label speed;
+
+    @FXML
+    private Button startBtn;
+
+    @FXML
+    private Button stopBtn;
+
+    @FXML
+    private Label temp;
+
+    @FXML
+    private Label vibration;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.cmdCtrl = new CommandController();
+        this.batchCtrl = new BatchController();
+        timer = new Timer();
+    }
+
+    @FXML
+    public void onStartClick() {
 
         try {
             cmdCtrl.clear();
@@ -47,33 +92,36 @@ public class StartView {
 
     }
 
-    public void updateProduced() {
-        producedLabel.setText(Integer.toString(batchCtrl.getAmountProduced()));
-    }
-
     @FXML
     public void onStopClick(ActionEvent event) {
         cmdCtrl.stop();
+        timer.cancel();
+    }
+
+    @FXML
+    public void onClearClick(ActionEvent actionEvent) {
+        cmdCtrl.clear();
+    }
+
+    @FXML
+    public void onResetClick(ActionEvent actionEvent) {
+        cmdCtrl.reset();
     }
 
     public void productCounter() {
-        Timer timer = new Timer();
-
         timer.scheduleAtFixedRate(new TimerTask() {
 
-            
             public void run() {
                 if (batchCtrl.getAmountProduced() != amount) {
                     Platform.runLater(() -> producedLabel.setText("Produced: " + batchCtrl.getAmountProduced()));
-
                 } else {
                     timer.cancel();
                 }
             }
 
-
-        }, 0, amount);
+        }, 1, amount);
     }
 
+    
 
 }

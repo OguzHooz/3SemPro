@@ -45,7 +45,7 @@ public class CommandController {
     public void stop() {
         try {
 
-            NodeId stop = new NodeId(6, "=::Program:Cube.Command.CntrlCmd");
+            NodeId stop = new NodeId(6, "::Program:Cube.Command.CntrlCmd");
             machineConnection.getClient().writeValue(stop, DataValue.valueOnly(new Variant(3))).get();
             System.out.println("domain.Write: STOP");
 
