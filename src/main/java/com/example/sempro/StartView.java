@@ -1,12 +1,13 @@
 package com.example.sempro;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import domain.CommandController;
 import domain.BatchController;
 import javafx.scene.control.Label;
-
+import java.util.*;
 import java.lang.Thread;
 
 
@@ -24,9 +25,11 @@ public class StartView {
     @FXML
     private Label producedLabel;
 
+    int amount = 5000;
+
     @FXML
     public void onStartClick(ActionEvent event) {
-        int amount = 5000;
+
         try {
             cmdCtrl.clear();
             cmdCtrl.reset();
@@ -55,5 +58,22 @@ public class StartView {
     public void onStopClick(ActionEvent event) {
         cmdCtrl.stop();
     }
+
+    public void productCounter() {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                if (batchCtrl.getAmountProduced() != amount) {
+                    Platform.runLater(() -> producedLabel.setText("Produced: " + batchCtrl.getAmountProduced()));
+
+                } else {
+                    timer.cancel();
+                }
+            }
+
+
+        });
+    }
+
 
 }
