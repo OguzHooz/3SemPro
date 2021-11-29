@@ -39,10 +39,7 @@ public class StartView {
 
             cmdCtrl.start();
 
-            while (batchCtrl.getAmountProduced() != amount) {
-                Thread.sleep(2000);
-                producedLabel.setText(Integer.toString(batchCtrl.getAmountProduced()));
-            }
+            productCounter();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -61,7 +58,10 @@ public class StartView {
 
     public void productCounter() {
         Timer timer = new Timer();
+
         timer.scheduleAtFixedRate(new TimerTask() {
+
+            
             public void run() {
                 if (batchCtrl.getAmountProduced() != amount) {
                     Platform.runLater(() -> producedLabel.setText("Produced: " + batchCtrl.getAmountProduced()));
@@ -72,7 +72,7 @@ public class StartView {
             }
 
 
-        });
+        }, 0, amount);
     }
 
 
