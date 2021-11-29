@@ -2,22 +2,63 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.StartView">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.StartView">
    <children>
-      <Button fx:id="startBtn" layoutX="275.0" layoutY="300.0" mnemonicParsing="false" onAction="#onStartClick" text="Start" />
-      <Button fx:id="stopBtn" layoutX="350.0" layoutY="300.0" mnemonicParsing="false" onAction="#onStopClick" text="Stop" />
-      <Button fx:id="clearBtn" layoutX="122.0" layoutY="300.0" mnemonicParsing="false" onAction="#onClearClick" text="Clear" />
-      <Button fx:id="resetBtn" layoutX="196.0" layoutY="300.0" mnemonicParsing="false" onAction="#onResetClick" text="Reset" />
-      <Label fx:id="producedLabel" layoutX="58.0" layoutY="44.0" text="0" />
-      <Label fx:id="batchLabel" layoutX="45.0" layoutY="100.0" text="Batch id" />
-      <Label fx:id="speed" layoutX="51.0" layoutY="192.0" text="Speed" />
-      <Label fx:id="vibration" layoutX="479.0" layoutY="44.0" text="Vibration" />
-      <Label fx:id="humidity" layoutX="479.0" layoutY="84.0" text="Humidity" />
-      <Label fx:id="temp" layoutX="491.0" layoutY="132.0" text="Temp" />
-      <Label fx:id="defective" layoutX="237.0" layoutY="92.0" text="Defective" />
-      <Label fx:id="accepted" layoutX="238.0" layoutY="140.0" text="Accepted" />
-      <Label fx:id="amountCurrentBatch" layoutX="23.0" layoutY="132.0" text="Amount current batch" />
+      <TabPane prefHeight="800.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Control">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="785.0">
+                     <children>
+                        <SplitPane dividerPositions="0.5" prefHeight="768.5" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <TextField layoutX="316.0" layoutY="174.0" />
+                                    <TextField layoutX="316.0" layoutY="260.0" />
+                                    <TextField layoutX="316.0" layoutY="118.0" />
+                                    <TextField layoutX="316.0" layoutY="52.0" />
+                                    <TextField layoutX="61.0" layoutY="52.0" />
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <Button fx:id="startBtn" layoutX="493.0" layoutY="711.0" mnemonicParsing="false" onAction="#onStartClick" text="Start" />
+                                    <Button fx:id="stopBtn" layoutX="422.0" layoutY="711.0" mnemonicParsing="false" onAction="#onStopClick" text="Stop" />
+                                    <Button fx:id="clearBtn" layoutX="353.0" layoutY="698.0" mnemonicParsing="false" onAction="#onClearClick" text="Clear" />
+                                    <Button fx:id="resetBtn" layoutX="271.0" layoutY="698.0" mnemonicParsing="false" onAction="#onResetClick" text="Reset" />
+                                    <Label fx:id="producedLabel" layoutX="33.0" layoutY="614.0" text="Amount produced" />
+                                    <Label fx:id="batchLabel" layoutX="325.0" layoutY="556.0" text="Batch id" />
+                                    <Label fx:id="speedLabel" layoutX="155.0" layoutY="584.0" text="Speed" />
+                                    <Label fx:id="vibrationLabel" layoutX="310.0" layoutY="467.0" text="Vibration" />
+                                    <Label fx:id="humidityLabel" layoutX="262.0" layoutY="340.0" text="Humidity" />
+                                    <Label fx:id="tempLabel" layoutX="273.0" layoutY="241.0" text="Temp" />
+                                    <Label fx:id="defectiveLabel" layoutX="81.0" layoutY="388.0" text="Defective" />
+                                    <Label fx:id="acceptedLabel" layoutX="125.0" layoutY="332.0" text="Accepted" />
+                                    <Label fx:id="amountCurrentBatchLabel" layoutX="83.0" layoutY="264.0" text="Amount current batch" />
+                                    <Button fx:id="abortBtn" layoutX="155.0" layoutY="685.0" mnemonicParsing="false" onAction="#onAbortClick" text="Abort" />
+                                    <Button fx:id="exitBtn" layoutX="33.0" layoutY="672.0" mnemonicParsing="false" onAction="#onExitClick" text="Exit" />
+                                    <Label fx:id="idleTimeLabel" layoutX="292.0" layoutY="158.0" text="Idle time" />
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Batch Report">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
    </children>
 </AnchorPane>

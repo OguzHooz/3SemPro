@@ -27,10 +27,10 @@ public class StartView implements Initializable {
 
     //FXML
     @FXML
-    private Label accepted;
+    private Label acceptedLabel;
 
     @FXML
-    private Label amountCurrentBatch;
+    private Label amountCurrentBatchLabel;
 
     @FXML
     private Label batchLabel;
@@ -39,10 +39,10 @@ public class StartView implements Initializable {
     private Button clearBtn;
 
     @FXML
-    private Label defective;
+    private Label defectiveLabel;
 
     @FXML
-    private Label humidity;
+    private Label humidityLabel;
 
     @FXML
     private Label producedLabel;
@@ -51,7 +51,7 @@ public class StartView implements Initializable {
     private Button resetBtn;
 
     @FXML
-    private Label speed;
+    private Label speedLabel;
 
     @FXML
     private Button startBtn;
@@ -60,10 +60,19 @@ public class StartView implements Initializable {
     private Button stopBtn;
 
     @FXML
-    private Label temp;
+    private Button abortBtn;
 
     @FXML
-    private Label vibration;
+    private Button exitBtn;
+
+    @FXML
+    private Label tempLabel;
+
+    @FXML
+    private Label vibrationLabel;
+
+    @FXML
+    private Label idleTimeLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -108,6 +117,14 @@ public class StartView implements Initializable {
         cmdCtrl.reset();
     }
 
+    @FXML
+    public void onAbortClick(ActionEvent actionEvent) {
+        cmdCtrl.abort();
+    }
+
+    public void onExitClick(ActionEvent actionEvent) {
+    }
+
     public void productCounter() {
         timer.scheduleAtFixedRate(new TimerTask() {
 
@@ -122,6 +139,6 @@ public class StartView implements Initializable {
         }, 1, amount);
     }
 
-    
+
 
 }
