@@ -35,18 +35,18 @@ public class BatchController {
         }
     }
 
-    public float getAmountToProduce() {
-        float value = 0;
+    public Object getAmountToProduce() {
+        Object value = 0;
         try {
 
-                NodeId nodeId5 = new NodeId(6, "::Program:Cube.Status.Parameter[0].Value");
+                NodeId nodeId5 = new NodeId(6, "::Program:Cube.Status.Parameter[1].Value");
                 DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId5)
                         .get();
 
                 Variant variant = dataValue.getValue();
 
-                value = (float) variant.getValue();
-                System.out.println("amount to produce" + value);
+                value = variant.getValue();
+                System.out.println("amount to produce " + value);
                 return value;
 
         } catch (Throwable ex) {

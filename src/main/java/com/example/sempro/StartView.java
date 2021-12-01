@@ -20,6 +20,7 @@ public class StartView implements Initializable {
     private CommandController cmdCtrl;
     private BatchController batchCtrl;
     int amount = 5000;
+    int defective;
     /**
      * tag input fra textfield, speed, product id, batch id,
      */
@@ -88,12 +89,19 @@ public class StartView implements Initializable {
             cmdCtrl.clear();
             cmdCtrl.reset();
             batchCtrl.setAmountToProduce(amount);
-            cmdCtrl.setSpeed(600);
+            cmdCtrl.setSpeed(300);
+            setSpeedLabel();
+            batchCtrl.setBatchId(11);
+            setBatchLabel();
+            setAmountCurrentBatchLabel();
             Thread.sleep(4000);
 
             cmdCtrl.start();
 
             productCounter();
+
+
+            //setDefectiveLabel();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -138,6 +146,33 @@ public class StartView implements Initializable {
 
         }, 1, amount);
     }
+
+    public void setAmountCurrentBatchLabel() {
+        amountCurrentBatchLabel.setText("Amount to produce: " + batchCtrl.getAmountToProduce());
+    }
+
+
+/*    public void setDefectiveLabel() {
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                Platform.runLater(() -> defectiveLabel.setText("Defective: " + batchCtrl.getDefective()));
+            }
+        },1, defective);
+
+    }*/
+
+    public void setSpeedLabel() {
+        speedLabel.setText("Speed: " + cmdCtrl.getSpeed());
+    }
+
+    public void setBatchLabel() {
+        batchLabel.setText("Batch ID: " + batchCtrl.getBatchId());
+    }
+
+
+
+
 
 
 

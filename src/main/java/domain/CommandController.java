@@ -107,20 +107,20 @@ public class CommandController {
         }
     }
 
-    public int getSpeed() {
-        int value = 0;
+    public Object getSpeed() {
+        Object value = 0;
         try {
 
             while(true) {
-                NodeId nodeId5 = new NodeId(6, "::Program:Cube.Admin.ProdProcessedCount");
-                DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId5)
+                NodeId nodeId = new NodeId(6, "::Program:Cube.Command.MachSpeed");
+                DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId)
                         .get();
 
                 Variant variant = dataValue.getValue();
 
-                value = (int) variant.getValue();
+                value = variant.getValue();
 
-                System.out.println("Produced: " + value);
+                System.out.println("Speed: " + value);
                 return value;
             }
 
