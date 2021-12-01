@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 
     private static Connection connection = null;
-    private final String url = "jdbc:postgres://ella.db.elephantsql.com:5432/fyhpiwab";
+    private final String url = "jdbc:postgresql://ella.db.elephantsql.com:5432/fyhpiwab";
     private final String user = "fyhpiwab";
     private final String pass = "N2GjdahOuVFDnz5-lFSPmdm90AGGQ3uA";
 
