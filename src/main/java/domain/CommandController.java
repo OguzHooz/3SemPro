@@ -99,9 +99,9 @@ public class CommandController {
         try {
 
             NodeId nodeId = new NodeId(6, "::Program:Cube.Command.MachSpeed");
-            machineConnection.getClient().writeValue(nodeId, DataValue.valueOnly(new Variant((float) speed))).get();
+            /** det en fejl */
+            machineConnection.getClient().writeValue(nodeId, DataValue.valueOnly(new Variant((float)speed))).get();
             System.out.println("domain.Write: Speed: " + speed);
-
         } catch (Throwable ex) {
             ex.printStackTrace();
         }

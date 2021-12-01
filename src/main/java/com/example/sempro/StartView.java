@@ -10,6 +10,7 @@ import domain.CommandController;
 import domain.BatchController;
 import javafx.scene.control.Label;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.lang.Thread;
@@ -75,11 +76,16 @@ public class StartView implements Initializable {
     @FXML
     private Label idleTimeLabel;
 
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.cmdCtrl = new CommandController();
         this.batchCtrl = new BatchController();
         timer = new Timer();
+       // producedLabel.setUserData(batchCtrl.getAmountProduced());
+
     }
 
     @FXML
@@ -131,6 +137,11 @@ public class StartView implements Initializable {
     }
 
     public void onExitClick(ActionEvent actionEvent) {
+        try {
+            HelloApplication.setRoot("login");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void productCounter() {
