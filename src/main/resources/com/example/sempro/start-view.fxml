@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.StartView">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.StartView">
    <children>
       <TabPane prefHeight="800.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -55,9 +62,72 @@
           </Tab>
           <Tab text="Batch Report">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="607.0" prefHeight="771.0" prefWidth="593.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <HBox layoutX="14.0" layoutY="14.0" prefHeight="242.0" prefWidth="496.0">
+                           <children>
+                              <VBox prefHeight="233.0" prefWidth="114.0" spacing="10.0">
+                                 <children>
+                                    <Label text="Company:" />
+                                    <Label text="Batch ID:" />
+                                    <Label text="Amount produced:" />
+                                    <Label text="Accepted:" />
+                                    <Label text="Defects:" />
+                                    <Label text="Start date:" />
+                                    <Label text="End date:" />
+                                    <Label text="Time to produce:" />
+                                    <Label text="Idle time:" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                                 <children>
+                                    <Label text="Label" />
+                                    <Label text="Label" />
+                                    <Label text="Label" />
+                                    <Label text="Label" />
+                                    <Label text="Label" />
+                                    <Label text="Label" />
+                                    <Label text="Label" />
+                                    <Label text="Label" />
+                                    <Label text="Label" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <LineChart layoutY="371.0" prefHeight="400.0" prefWidth="608.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </LineChart>
+                        <Button layoutX="14.0" layoutY="276.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" text="DOWNLOAD REPORT" />
+                     </children></AnchorPane>
             </content>
           </Tab>
+            <Tab text="User management">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="600.0" prefHeight="771.0" prefWidth="601.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="456.0" layoutY="66.0" mnemonicParsing="false" text="UPDATE USER" />
+                        <Button layoutX="457.0" layoutY="32.0" mnemonicParsing="false" text="CREATE USER" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>
