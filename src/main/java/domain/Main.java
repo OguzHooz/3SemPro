@@ -1,9 +1,12 @@
 package domain;
 
-import domain.BatchController;
-import domain.CommandController;
+import database.DatabaseConnection;
+import java.sql.Connection;
 
 public class Main {
+
+    static DatabaseConnection dbConnection;
+    static Connection connection;
 
     public static void main(String[] args) {
         BatchController batch = new BatchController();
@@ -33,7 +36,10 @@ public class Main {
             batch.getAmountProduced();
             batch.getDefective();*/
 
-            cmd.setSpeed(600);
+            dbConnection = new DatabaseConnection();
+            connection = DatabaseConnection.getConnection();
+
+            DatabaseConnection.getConnection();
 
         } catch (Throwable ex) {
             ex.printStackTrace();
