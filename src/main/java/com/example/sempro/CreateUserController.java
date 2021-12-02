@@ -1,13 +1,14 @@
 package com.example.sempro;
 
 import javafx.fxml.FXML;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
-public class createUserController {
+public class CreateUserController {
 
     @FXML
     private TextField usernameTxtField;
