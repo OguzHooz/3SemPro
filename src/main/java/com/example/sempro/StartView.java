@@ -4,11 +4,18 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import domain.CommandController;
 import domain.BatchController;
 import javafx.scene.control.Label;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.Modality;
 
 import java.net.URL;
 import java.util.*;
@@ -75,6 +82,9 @@ public class StartView implements Initializable {
     @FXML
     private Label idleTimeLabel;
 
+    @FXML
+    private Button createUserBtn;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.cmdCtrl = new CommandController();
@@ -130,7 +140,23 @@ public class StartView implements Initializable {
         cmdCtrl.abort();
     }
 
+    @FXML
     public void onExitClick(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    public void createUserOnAction(ActionEvent event) {
+        Stage stage;
+        Parent root;
+        try {
+            stage = new Stage();
+            root = FXMLLoader.load(getClass().getResource("createUser-view.fxml"));
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     public void productCounter() {
@@ -152,6 +178,8 @@ public class StartView implements Initializable {
     }
 
 
+
+
 /*    public void setDefectiveLabel() {
         timer.scheduleAtFixedRate(new TimerTask() {
 
@@ -169,7 +197,6 @@ public class StartView implements Initializable {
     public void setBatchLabel() {
         batchLabel.setText("Batch ID: " + batchCtrl.getBatchId());
     }
-
 
 
 
