@@ -68,8 +68,8 @@ public class BatchController {
         }
     }
 
-    public float getBatchId() {
-        float value = 0;
+    public Object getBatchId() {
+        Object value = 0;
         try {
 
                 NodeId batchId = new NodeId(6, "::Program:Cube.Status.Parameter[0].Value");
@@ -78,7 +78,7 @@ public class BatchController {
 
                 Variant variant = dataValue.getValue();
 
-                value = (float) variant.getValue();
+                value = variant.getValue();
 
                 System.out.println("Batch ID: " + value);
                 return value;
@@ -106,7 +106,7 @@ public class BatchController {
         float type = 0;
         try {
 
-            NodeId nodeId = new NodeId(6, "::Program:Cube.Admin.Parameter[0].Value");
+            NodeId nodeId = new NodeId(6, "::Program:Cube.Command.Parameter[1].Value");
             DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId)
                     .get();
             Variant variant = dataValue.getValue();

@@ -17,10 +17,17 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
 import javafx.scene.control.TextField;
+import org.eclipse.milo.opcua.stack.core.types.builtin.DataValue;
+import org.eclipse.milo.opcua.stack.core.types.builtin.NodeId;
+import org.eclipse.milo.opcua.stack.core.types.builtin.Variant;
 
 import java.net.URL;
 import java.util.*;
 import java.lang.Thread;
+import domain.BatchController;
+import java.time.format.DateTimeFormatter;
+import org.apache.commons.lang3.time.StopWatch;
+import java.lang.Object;
 
 
 public class StartView implements Initializable {
@@ -105,23 +112,34 @@ public class StartView implements Initializable {
     private Label tempLabel;
 
     @FXML
-    private Label timeLabel;
+    private Label vibrationLabel;
 
     @FXML
-    private Label vibrationLabel;
+    private Label productTypeLabel;
+
+    @FXML
+    private Label startTimeLabel;
+
+    @FXML
+    private Label timeOnLabel;
+
+
+    private DateTimeFormatter dtf;
+    private StopWatch sw;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.cmdCtrl = new CommandController();
         this.batchCtrl = new BatchController();
         timer = new Timer();
+        dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
     }
 
     @FXML
     public void onStartClick() {
 
         try {
-            cmdCtrl.clear();
+           /* cmdCtrl.clear();
             cmdCtrl.reset();
             batchCtrl.setAmountToProduce(amount);
             cmdCtrl.setSpeed(300);
@@ -129,9 +147,13 @@ public class StartView implements Initializable {
             batchCtrl.setBatchId(11);
             setBatchLabel();
             setAmountCurrentBatchLabel();
-            Thread.sleep(4000);
-
+            Thread.sleep(4000);*/
+            setSpeedLabel();
+            setBatchLabel();
+            setAmountCurrentBatchLabel();
+            setProductTypeLabel();
             cmdCtrl.start();
+            startTimeLabel.setText(dtf.format(java.time.LocalTime.now()));
 
             productCounter();
 
@@ -221,14 +243,67 @@ public class StartView implements Initializable {
     }
 
     public void setBatchLabel() {
-        batchLabel.setText(batchCtrl.getBatchId() + "");
+        batchLabel.setText(batchCtrl.getBatchId().toString());
     }
 
     @FXML
     public void changeOnAction(ActionEvent actionEvent) {
+        cmdCtrl.clear();
+        cmdCtrl.reset();
+
+        if (!amountToProduceTextField.getText().isEmpty() &&
+                !productIDTextField.getText().isEmpty() &&
+                !speedTextField.getText().isEmpty()) {
+            batchCtrl.setAmountToProduce(Float.parseFloat(amountToProduceTextField.getText()));
+            batchCtrl.setProductType(Float.parseFloat(productIDTextField.getText()));
+            cmdCtrl.setSpeed(Float.parseFloat(speedTextField.getText()));
+
+            amountToProduceTextField.clear();
+            productIDTextField.clear();
+            speedTextField.clear();
+        } else {
+            //Label der siger udfyld
+        }
+
     }
 
     @FXML
     public void clearFieldOnAction(ActionEvent actionEvent) {
     }
+
+    private void setProductTypeLabel() {
+        Float productType = batchCtrl.getProductType();
+        if (productType == 0) {
+            productTypeLabel.setText("Pilsner (0)");
+        } else if (productType == 1) {
+            productTypeLabel.setText("Wheat (1)");
+        } else if (productType == 2) {
+            productTypeLabel.setText("IPA (2)");
+        } else if (productType == 3) {
+            productTypeLabel.setText("Stout (3)");
+        } else if (productType == 4) {
+            productTypeLabel.setText("ALE (4)");
+        } else if (productType == 5) {
+            productTypeLabel.setText("Alcohol free (5)");
+        }
+        System.out.println(batchCtrl.getProductType());
+    }
+    
+    
+    private void setTimeOnLabel() {
+        if (startBtn.isPressed()) {
+            sw.start();
+            System.out.println("Time" + sw.getTime());
+
+            while (true) {
+                timeOnLabel.setText(sw.getTime() + "");
+            }
+
+        } else if (stopBtn.isPressed()) {
+            sw.stop();
+        }
+
+
+    }
+
 }
