@@ -6,6 +6,7 @@ module com.example.sempro {
     requires org.eclipse.milo.opcua.sdk.client;
     requires java.logging;
     requires java.sql;
+    requires org.postgresql.jdbc;
 
 
     opens com.example.sempro to javafx.fxml;
