@@ -26,6 +26,11 @@ public class LoginService {
 
     }
 
+   // public boolean validateLogin(){
+    //   return
+
+   // }
+
     //Tjekker om brugeren er i databasen og se om username og password passer sammen.
 
 }
