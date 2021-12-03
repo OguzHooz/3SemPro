@@ -52,6 +52,7 @@ public class CreateUserController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         create = new CreateUserService();
+        alertLbl.setVisible(false);
     }
 
     @FXML
