@@ -98,21 +98,6 @@ public class CreateUserController implements Initializable {
         stage.close();
     }
 
-    @FXML
-    void guestRB(ActionEvent event) {
-
-    }
-
-    @FXML
-    void managerRB(ActionEvent event) {
-
-    }
-
-    @FXML
-    void workerRB(ActionEvent event) {
-
-    }
-
     private boolean emailValidation() {
         if (emailTxtField.getText().contains("@") == false || emailTxtField.getText().contains(".") == false) {
             return false;

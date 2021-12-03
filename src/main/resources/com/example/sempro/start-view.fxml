@@ -14,8 +14,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.StartView">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.StartView">
    <children>
       <TabPane prefHeight="800.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -23,35 +24,220 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="785.0">
                      <children>
-                        <SplitPane dividerPositions="0.5" prefHeight="768.5" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <SplitPane dividerPositions="0.4098798397863818" prefHeight="768.5" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="770.0" prefWidth="514.0">
                                  <children>
-                                    <TextField layoutX="316.0" layoutY="174.0" />
                                     <TextField layoutX="316.0" layoutY="260.0" />
-                                    <TextField layoutX="316.0" layoutY="118.0" />
-                                    <TextField layoutX="316.0" layoutY="52.0" />
-                                    <TextField layoutX="61.0" layoutY="52.0" />
+                                    <VBox layoutX="71.0" layoutY="76.0" prefHeight="260.0" prefWidth="180.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Amount of batches">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="amountBatchTextField" />
+                                          <Label text="Amount to produce">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="amountToProduceTextField" />
+                                          <Label text="Speed">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="speedTextField" />
+                                          <Label text="Product ID (type)">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="productIDTextField" />
+                                          <HBox prefHeight="38.0" prefWidth="162.0" spacing="10.0">
+                                             <children>
+                                                <Button fx:id="changeBtn" mnemonicParsing="false" onAction="#changeOnAction" text="CHANGE" />
+                                                <Button fx:id="clearFieldBtn" mnemonicParsing="false" onAction="#clearFieldOnAction" text="CLEAR" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <Label layoutX="377.0" layoutY="230.0" text="Label" />
                                  </children>
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
-                                    <Button fx:id="startBtn" layoutX="493.0" layoutY="711.0" mnemonicParsing="false" onAction="#onStartClick" text="Start" />
-                                    <Button fx:id="stopBtn" layoutX="422.0" layoutY="711.0" mnemonicParsing="false" onAction="#onStopClick" text="Stop" />
-                                    <Button fx:id="clearBtn" layoutX="353.0" layoutY="698.0" mnemonicParsing="false" onAction="#onClearClick" text="Clear" />
-                                    <Button fx:id="resetBtn" layoutX="271.0" layoutY="698.0" mnemonicParsing="false" onAction="#onResetClick" text="Reset" />
-                                    <Label fx:id="producedLabel" layoutX="33.0" layoutY="614.0" text="Amount produced" />
-                                    <Label fx:id="batchLabel" layoutX="325.0" layoutY="556.0" text="Batch id" />
-                                    <Label fx:id="speedLabel" layoutX="155.0" layoutY="584.0" text="Speed" />
-                                    <Label fx:id="vibrationLabel" layoutX="310.0" layoutY="467.0" text="Vibration" />
-                                    <Label fx:id="humidityLabel" layoutX="262.0" layoutY="340.0" text="Humidity" />
-                                    <Label fx:id="tempLabel" layoutX="273.0" layoutY="241.0" text="Temp" />
-                                    <Label fx:id="defectiveLabel" layoutX="81.0" layoutY="388.0" text="Defective" />
-                                    <Label fx:id="acceptedLabel" layoutX="125.0" layoutY="332.0" text="Accepted" />
-                                    <Label fx:id="amountCurrentBatchLabel" layoutX="83.0" layoutY="264.0" text="Amount current batch" />
-                                    <Button fx:id="abortBtn" layoutX="155.0" layoutY="685.0" mnemonicParsing="false" onAction="#onAbortClick" text="Abort" />
-                                    <Button fx:id="exitBtn" layoutX="33.0" layoutY="672.0" mnemonicParsing="false" onAction="#onExitClick" text="Exit" />
-                                    <Label fx:id="idleTimeLabel" layoutX="292.0" layoutY="158.0" text="Idle time" />
+                                    <HBox layoutX="132.0" layoutY="672.0" prefHeight="27.0" prefWidth="342.0" spacing="10.0">
+                                       <children>
+                                          <Button fx:id="startBtn" mnemonicParsing="false" onAction="#onStartClick" prefHeight="25.0" prefWidth="50.0" text="Start" />
+                                          <Button fx:id="stopBtn" mnemonicParsing="false" onAction="#onStopClick" prefHeight="25.0" prefWidth="50.0" text="Stop" />
+                                          <Button fx:id="resetBtn" mnemonicParsing="false" onAction="#onResetClick" prefHeight="25.0" prefWidth="50.0" text="Reset" />
+                                          <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#onClearClick" prefHeight="25.0" prefWidth="50.0" text="Clear" />
+                                          <Button fx:id="abortBtn" mnemonicParsing="false" onAction="#onAbortClick" prefHeight="25.0" prefWidth="50.0" text="Abort" />
+                                          <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#onExitClick" prefHeight="25.0" prefWidth="50.0" text="Exit" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutX="18.0" layoutY="49.0" prefHeight="239.0" prefWidth="695.0">
+                                       <children>
+                                          <VBox prefHeight="239.0" prefWidth="175.0">
+                                             <children>
+                                                <Label text="Temperature" underline="true">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="tempLabel" text="0">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Batch ID" underline="true">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="batchLabel" text="0">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Amount produced" underline="true">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="producedLabel" text="0">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Start time" underline="true">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="00:00">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="239.0" prefWidth="188.0">
+                                             <children>
+                                                <Label text="Humidity" underline="true">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="humidityLabel" text="0">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Amount of batches" underline="true">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="amountBatchLabel" text="0">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Accepted" underline="true">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="acceptedLabel" text="0">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Time on" underline="true">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="timeLabel" text="00:00">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="239.0" prefWidth="194.0">
+                                             <children>
+                                                <Label text="Vibration" underline="true">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="vibrationLabel" text="0">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Amount to produce" underline="true">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="amountCurrentBatchLabel" text="0">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Defective" underline="true">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="defectiveLabel" text="0">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Idle time" underline="true">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="idleTimeLabel" text="00:00">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox prefHeight="239.0" prefWidth="117.0">
+                                             <children>
+                                                <Label contentDisplay="CENTER" text="Speed" underline="true">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="speedLabel" text="0">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Product type" underline="true">
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="IPA (3)">
+                                                   <font>
+                                                      <Font name="System Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
                                  </children>
                               </AnchorPane>
                           </items>

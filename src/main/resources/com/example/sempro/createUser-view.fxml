@@ -5,11 +5,11 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="293.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.CreateUserController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="293.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.CreateUserController">
    <children>
       <VBox layoutX="53.0" layoutY="20.0" prefHeight="200.0" prefWidth="183.0" spacing="5.0">
          <children>
@@ -22,9 +22,12 @@
             <Label text="E-mail:" />
             <TextField fx:id="emailTxtField" />
             <Label text="Role:" />
-            <RadioButton fx:id="managerRadioBtn" mnemonicParsing="false" onAction="#managerRB" text="Manager" />
-            <RadioButton fx:id="workerRadioBtn" mnemonicParsing="false" onAction="#workerRB" text="Worker" />
-            <RadioButton fx:id="guestRadioBtn" mnemonicParsing="false" onAction="#guestRB" text="Guest" />
+            <RadioButton fx:id="managerRadioBtn" mnemonicParsing="false" text="Manager">
+               <toggleGroup>
+                  <ToggleGroup fx:id="roleTG" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="workerRadioBtn" mnemonicParsing="false" text="Worker" toggleGroup="$roleTG" />
+            <RadioButton fx:id="guestRadioBtn" mnemonicParsing="false" text="Guest" toggleGroup="$roleTG" />
             <Label fx:id="alertLbl" text="ALERT LABEL" />
          </children>
       </VBox>

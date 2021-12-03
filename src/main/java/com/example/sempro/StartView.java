@@ -16,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.*;
@@ -35,25 +36,55 @@ public class StartView implements Initializable {
 
     //FXML
     @FXML
+    private Button abortBtn;
+
+    @FXML
     private Label acceptedLabel;
+
+    @FXML
+    private Label amountBatchLabel;
+
+    @FXML
+    private TextField amountBatchTextField;
 
     @FXML
     private Label amountCurrentBatchLabel;
 
     @FXML
+    private TextField amountToProduceTextField;
+
+    @FXML
     private Label batchLabel;
+
+    @FXML
+    private Button changeBtn;
 
     @FXML
     private Button clearBtn;
 
     @FXML
+    private Button clearFieldBtn;
+
+    @FXML
+    private Button createUserBtn;
+
+    @FXML
     private Label defectiveLabel;
+
+    @FXML
+    private Button exitBtn;
 
     @FXML
     private Label humidityLabel;
 
     @FXML
+    private Label idleTimeLabel;
+
+    @FXML
     private Label producedLabel;
+
+    @FXML
+    private TextField productIDTextField;
 
     @FXML
     private Button resetBtn;
@@ -62,28 +93,22 @@ public class StartView implements Initializable {
     private Label speedLabel;
 
     @FXML
+    private TextField speedTextField;
+
+    @FXML
     private Button startBtn;
 
     @FXML
     private Button stopBtn;
 
     @FXML
-    private Button abortBtn;
-
-    @FXML
-    private Button exitBtn;
-
-    @FXML
     private Label tempLabel;
 
     @FXML
+    private Label timeLabel;
+
+    @FXML
     private Label vibrationLabel;
-
-    @FXML
-    private Label idleTimeLabel;
-
-    @FXML
-    private Button createUserBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -142,6 +167,7 @@ public class StartView implements Initializable {
 
     @FXML
     public void onExitClick(ActionEvent actionEvent) {
+        System.exit(0);
     }
 
     @FXML
@@ -164,7 +190,7 @@ public class StartView implements Initializable {
 
             public void run() {
                 if (batchCtrl.getAmountProduced() != amount) {
-                    Platform.runLater(() -> producedLabel.setText("Produced: " + batchCtrl.getAmountProduced()));
+                    Platform.runLater(() -> producedLabel.setText(Integer.toString(batchCtrl.getAmountProduced())));
                 } else {
                     timer.cancel();
                 }
@@ -174,7 +200,7 @@ public class StartView implements Initializable {
     }
 
     public void setAmountCurrentBatchLabel() {
-        amountCurrentBatchLabel.setText("Amount to produce: " + batchCtrl.getAmountToProduce());
+        amountCurrentBatchLabel.setText(batchCtrl.getAmountToProduce().toString());
     }
 
 
@@ -191,16 +217,18 @@ public class StartView implements Initializable {
     }*/
 
     public void setSpeedLabel() {
-        speedLabel.setText("Speed: " + cmdCtrl.getSpeed());
+        speedLabel.setText(cmdCtrl.getSpeed().toString());
     }
 
     public void setBatchLabel() {
-        batchLabel.setText("Batch ID: " + batchCtrl.getBatchId());
+        batchLabel.setText(batchCtrl.getBatchId() + "");
     }
 
+    @FXML
+    public void changeOnAction(ActionEvent actionEvent) {
+    }
 
-
-
-
-
+    @FXML
+    public void clearFieldOnAction(ActionEvent actionEvent) {
+    }
 }
