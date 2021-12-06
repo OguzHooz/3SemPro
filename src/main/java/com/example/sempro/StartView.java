@@ -1,8 +1,12 @@
 package com.example.sempro;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,16 +21,26 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
 import javafx.scene.control.TextField;
+import javafx.util.Duration;
 import org.eclipse.milo.opcua.stack.core.types.builtin.DataValue;
 import org.eclipse.milo.opcua.stack.core.types.builtin.NodeId;
 import org.eclipse.milo.opcua.stack.core.types.builtin.Variant;
+import javafx.animation.AnimationTimer;
+
+import java.awt.*;
+import java.awt.event.*;
 
 import java.net.URL;
+import java.time.LocalTime;
 import java.util.*;
 import java.lang.Thread;
+
 import domain.BatchController;
+
 import java.time.format.DateTimeFormatter;
+
 import org.apache.commons.lang3.time.StopWatch;
+
 import java.lang.Object;
 
 
@@ -36,10 +50,21 @@ public class StartView implements Initializable {
     private BatchController batchCtrl;
     int amount = 5000;
     int defective;
+    private DateTimeFormatter dtf;
+    private StopWatch sw;
+    private Timer timer;
+    private int seconds = 0;
+    private int minutes = 0;
+
+    private TimerTask timerTask;
+
+    private Timeline timeLine;
+    private LocalTime localTime;
+
+
     /**
      * tag input fra textfield, speed, product id, batch id,
      */
-    private Timer timer;
 
     //FXML
     @FXML
@@ -123,16 +148,20 @@ public class StartView implements Initializable {
     @FXML
     private Label timeOnLabel;
 
+    private boolean maintenanceCheck = false;
 
-    private DateTimeFormatter dtf;
-    private StopWatch sw;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.cmdCtrl = new CommandController();
         this.batchCtrl = new BatchController();
-        timer = new Timer();
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        localTime = LocalTime.parse("00:00:00");
+        sw = new StopWatch();
+        timeLine = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
+        timeLine.setCycleCount(Animation.INDEFINITE);
+        //setTimeOnLabel();
     }
 
     @FXML
@@ -148,6 +177,7 @@ public class StartView implements Initializable {
             setBatchLabel();
             setAmountCurrentBatchLabel();
             Thread.sleep(4000);*/
+            newTimer();
             setSpeedLabel();
             setBatchLabel();
             setAmountCurrentBatchLabel();
@@ -155,7 +185,13 @@ public class StartView implements Initializable {
             cmdCtrl.start();
             startTimeLabel.setText(dtf.format(java.time.LocalTime.now()));
 
+            producedLabel.setText("0");
+            amountCurrentBatchLabel.setText("0");
             productCounter();
+            localTime = LocalTime.parse("00:00:00");
+            timeOnLabel.setText(localTime.format(dtf));
+            timeLine.play();
+            startBtn.setDisable(true);
 
 
             //setDefectiveLabel();
@@ -170,6 +206,12 @@ public class StartView implements Initializable {
     public void onStopClick(ActionEvent event) {
         cmdCtrl.stop();
         timer.cancel();
+        
+        if (startBtn.isDisable()) {
+            timeLine.stop();
+            startBtn.setDisable(false);
+        }
+        
     }
 
     @FXML
@@ -238,6 +280,10 @@ public class StartView implements Initializable {
 
     }*/
 
+    public void setHumidityLabel() {
+
+    }
+
     public void setSpeedLabel() {
         speedLabel.setText(cmdCtrl.getSpeed().toString());
     }
@@ -288,22 +334,20 @@ public class StartView implements Initializable {
         }
         System.out.println(batchCtrl.getProductType());
     }
-    
-    
-    private void setTimeOnLabel() {
-        if (startBtn.isPressed()) {
-            sw.start();
-            System.out.println("Time" + sw.getTime());
 
-            while (true) {
-                timeOnLabel.setText(sw.getTime() + "");
-            }
+    private void newTimer() {
+        timer = new Timer();
+    }
 
-        } else if (stopBtn.isPressed()) {
-            sw.stop();
+    private void incrementTime() {
+        localTime = localTime.plusSeconds(1);
+        timeOnLabel.setText(localTime.format(dtf));
+    }
+
+    private void maintenanceChecker() {
+        while (maintenanceCheck == true) {
+            break;
         }
-
-
     }
 
 }

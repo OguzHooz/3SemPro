@@ -7,6 +7,7 @@ module com.example.sempro {
     requires java.logging;
     requires java.sql;
     requires org.apache.commons.lang3;
+    requires java.desktop;
 
 
     opens com.example.sempro to javafx.fxml;
