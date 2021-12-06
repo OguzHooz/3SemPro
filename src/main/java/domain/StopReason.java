@@ -9,13 +9,13 @@ public class StopReason {
 
     private MachineConnection machineConnection;
 
-    public void CommandController() {
+    public StopReason() {
         this.machineConnection = new MachineConnection("127.0.0.1", 4840);
         this.machineConnection.connect();
     }
 
-    public Object stopReason() {
-        Object value = 0;
+    public String stopReason() {
+        String value = "0";
         try {
 
             NodeId nodeId = new NodeId(6, "::Program:Cube.Admin.StopReasonId");
@@ -23,7 +23,7 @@ public class StopReason {
                     .get();
             Variant variant = dataValue.getValue();
 
-            value = variant.getValue();
+            value = (String) variant.getValue();
             System.out.println("domain.Read: Stop Reason: " + value);
             return value;
 

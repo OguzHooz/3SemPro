@@ -1,5 +1,6 @@
 package com.example.sempro;
 
+import domain.StopReason;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -48,6 +49,7 @@ public class StartView implements Initializable {
 
     private CommandController cmdCtrl;
     private BatchController batchCtrl;
+    private StopReason stopReason;
     int amount = 5000;
     int defective;
     private DateTimeFormatter dtf;
@@ -151,7 +153,6 @@ public class StartView implements Initializable {
     private boolean maintenanceCheck = false;
 
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.cmdCtrl = new CommandController();
@@ -162,6 +163,9 @@ public class StartView implements Initializable {
         timeLine = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
         timeLine.setCycleCount(Animation.INDEFINITE);
         //setTimeOnLabel();
+        stopReason = new StopReason();
+        //maintenanceChecker();
+        maintenance();
     }
 
     @FXML
@@ -188,6 +192,7 @@ public class StartView implements Initializable {
             producedLabel.setText("0");
             amountCurrentBatchLabel.setText("0");
             productCounter();
+
             localTime = LocalTime.parse("00:00:00");
             timeOnLabel.setText(localTime.format(dtf));
             timeLine.play();
@@ -206,12 +211,12 @@ public class StartView implements Initializable {
     public void onStopClick(ActionEvent event) {
         cmdCtrl.stop();
         timer.cancel();
-        
+
         if (startBtn.isDisable()) {
             timeLine.stop();
             startBtn.setDisable(false);
         }
-        
+
     }
 
     @FXML
@@ -261,6 +266,22 @@ public class StartView implements Initializable {
             }
 
         }, 1, amount);
+    }
+
+    public void maintenance() {
+        Timer test = new Timer();
+        test.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (stopReason.stopReason() == "10" ||
+                        stopReason.stopReason() == "11" ||
+                        stopReason.stopReason() == "12" ||
+                        stopReason.stopReason() == "13" ||
+                        stopReason.stopReason() == "14") {
+                    System.out.println("Stop reason: " + stopReason.stopReason());
+                }
+            }
+        }, 1, 100000);
     }
 
     public void setAmountCurrentBatchLabel() {
@@ -345,9 +366,28 @@ public class StartView implements Initializable {
     }
 
     private void maintenanceChecker() {
-        while (maintenanceCheck == true) {
-            break;
+        while (true) {
+
+            if (stopReason.stopReason() == "10") {
+                System.out.println("Maintenance - stop reason ID:" + stopReason.stopReason());
+                break;
+            } else if (stopReason.stopReason() == "11") {
+                System.out.println("Maintenance - stop reason ID:" + stopReason.stopReason());
+                break;
+            } else if (stopReason.stopReason() == "12") {
+                System.out.println("Maintenance - stop reason ID:" + stopReason.stopReason());
+                break;
+            } else if (stopReason.stopReason() == "13") {
+                System.out.println("Maintenance - stop reason ID:" + stopReason.stopReason());
+                break;
+            } else if (stopReason.stopReason() == "14") {
+                System.out.println("Maintenance - stop reason ID:" + stopReason.stopReason());
+                break;
+            }
+
+            continue;
         }
+
     }
 
 }
