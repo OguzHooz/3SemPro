@@ -1,33 +1,35 @@
 package domain;
 
-import database.CreateUser;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Connection;
-
+import database.Login;
 
 public class LoginService {
-
-
     private String username;
     private String password;
-
-  //  Encrypt encrypt = new Encrypt();
-
-  //  String sql = "SELECT FROM user_info WHERE username = '" + username + "' AND password = '" + encrypt.encrypt(password) + "'";
-
-
-   private CreateUser createUser=new CreateUser();
-
-    public LoginService(String username,String password) {
-        this.username = username;
-        this.password = password;
+    private User user;
+    private Login login;
+    public LoginService(String username, String password) {
+        user=new User();
+        login=new Login();
+        this.username=username;
+        this.password=password;
 
     }
 
-   // public boolean validateLogin(){
-    //   return
+    public boolean checkLoginforUser(){
+       boolean checkLogin ;
+       login=new Login();
+       if (login.checkUserinDB(username, password)){
+           checkLogin=true;
+           user = new User(username,password);
+           System.out.println("The user name is: "+user.getUsername() +"\n" +"The password of user name is: "+user.getPassword());
+           System.out.println("User is checked in DB!");
+       }
+       else{
+            checkLogin = false;
+           System.out.println(" User does not find in systemt");
+        }
+       return checkLogin;
+       }
 
    // }
 

@@ -1,16 +1,16 @@
 package com.example.sempro;
 
 import database.DatabaseConnection;
-import domain.Encrypt;
-import domain.BatchController;
-import domain.CommandController;
+import domain.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,11 +38,18 @@ public class LoginController implements Initializable {
     @FXML
     private TextField usernameTextField;
 
-    Encrypt encrypt;
+    @FXML
+    private Label loginMessageLabel;
+
+    private Encrypt encrypt;
+    private User user;
+    private LoginService loginService;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         encrypt = new Encrypt();
+        user=new User();
+
     }
 
     @FXML
@@ -52,39 +59,32 @@ public class LoginController implements Initializable {
 
     @FXML
     public void onLoginClick(ActionEvent event) {
-
-        DatabaseConnection connect = new DatabaseConnection();
-        Connection connectdatabase = connect.getConnection();
-
-        try {
-
-            String checklogin = "SELECT FROM user_info WHERE username = '" + usernameTextField.getText() + "' AND password = '" + encrypt.encrypt(passwordTextField.getText()) + "'";
-
-                Statement st = connectdatabase.createStatement();
-                ResultSet queryresult = st.executeQuery(checklogin);
-
-
-                    if(queryresult.next()){
-
-                        AnchorPane pane = FXMLLoader.load(getClass().getResource("start-view.fxml"));
-                        loginAnchorPane.getChildren().setAll(pane);
-
-                    } else {
-                        System.out.println("Wrong login");
-
-                    }
-                } catch (SQLException throwables) {
-            throwables.printStackTrace();
-
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-
+        loginChecker();
     }
-
     // Checks if the user is in the database (Correctly done in domain first) -LoginService
     private void loginChecker() {
+        if (!usernameTextField.getText().isEmpty() && !passwordTextField.getText().isEmpty()) {
+            createLoginUser();
+            boolean check = loginService.checkLoginforUser();
+            if (check) {
+                try {
+                    AnchorPane pane = FXMLLoader.load(getClass().getResource("start-view.fxml"));
+                    loginAnchorPane.getChildren().setAll(pane);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                loginMessageLabel.setText("welcome");
+            } else {
 
-
+                loginMessageLabel.setText("It is not authenticated");
+                loginMessageLabel.setTextFill(Color.RED);
+            }
+        } else {
+            loginMessageLabel.setText("One of fields is empty");
+            loginMessageLabel.setTextFill(Color.RED);
+        }
+    }
+    private void createLoginUser() {
+        loginService = new LoginService(usernameTextField.getText(), passwordTextField.getText());
     }
 }

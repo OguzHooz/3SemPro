@@ -142,6 +142,16 @@ public class StartView implements Initializable {
 
     @FXML
     public void onExitClick(ActionEvent actionEvent) {
+        Stage stage;
+        Parent root;
+        try {
+            stage = (Stage) exitBtn.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("login-view.fxml"));
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     @FXML
