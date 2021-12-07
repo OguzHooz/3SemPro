@@ -9,9 +9,8 @@ import java.sql.Statement;
 
 public class CreateUser {
 
-    DatabaseConnection dbConnection;
+    private DatabaseConnection dbConnection;
     private Connection connection;
-    private ResultSet rs;
     private Encrypt encrypt;
 
     public CreateUser() {

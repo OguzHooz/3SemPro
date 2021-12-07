@@ -23,26 +23,12 @@ import javafx.stage.Stage;
 import javafx.stage.Modality;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
-import org.eclipse.milo.opcua.stack.core.types.builtin.DataValue;
-import org.eclipse.milo.opcua.stack.core.types.builtin.NodeId;
-import org.eclipse.milo.opcua.stack.core.types.builtin.Variant;
-import javafx.animation.AnimationTimer;
-
-import java.awt.*;
-import java.awt.event.*;
-
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.*;
-import java.lang.Thread;
-
 import domain.BatchController;
-
 import java.time.format.DateTimeFormatter;
-
 import org.apache.commons.lang3.time.StopWatch;
-
-import java.lang.Object;
 
 
 public class StartView implements Initializable {
@@ -50,7 +36,7 @@ public class StartView implements Initializable {
     private CommandController cmdCtrl;
     private BatchController batchCtrl;
     private StopReason stopReason;
-    int amount = 5000;
+    int amount;
     int defective;
     private DateTimeFormatter dtf;
     private StopWatch sw;
@@ -172,15 +158,6 @@ public class StartView implements Initializable {
     public void onStartClick() {
 
         try {
-           /* cmdCtrl.clear();
-            cmdCtrl.reset();
-            batchCtrl.setAmountToProduce(amount);
-            cmdCtrl.setSpeed(300);
-            setSpeedLabel();
-            batchCtrl.setBatchId(11);
-            setBatchLabel();
-            setAmountCurrentBatchLabel();
-            Thread.sleep(4000);*/
             newTimer();
             setSpeedLabel();
             setBatchLabel();
@@ -266,6 +243,9 @@ public class StartView implements Initializable {
             }
 
         }, 1, amount);
+
+
+
     }
 
     public void maintenance() {
@@ -273,10 +253,10 @@ public class StartView implements Initializable {
         test.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if (stopReason.stopReason() == "10" ||
-                        stopReason.stopReason() == "11" ||
-                        stopReason.stopReason() == "12" ||
-                        stopReason.stopReason() == "13" ||
+                if (Objects.equals(stopReason.stopReason(), "10") ||
+                        Objects.equals(stopReason.stopReason(), "11") ||
+                        Objects.equals(stopReason.stopReason(), "12") ||
+                        Objects.equals(stopReason.stopReason(), "13") ||
                         stopReason.stopReason() == "14") {
                     System.out.println("Stop reason: " + stopReason.stopReason());
                 }
@@ -287,9 +267,6 @@ public class StartView implements Initializable {
     public void setAmountCurrentBatchLabel() {
         amountCurrentBatchLabel.setText(batchCtrl.getAmountToProduce().toString());
     }
-
-
-
 
 /*    public void setDefectiveLabel() {
         timer.scheduleAtFixedRate(new TimerTask() {
