@@ -1,6 +1,8 @@
 package domain;
 
 import database.CreateUser;
+import database.Login;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,26 +14,36 @@ public class LoginService {
 
     private String username;
     private String password;
-
-  //  Encrypt encrypt = new Encrypt();
-
-  //  String sql = "SELECT FROM user_info WHERE username = '" + username + "' AND password = '" + encrypt.encrypt(password) + "'";
+    private User user;
+    private Login login;
 
 
-   private CreateUser createUser=new CreateUser();
-
-    public LoginService(String username,String password) {
+    public LoginService(String username, String password) {
         this.username = username;
         this.password = password;
-
+        login = new Login();
+        user = new User();
     }
 
 
-   // public boolean validateLogin(){
-    //   return
+    public boolean validateLogin() {
+        boolean check = false;
+            if (login.checkUser(username,password)) {
+                check = true;
+                user = new User(username, password);
+                System.out.println("The User is in DB");
+            }
+            else {
 
-   // }
+            check = false;
 
-    //Tjekker om brugeren er i databasen og se om username og password passer sammen.
+           System.out.println("The User is not in DB");
+        }
+        return check;
+        }
+
+
+        //Tjekker om brugeren er i databasen og se om username og password passer sammen.
+
 
 }
