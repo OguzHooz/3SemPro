@@ -10,7 +10,10 @@ public class BatchController {
     private MachineConnection machineConnection;
 
     public BatchController() {
-        this.machineConnection = new MachineConnection("127.0.0.1", 4840);
+        //Simulation
+        //this.machineConnection = new MachineConnection("127.0.0.1", 4840);
+        //Machine
+        this.machineConnection = new MachineConnection("192.168.0.122", 4840);
         this.machineConnection.connect();
     }
 
@@ -153,4 +156,63 @@ public class BatchController {
             return value;
         }
     }
+
+    public Object getHumidity() {
+        Object value = 0;
+        try {
+
+            NodeId nodeId = new NodeId(1, "::Program:Cube.Status.Parameter[2]");
+            DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId)
+                    .get();
+            Variant variant = dataValue.getValue();
+
+            value = variant.getValue();
+            System.out.println("domain.Read: Humidity: " + value);
+            return value;
+
+        } catch (Throwable ex) {
+            ex.printStackTrace();
+            return value;
+        }
+    }
+
+    public float getTemperature() {
+        float value = 0;
+        try {
+
+            NodeId nodeId = new NodeId(1, "::Program:Cube.Status.Parameter[3]");
+            DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId)
+                    .get();
+            Variant variant = dataValue.getValue();
+
+            value = (float) variant.getValue();
+            System.out.println("domain.Read: Temperature: " + value);
+            return value;
+
+        } catch (Throwable ex) {
+            ex.printStackTrace();
+            return value;
+        }
+    }
+
+    public float getVibration() {
+        float value = 0;
+        try {
+
+            NodeId nodeId = new NodeId(1, "::Program:Cube.Status.Parameter[4]");
+            DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId)
+                    .get();
+            Variant variant = dataValue.getValue();
+
+            value = (float) variant.getValue();
+            System.out.println("domain.Read: Vibration: " + value);
+            return value;
+
+        } catch (Throwable ex) {
+            ex.printStackTrace();
+            return value;
+        }
+    }
+
+
 }

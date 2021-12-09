@@ -36,8 +36,7 @@ public class StartView implements Initializable {
     private CommandController cmdCtrl;
     private BatchController batchCtrl;
     private StopReason stopReason;
-    int amount;
-    int defective;
+    int run = 1000000;
     private DateTimeFormatter dtf;
     private StopWatch sw;
     private Timer timer;
@@ -136,9 +135,6 @@ public class StartView implements Initializable {
     @FXML
     private Label timeOnLabel;
 
-    private boolean maintenanceCheck = false;
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.cmdCtrl = new CommandController();
@@ -150,8 +146,6 @@ public class StartView implements Initializable {
         timeLine.setCycleCount(Animation.INDEFINITE);
         //setTimeOnLabel();
         stopReason = new StopReason();
-        //maintenanceChecker();
-        maintenance();
     }
 
     @FXML
@@ -168,15 +162,18 @@ public class StartView implements Initializable {
 
             producedLabel.setText("0");
             amountCurrentBatchLabel.setText("0");
-            productCounter();
 
             localTime = LocalTime.parse("00:00:00");
             timeOnLabel.setText(localTime.format(dtf));
             timeLine.play();
             startBtn.setDisable(true);
 
-
-            //setDefectiveLabel();
+            Thread.sleep(5000);
+            productCounter();
+            updateDefective();
+            updateAccepted();
+            updateHumidity();
+            updateTemperature();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -231,65 +228,6 @@ public class StartView implements Initializable {
         }
     }
 
-    public void productCounter() {
-        timer.scheduleAtFixedRate(new TimerTask() {
-
-            public void run() {
-                if (batchCtrl.getAmountProduced() != amount) {
-                    Platform.runLater(() -> producedLabel.setText(Integer.toString(batchCtrl.getAmountProduced())));
-                } else {
-                    timer.cancel();
-                }
-            }
-
-        }, 1, amount);
-
-
-
-    }
-
-    public void maintenance() {
-        Timer test = new Timer();
-        test.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (Objects.equals(stopReason.stopReason(), "10") ||
-                        Objects.equals(stopReason.stopReason(), "11") ||
-                        Objects.equals(stopReason.stopReason(), "12") ||
-                        Objects.equals(stopReason.stopReason(), "13") ||
-                        stopReason.stopReason() == "14") {
-                    System.out.println("Stop reason: " + stopReason.stopReason());
-                }
-            }
-        }, 1, 100000);
-    }
-
-    public void setAmountCurrentBatchLabel() {
-        amountCurrentBatchLabel.setText(batchCtrl.getAmountToProduce().toString());
-    }
-
-/*    public void setDefectiveLabel() {
-        timer.scheduleAtFixedRate(new TimerTask() {
-
-            public void run() {
-                Platform.runLater(() -> defectiveLabel.setText("Defective: " + batchCtrl.getDefective()));
-            }
-        },1, defective);
-
-    }*/
-
-    public void setHumidityLabel() {
-
-    }
-
-    public void setSpeedLabel() {
-        speedLabel.setText(cmdCtrl.getSpeed().toString());
-    }
-
-    public void setBatchLabel() {
-        batchLabel.setText(batchCtrl.getBatchId().toString());
-    }
-
     @FXML
     public void changeOnAction(ActionEvent actionEvent) {
         cmdCtrl.clear();
@@ -313,7 +251,89 @@ public class StartView implements Initializable {
 
     @FXML
     public void clearFieldOnAction(ActionEvent actionEvent) {
+        amountToProduceTextField.clear();
+        productIDTextField.clear();
+        speedTextField.clear();
     }
+
+    public void productCounter() {
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                if (batchCtrl.getAmountProduced() != run) {
+                    Platform.runLater(() -> producedLabel.setText(Integer.toString(batchCtrl.getAmountProduced())));
+                } else {
+                    timer.cancel();
+                }
+            }
+
+        }, 1, run);
+
+    }
+
+    public void setAmountCurrentBatchLabel() {
+        amountCurrentBatchLabel.setText(batchCtrl.getAmountToProduce().toString());
+    }
+
+    public void updateDefective() {
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                Platform.runLater(() -> defectiveLabel.setText("Defective: " + batchCtrl.getDefective()));
+            }
+        },1, run);
+
+    }
+
+    public void updateAccepted() {
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                Platform.runLater(() -> acceptedLabel.setText("Accepted: " + (batchCtrl.getAmountProduced() - batchCtrl.getDefective())));
+            }
+        },1, run);
+
+    }
+
+    public void updateHumidity() {
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                Platform.runLater(() -> humidityLabel.setText("Humidity: " + batchCtrl.getHumidity().toString()));
+            }
+        },1, run);
+
+    }
+
+    public void updateTemperature() {
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                Platform.runLater(() -> tempLabel.setText("Temperature: " + batchCtrl.getTemperature()));
+            }
+        },1, run);
+
+    }
+
+    public void updateVibration() {
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+                Platform.runLater(() -> tempLabel.setText("Temperature: " + batchCtrl.getVibration()));
+            }
+        },1, run);
+
+    }
+
+    public void setSpeedLabel() {
+        speedLabel.setText(cmdCtrl.getSpeed().toString());
+    }
+
+    public void setBatchLabel() {
+        batchLabel.setText(batchCtrl.getBatchId().toString());
+    }
+
+
 
     private void setProductTypeLabel() {
         Float productType = batchCtrl.getProductType();
