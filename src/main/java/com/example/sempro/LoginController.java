@@ -3,6 +3,7 @@ package com.example.sempro;
 import database.DatabaseConnection;
 import domain.Encrypt;
 import domain.LoginService;
+import domain.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,11 +43,14 @@ public class LoginController implements Initializable {
     private Label checkin;
 
      private Encrypt encrypt;
-     private LoginService loginService;
+     LoginService loginService;
+     private StartView startView;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         encrypt = new Encrypt();
+        startView = new StartView();
     }
 
     @FXML
@@ -75,10 +79,9 @@ public class LoginController implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                checkin.setText("Welcome to our system");
+                checkin.setText("User can not come in the system");
             } else {
                 checkin.setText("User is not authenticated");
-
           }
         }
         else{
@@ -88,5 +91,7 @@ public class LoginController implements Initializable {
     public void createcheck(){
         loginService=new LoginService(usernameTextField.getText(),passwordTextField.getText());
     }
+
+
 }
 

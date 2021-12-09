@@ -24,6 +24,10 @@ public class User {
         this.password = password;
     }
 
+    public User (String role){
+        this.role = role;
+    }
+
     public User() {
 
     }

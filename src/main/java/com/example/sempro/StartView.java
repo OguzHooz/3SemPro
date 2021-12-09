@@ -2,20 +2,22 @@ package com.example.sempro;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import domain.CommandController;
 import domain.BatchController;
+import domain.LoginService;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.stage.Modality;
+
 
 import java.net.URL;
 import java.util.*;
@@ -26,6 +28,8 @@ public class StartView implements Initializable {
 
     private CommandController cmdCtrl;
     private BatchController batchCtrl;
+    LoginService loginService;
+    LoginController logincontroller;
     int amount = 5000;
     int defective;
     /**
@@ -85,11 +89,40 @@ public class StartView implements Initializable {
     @FXML
     private Button createUserBtn;
 
+    @FXML
+    private Tab userManagementTab;
+
+    @FXML
+    private Tab controlTab;
+
+    @FXML
+    private Tab batchReportTab;
+
+    @FXML
+    private TabPane tabPane;
+
+    @FXML
+    AnchorPane userManegementAP;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.cmdCtrl = new CommandController();
         this.batchCtrl = new BatchController();
         timer = new Timer();
+
+        // loginService = new LoginService(loginService.getRole());
+
+    }
+
+    public boolean userIsWorkeorGuest() {
+
+        boolean checkIfGuestOrWorker = loginService.validateWorkerorGuest();
+        if (checkIfGuestOrWorker) {
+            userManagementTab.setDisable(true);
+        }
+
+        return checkIfGuestOrWorker;
     }
 
     @FXML
@@ -200,6 +233,9 @@ public class StartView implements Initializable {
 
 
 
+
+   // if (user.getRole == "Managaer") {
+  //      startBtn.disable(true);
 
 
 

@@ -15,11 +15,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.StartView">
+<AnchorPane fx:id="mainAnchorPane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.StartView">
    <children>
-      <TabPane prefHeight="800.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TabPane fx:id="tabPane" prefHeight="800.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
-          <Tab text="Control">
+          <Tab fx:id="controlTab" text="Control">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="785.0">
                      <children>
@@ -60,7 +60,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Batch Report">
+          <Tab fx:id="batchReportTab" text="Batch Report">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -112,9 +112,9 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="User management">
+            <Tab fx:id="userManagementTab" text="User management">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane fx:id="userManegementAP" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <TableView layoutX="600.0" prefHeight="771.0" prefWidth="601.0">
                           <columns>
