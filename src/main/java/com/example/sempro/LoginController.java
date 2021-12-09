@@ -67,12 +67,11 @@ public class LoginController implements Initializable {
     private void loginChecker() {
 
         if (!usernameTextField.getText().isEmpty() && !passwordTextField.getText().isEmpty()) {
-            //loginService = new LoginService(usernameTextField.getText(), encrypt.encrypt(passwordTextField.getText()));
             createcheck();
-
             boolean check = loginService.validateLogin();
             if (check) {
                 try {
+
                     AnchorPane pane = FXMLLoader.load(getClass().getResource("start-view.fxml"));
                     loginAnchorPane.getChildren().setAll(pane);
 

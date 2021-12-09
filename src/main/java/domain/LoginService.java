@@ -14,6 +14,7 @@ public class LoginService {
 
     private String username;
     private String password;
+    private String role;
     private User user;
     private Login login;
 
@@ -69,6 +70,24 @@ public class LoginService {
         }
         return check;
         }
+
+  public boolean validateWorkerorGuest(){
+        boolean check = false;
+        if (login.checkWorkerorGuest(role) == Boolean.parseBoolean("Worker")  || Boolean.parseBoolean("Guest")) {
+            check = true;
+            user = new User(role);
+            System.out.println("User is a guest or a worker" + " " + user.getRole());
+      }
+        else {
+            check = false;
+            System.out.println("User is a Manager");
+        }
+        return check;
+
+  }
+
+
+
 
 
         //Tjekker om brugeren er i databasen og se om username og password passer sammen.
