@@ -111,19 +111,10 @@ public class StartView implements Initializable {
         this.batchCtrl = new BatchController();
         timer = new Timer();
 
-        // loginService = new LoginService(loginService.getRole());
 
     }
 
-    public boolean userIsWorkeorGuest() {
 
-        boolean checkIfGuestOrWorker = loginService.validateWorkerorGuest();
-        if (checkIfGuestOrWorker) {
-            userManagementTab.setDisable(true);
-        }
-
-        return checkIfGuestOrWorker;
-    }
 
     @FXML
     public void onStartClick() {
@@ -230,13 +221,5 @@ public class StartView implements Initializable {
     public void setBatchLabel() {
         batchLabel.setText("Batch ID: " + batchCtrl.getBatchId());
     }
-
-
-
-
-   // if (user.getRole == "Managaer") {
-  //      startBtn.disable(true);
-
-
 
 }

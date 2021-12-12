@@ -9,9 +9,8 @@ import java.sql.Connection;
 
 public class Login {
      Encrypt encrypt;
-    DatabaseConnection connect;
-    // DatabaseConnection connect = new DatabaseConnection();
-   // Connection connectdatabase = connect.getConnection();
+     DatabaseConnection connect;
+
 
     public  Login(){
         encrypt=new Encrypt();
@@ -38,27 +37,6 @@ public class Login {
             e.printStackTrace();
         }
         System.out.println("Login: " + check);
-        return check;
-    }
-
-    public boolean checkWorkerorGuest(String role){
-
-        boolean check = false;
-
-        try{
-            String sql = "SELECT role FROM user_info WHERE role = '" + role +"'";
-            Statement st = connect.getConnection().createStatement();
-            ResultSet rs = st.executeQuery(sql);
-
-            while(rs.next()){
-                check = true;
-                System.out.println("Role is check in DB"+check);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("Role is not  check in DB"+check);
         return check;
     }
 

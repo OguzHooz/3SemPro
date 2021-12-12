@@ -26,7 +26,8 @@ public class LoginService {
         user = new User();
 
     }
-    public LoginService(String role){
+
+    public LoginService(String role) {
         this.role = role;
     }
 
@@ -57,40 +58,16 @@ public class LoginService {
 
     public boolean validateLogin() {
         boolean check = false;
-            if (login.checkUser(username,password)) {
-                check = true;
-                user = new User(username, password);
-                System.out.println("The User is in DB");
-            }
-            else {
-
-            check = false;
-
-           System.out.println("The User is not in DB");
-        }
-        return check;
-        }
-
-  public boolean validateWorkerorGuest(){
-        boolean check = false;
-        if (login.checkWorkerorGuest(role) == Boolean.parseBoolean("Worker")  || Boolean.parseBoolean("Guest")) {
+        if (login.checkUser(username, password)) {
             check = true;
-            user = new User(role);
-            System.out.println("User is a guest or a worker" + " " + user.getRole());
-      }
-        else {
+            user = new User(username, password);
+            System.out.println("The User is in DB");
+        } else {
+
             check = false;
-            System.out.println("User is a Manager");
+
+            System.out.println("The User is not in DB");
         }
         return check;
-
-  }
-
-
-
-
-
-        //Tjekker om brugeren er i databasen og se om username og password passer sammen.
-
-
+    }
 }
