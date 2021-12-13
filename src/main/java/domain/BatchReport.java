@@ -1,7 +1,10 @@
 package domain;
 
-public class BatchReport {
+import database.BatchReportDB;
+import javafx.collections.ObservableList;
 
+public class BatchReport {
+   private int batchid;
     private String company;
     private int amountProduced;
     private int amountToProduce;
@@ -12,10 +15,12 @@ public class BatchReport {
     private String idleTime;
     private String timeOn;
     private String startTime;
+    private BatchReportDB batchReportDB;
 
-    public BatchReport(String company, int amountProduced, int amountToProduce, String productType, int speed, int accepted,
+    public BatchReport(String company,int batchid, int amountProduced, int amountToProduce, String productType, int speed, int accepted,
                        int defected, String idleTime, String timeOn, String startTime) {
         this.company = company;
+        this.batchid=batchid;
         this.amountProduced = amountProduced;
         this.amountToProduce = amountToProduce;
         this.productType = productType;
@@ -25,6 +30,7 @@ public class BatchReport {
         this.idleTime = idleTime;
         this.timeOn = timeOn;
         this.startTime = startTime;
+        this.batchReportDB=new BatchReportDB();
     }
 
     public String getCompany() {
@@ -107,4 +113,13 @@ public class BatchReport {
         this.startTime = startTime;
     }
 
+//    public void BatchReportDM(String company, int amountProduced, int amountToProduce, String productType, int speed,
+//                              int accepted, int defected, String idleTime, String timeOn, String startTime) {
+//        //BatchReportDB batchReportDB=new BatchReportDB();
+//      batchReportDB.createBatchReport( company, amountProduced,  amountToProduce, productType, speed,
+//        accepted, defected,  idleTime,  timeOn,  startTime);
+//    }
+  public ObservableList<BatchReport> getIformationBR(){
+      return batchReportDB.getReportInfo();
+  }
 }

@@ -1,6 +1,7 @@
 package com.example.sempro;
 
-import domain.StopReason;
+import database.BatchReportDB;
+import domain.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,17 +12,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import domain.CommandController;
-import domain.BatchController;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
-import javafx.scene.control.TextField;
 import javafx.util.Duration;
 import java.net.URL;
 import java.time.LocalTime;
@@ -47,6 +45,7 @@ public class StartView implements Initializable {
 
     private Timeline timeLine;
     private LocalTime localTime;
+    private  BatchReport batchReport;
 
 
     /**
@@ -119,6 +118,8 @@ public class StartView implements Initializable {
 
     @FXML
     private Button stopBtn;
+    @FXML
+    private Button downloadReportBtn;
 
     @FXML
     private Label tempLabel;
@@ -135,10 +136,76 @@ public class StartView implements Initializable {
     @FXML
     private Label timeOnLabel;
 
+    @FXML
+    private Label companyBRLabel;
+
+    @FXML
+    private Label amountProducedBRLabel;
+
+    @FXML
+    private Label amountToProduceBRLabel;
+
+    @FXML
+    private Label productTypeBRLabel;
+
+    @FXML
+    private Label speedBRLabel;
+
+    @FXML
+    private Label acceptedBRLabel;
+
+    @FXML
+    private Label defectedBRLabel;
+
+    @FXML
+    private Label idleTimeBRLabel;
+
+    @FXML
+    private Label timeOnBRLabel;
+
+    @FXML
+    private Label startTimeBRLabel;
+    @FXML
+    private TableView<BatchReport> tabelViewBR;
+    @FXML
+    private TableColumn<?, ?> companyColumn;
+
+    @FXML
+    private TableColumn<?, ?> batchidColumn;
+
+    @FXML
+    private TableColumn<?, ?> amountproducedColumn;
+
+    @FXML
+    private TableColumn<?, ?> amounttoproduceColumn;
+
+    @FXML
+    private TableColumn<?, ?> productTypeColumn;
+
+    @FXML
+    private TableColumn<?, ?> speedColumn;
+
+    @FXML
+    private TableColumn<?, ?> acceptedColumn;
+
+    @FXML
+    private TableColumn<?, ?> detectedColumn;
+
+    @FXML
+    private TableColumn<?, ?> IdletimeColumn;
+
+    @FXML
+    private TableColumn<?, ?> timeonColumn;
+
+    @FXML
+    private TableColumn<?, ?> starttimeColumn;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.cmdCtrl = new CommandController();
         this.batchCtrl = new BatchController();
+       // this.batchReport=new BatchReport();
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         localTime = LocalTime.parse("00:00:00");
         sw = new StopWatch();
@@ -146,6 +213,23 @@ public class StartView implements Initializable {
         timeLine.setCycleCount(Animation.INDEFINITE);
         //setTimeOnLabel();
         stopReason = new StopReason();
+
+        Columns();
+        //tabelViewBR=new TableView<>(batchReport.getIformationBR());
+
+    }
+    public void Columns(){
+        companyColumn.setCellValueFactory(new PropertyValueFactory<>("company"));
+        batchidColumn.setCellValueFactory(new PropertyValueFactory<>("batchid"));
+        amountproducedColumn.setCellValueFactory(new PropertyValueFactory<>("amountproduced"));
+        amounttoproduceColumn.setCellValueFactory(new PropertyValueFactory<>("amounttoproduce"));
+        productTypeColumn.setCellValueFactory(new PropertyValueFactory<>("producttype"));
+        speedColumn.setCellValueFactory(new PropertyValueFactory<>("speed"));
+        acceptedColumn.setCellValueFactory(new PropertyValueFactory<>("accepted"));
+        detectedColumn.setCellValueFactory(new PropertyValueFactory<>("defected"));
+        batchidColumn.setCellValueFactory(new PropertyValueFactory<>("idletime"));
+        timeonColumn.setCellValueFactory(new PropertyValueFactory<>("timeon"));
+        starttimeColumn.setCellValueFactory(new PropertyValueFactory<>("starttime"));
     }
 
     @FXML
@@ -192,7 +276,6 @@ public class StartView implements Initializable {
             timeLine.stop();
             startBtn.setDisable(false);
         }
-
     }
 
     @FXML
@@ -386,6 +469,13 @@ public class StartView implements Initializable {
 
             continue;
         }
+
+    }
+
+    public void SetBatchReport(){
+//        amountProducedBRLabel.setText(cmdCtrl.);
+//        speedBRLabel.setText(cmdCtrl.getSpeed().toString());
+//        acceptedBRLabel.setText();
 
     }
 
