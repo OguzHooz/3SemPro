@@ -36,7 +36,7 @@ public class StartView implements Initializable {
     private CommandController cmdCtrl;
     private BatchController batchCtrl;
     private StopReason stopReason;
-    int run = 1000000;
+    int run = 500;
     private DateTimeFormatter dtf;
     private StopWatch sw;
     private Timer timer;
@@ -153,27 +153,27 @@ public class StartView implements Initializable {
 
         try {
             newTimer();
-            setSpeedLabel();
-            setBatchLabel();
-            setAmountCurrentBatchLabel();
-            setProductTypeLabel();
             cmdCtrl.start();
             startTimeLabel.setText(dtf.format(java.time.LocalTime.now()));
 
-            producedLabel.setText("0");
-            amountCurrentBatchLabel.setText("0");
 
             localTime = LocalTime.parse("00:00:00");
             timeOnLabel.setText(localTime.format(dtf));
             timeLine.play();
             startBtn.setDisable(true);
 
-            Thread.sleep(5000);
+            //Thread.sleep(5000);
             productCounter();
-            updateDefective();
-            updateAccepted();
-            updateHumidity();
-            updateTemperature();
+//            updateDefective();
+//            updateAccepted();
+//            updateHumidity();
+//            updateTemperature();
+
+            setSpeedLabel();
+            setBatchLabel();
+            setAmountCurrentBatchLabel();
+            setProductTypeLabel();
+
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -185,6 +185,8 @@ public class StartView implements Initializable {
     public void onStopClick(ActionEvent event) {
         cmdCtrl.stop();
         timer.cancel();
+        cmdCtrl.reset();
+        cmdCtrl.clear();
 
         if (startBtn.isDisable()) {
             timeLine.stop();
@@ -275,7 +277,7 @@ public class StartView implements Initializable {
         amountCurrentBatchLabel.setText(batchCtrl.getAmountToProduce().toString());
     }
 
-    public void updateDefective() {
+    /*public void updateDefective() {
         timer.scheduleAtFixedRate(new TimerTask() {
 
             public void run() {
@@ -293,9 +295,9 @@ public class StartView implements Initializable {
             }
         },1, run);
 
-    }
+    }*/
 
-    public void updateHumidity() {
+    /*public void updateHumidity() {
         timer.scheduleAtFixedRate(new TimerTask() {
 
             public void run() {
@@ -313,9 +315,9 @@ public class StartView implements Initializable {
             }
         },1, run);
 
-    }
+    }*/
 
-    public void updateVibration() {
+    /*public void updateVibration() {
         timer.scheduleAtFixedRate(new TimerTask() {
 
             public void run() {
@@ -323,7 +325,7 @@ public class StartView implements Initializable {
             }
         },1, run);
 
-    }
+    }*/
 
     public void setSpeedLabel() {
         speedLabel.setText(cmdCtrl.getSpeed().toString());

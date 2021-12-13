@@ -11,9 +11,9 @@ public class BatchController {
 
     public BatchController() {
         //Simulation
-        //this.machineConnection = new MachineConnection("127.0.0.1", 4840);
+        this.machineConnection = new MachineConnection("127.0.0.1", 4840);
         //Machine
-        this.machineConnection = new MachineConnection("192.168.0.122", 4840);
+        //this.machineConnection = new MachineConnection("192.168.0.122", 4840);
         this.machineConnection.connect();
     }
 
@@ -21,16 +21,16 @@ public class BatchController {
     public int getAmountProduced() {
         int value = 0;
         try {
+            NodeId nodeId5 = new NodeId(6, "::Program:Cube.Admin.ProdProcessedCount");
+            DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId5)
+                    .get();
 
-                NodeId nodeId5 = new NodeId(6, "::Program:Cube.Admin.ProdProcessedCount");
-                DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId5)
-                        .get();
+            Variant variant = dataValue.getValue();
 
-                Variant variant = dataValue.getValue();
+            value = (int) variant.getValue();
 
-                value = (int) variant.getValue();
             System.out.println("Amount produced: " + value);
-                return value;
+            return value;
 
         } catch (Throwable ex) {
             ex.printStackTrace();
@@ -42,15 +42,15 @@ public class BatchController {
         Object value = 0;
         try {
 
-                NodeId nodeId5 = new NodeId(6, "::Program:Cube.Status.Parameter[1].Value");
-                DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId5)
-                        .get();
+            NodeId nodeId5 = new NodeId(6, "::Program:Cube.Status.Parameter[1].Value");
+            DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId5)
+                    .get();
 
-                Variant variant = dataValue.getValue();
+            Variant variant = dataValue.getValue();
 
-                value = variant.getValue();
-                System.out.println("amount to produce " + value);
-                return value;
+            value = variant.getValue();
+            System.out.println("amount to produce " + value);
+            return value;
 
         } catch (Throwable ex) {
             ex.printStackTrace();
@@ -75,16 +75,16 @@ public class BatchController {
         Object value = 0;
         try {
 
-                NodeId batchId = new NodeId(6, "::Program:Cube.Status.Parameter[0].Value");
-                DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, batchId)
-                        .get();
+            NodeId batchId = new NodeId(6, "::Program:Cube.Status.Parameter[0].Value");
+            DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, batchId)
+                    .get();
 
-                Variant variant = dataValue.getValue();
+            Variant variant = dataValue.getValue();
 
-                value = variant.getValue();
+            value = variant.getValue();
 
-                System.out.println("Batch ID: " + value);
-                return value;
+            System.out.println("Batch ID: " + value);
+            return value;
 
 
         } catch (Throwable ex) {
