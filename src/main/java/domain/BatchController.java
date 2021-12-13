@@ -42,7 +42,7 @@ public class BatchController {
         Object value = 0;
         try {
 
-            NodeId nodeId5 = new NodeId(6, "::Program:Cube.Status.Parameter[1].Value");
+            NodeId nodeId5 = new NodeId(6, "::Program:Cube.Command.Parameter[2].Value");
             DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId5)
                     .get();
 

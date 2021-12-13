@@ -53,6 +53,7 @@
                                        </children>
                                     </VBox>
                                     <Label layoutX="377.0" layoutY="230.0" text="Label" />
+                                    <Label fx:id="invalidInputLabel" disable="true" layoutX="79.0" layoutY="353.0" text="text" visible="false" />
                                  </children>
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">

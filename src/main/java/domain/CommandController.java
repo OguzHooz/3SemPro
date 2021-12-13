@@ -113,8 +113,7 @@ public class CommandController {
     public Object getSpeed() {
         Object value = 0;
         try {
-
-            while(true) {
+            
                 NodeId nodeId = new NodeId(6, "::Program:Cube.Command.MachSpeed");
                 DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId)
                         .get();
@@ -125,7 +124,6 @@ public class CommandController {
 
                 System.out.println("Speed: " + value);
                 return value;
-            }
 
         } catch (Throwable ex) {
             ex.printStackTrace();

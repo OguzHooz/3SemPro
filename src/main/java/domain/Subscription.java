@@ -1,19 +1,12 @@
-/*
-package domain;*/
+
+package domain;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- *//*
+ */
 
-
-*/
-/**
- *
- * @author athil
- *//*
-
-
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,130 +27,88 @@ import org.eclipse.milo.opcua.stack.core.types.structured.MonitoringParameters;
 import org.eclipse.milo.opcua.stack.core.types.structured.ReadValueId;
 import org.eclipse.milo.opcua.stack.core.types.builtin.unsigned.UInteger;
 import org.eclipse.milo.opcua.stack.core.types.builtin.unsigned.Unsigned;
+import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicLong;
 
-public class Subscription {
+
+public class Subscription implements ISubscription {
 
     private static MachineConnection machineConnection;
+    private Map<String, Consumer<String>> consumerMap;
+    private static final AtomicLong ATOMICLONG = new AtomicLong(1L);
 
-    */
-/*public static void main(String[] args) {
+    //Production
+    private final NodeId productCountNode = new NodeId(6, "::Program:Cube.Admin.ProdProcessedCount");
 
-        try
-        {
-            machineConnection = new MachineConnection("127.0.0.1", 4840);
-            machineConnection.connect();
+    private float totalProducedValue;
 
-            NodeId nodeId = new NodeId(6,"::Program:Cube.Admin.ProdProcessedCount");
-            NodeId reset = new NodeId(6, "::Program:Cube.Admin.ProdProcessedCount");
-
-            // what to read
-            ReadValueId readValueId = new ReadValueId(nodeId, AttributeId.Value.uid(), null, null);
-
-            // create a subscription @ 1000ms
-            UaSubscription subscription = machineConnection.getClient().getSubscriptionManager().createSubscription(1000.0).get();
-
-            // important: client handle must be unique per item
-            UInteger clientHandle = subscription.getSubscriptionId();
-            MonitoringParameters parameters = new MonitoringParameters(
-                    clientHandle,
-                    1000.0,     // sampling interval
-                    null,       // filter, null means use default
-                    Unsigned.uint(10),   // queue size
-                    true        // discard oldest
-            );
-
-            // creation request
-            MonitoredItemCreateRequest request = new MonitoredItemCreateRequest(readValueId, MonitoringMode.Reporting, parameters);
-
-
-            // setting the consumer after the subscription creation
-            UaSubscription.ItemCreationCallback onItemCreated =  (item, id) -> item.setValueConsumer(Subscription::onSubscriptionValue);
-
-
-            List<UaMonitoredItem> items = subscription.createMonitoredItems(TimestampsToReturn.Both, Arrays.asList(request), onItemCreated).get();
-
-            for (UaMonitoredItem item : items) {
-                if (item.getStatusCode().isGood()) {
-                    System.out.println("item created for nodeId=" + item.getReadValueId().getNodeId());
-                } else{
-                    System.out.println("failed to create item for nodeId=" + item.getReadValueId().getNodeId() + " (status=" + item.getStatusCode() + ")");
-                }
-            }
-
-            // let the example run for 50 seconds then terminate
-            Thread.sleep(50000);
-        }
-        catch(Throwable ex)
-        {
-            ex.printStackTrace();
-        }
-
-    }*//*
-
+/*
     public static void main(String[] args) {
         subscribeProductCount();
     }
+*/
 
+    public Subscription() {
+        machineConnection = new MachineConnection("127.0.0.1", 4840);
+        machineConnection.connect();
+        consumerMap = new HashMap();
+    }
 
     private static void onSubscriptionValue(UaMonitoredItem item, DataValue value) {
         Variant variant = value.getValue();
         int val = (int) variant.getValue();
-        System.out.println("subscription value received: item="+ item.getReadValueId().getNodeId() + ", value=" + val);
+        System.out.println("subscription value received: item=" + item.getReadValueId().getNodeId() + ", value=" + val);
     }
 
-    public static Object subscribeProductCount() {
-        UaSubscription.ItemCreationCallback onItemCreated = 0;
-        try
-        {
-            machineConnection = new MachineConnection("127.0.0.1", 4840);
-            machineConnection.connect();
+    public void subscribe() {
+        List<MonitoredItemCreateRequest> requestList = new ArrayList();
+        requestList.add(new MonitoredItemCreateRequest(readValueId(productCountNode), MonitoringMode.Reporting, monitoringParameters()));
 
-            NodeId nodeId = new NodeId(6,"::Program:Cube.Admin.ProdProcessedCount");
-            NodeId reset = new NodeId(6, "::Program:Cube.Admin.ProdProcessedCount");
+        Consumer<DataValue> productCountItem = (dataValue) -> startConsumer(producedAmount, dataValue);
 
-            // what to read
-            ReadValueId readValueId = new ReadValueId(nodeId, AttributeId.Value.uid(), null, null);
-
-            // create a subscription @ 1000ms
+        try {
             UaSubscription subscription = machineConnection.getClient().getSubscriptionManager().createSubscription(1000.0).get();
+            List<UaMonitoredItem> items = subscription.createMonitoredItems(TimestampsToReturn.Both, requestList).get();
 
-            // important: client handle must be unique per item
-            UInteger clientHandle = subscription.getSubscriptionId();
-            MonitoringParameters parameters = new MonitoringParameters(
-                    clientHandle,
-                    1000.0,     // sampling interval
-                    null,       // filter, null means use default
-                    Unsigned.uint(10),   // queue size
-                    true        // discard oldest
-            );
+            items.get(0).setValueConsumer(productCountItem);
 
-            // creation request
-            MonitoredItemCreateRequest request = new MonitoredItemCreateRequest(readValueId, MonitoringMode.Reporting, parameters);
-
-
-            // setting the consumer after the subscription creation
-            onItemCreated =  (item, id) -> item.setValueConsumer(Subscription::onSubscriptionValue);
-
-
-            List<UaMonitoredItem> items = subscription.createMonitoredItems(TimestampsToReturn.Both, Arrays.asList(request), onItemCreated).get();
-
-            for (UaMonitoredItem item : items) {
-                if (item.getStatusCode().isGood()) {
-                    System.out.println("item created for nodeId=" + item.getReadValueId().getNodeId());
-                    return onItemCreated;
-                } else{
-                    System.out.println("failed to create item for nodeId=" + item.getReadValueId().getNodeId() + " (status=" + item.getStatusCode() + ")");
-                }
-            }
-
-            // let the example run for 50 seconds then terminate
-            Thread.sleep(50000);
-        }
-        catch(Throwable ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return onItemCreated;
     }
+
+    public void setConsumer(Consumer<String> consumer, String nodeName) {
+        consumerMap.put(nodeName, consumer);
+    }
+
+    private void startConsumer(String nodeName, DataValue dataValue) {
+        consumerMap.get(nodeName).accept(dataValue.getValue().getValue().toString());
+        
+        switch (nodeName) {
+            case producedAmount:
+                this.totalProducedValue = Float.parseFloat(dataValue.getValue().getValue().toString());
+                break;
+            default:
+        }
+    }
+
+        private MonitoringParameters monitoringParameters() {
+            return new MonitoringParameters(
+                    Unsigned.uint(ATOMICLONG.getAndIncrement()),
+                    10.0, // sampling interval
+                    null, // filter, null means use default
+                    Unsigned.uint(5), // queue size
+                    true // discard oldest
+            );
+        }
+
+        private ReadValueId readValueId(NodeId name) {
+            return new ReadValueId(name, AttributeId.Value.uid(), null, null);
+        }
 }
-*/
+

@@ -1,26 +1,20 @@
 package com.example.sempro;
 
-import domain.StopReason;
+import domain.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import domain.CommandController;
-import domain.BatchController;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.stage.Modality;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
 import java.net.URL;
@@ -28,8 +22,8 @@ import java.time.LocalTime;
 import java.util.*;
 import domain.BatchController;
 import java.time.format.DateTimeFormatter;
-import org.apache.commons.lang3.time.StopWatch;
-
+import java.util.function.Consumer;
+import java.lang.Thread;
 
 public class StartView implements Initializable {
 
@@ -38,8 +32,6 @@ public class StartView implements Initializable {
     private StopReason stopReason;
     int run = 500;
     private DateTimeFormatter dtf;
-    private StopWatch sw;
-    private Timer timer;
     private int seconds = 0;
     private int minutes = 0;
 
@@ -47,7 +39,6 @@ public class StartView implements Initializable {
 
     private Timeline timeLine;
     private LocalTime localTime;
-
 
     /**
      * tag input fra textfield, speed, product id, batch id,
@@ -135,24 +126,34 @@ public class StartView implements Initializable {
     @FXML
     private Label timeOnLabel;
 
+    @FXML
+    private Label invalidInputLabel;
+
+    private ISubscription subscribe;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.cmdCtrl = new CommandController();
         this.batchCtrl = new BatchController();
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         localTime = LocalTime.parse("00:00:00");
-        sw = new StopWatch();
         timeLine = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
         timeLine.setCycleCount(Animation.INDEFINITE);
         //setTimeOnLabel();
         stopReason = new StopReason();
+        this.subscribe = new Subscription();
+        consumerGUI();
     }
 
     @FXML
     public void onStartClick() {
 
         try {
-            newTimer();
+            speedLabel.setText(cmdCtrl.getSpeed().toString());
+            batchLabel.setText(batchCtrl.getBatchId().toString());
+            amountCurrentBatchLabel.setText(batchCtrl.getAmountToProduce().toString());
+            setProductTypeLabel();
+
             cmdCtrl.start();
             startTimeLabel.setText(dtf.format(java.time.LocalTime.now()));
 
@@ -161,19 +162,6 @@ public class StartView implements Initializable {
             timeOnLabel.setText(localTime.format(dtf));
             timeLine.play();
             startBtn.setDisable(true);
-
-            //Thread.sleep(5000);
-            productCounter();
-//            updateDefective();
-//            updateAccepted();
-//            updateHumidity();
-//            updateTemperature();
-
-            setSpeedLabel();
-            setBatchLabel();
-            setAmountCurrentBatchLabel();
-            setProductTypeLabel();
-
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -184,9 +172,6 @@ public class StartView implements Initializable {
     @FXML
     public void onStopClick(ActionEvent event) {
         cmdCtrl.stop();
-        timer.cancel();
-        cmdCtrl.reset();
-        cmdCtrl.clear();
 
         if (startBtn.isDisable()) {
             timeLine.stop();
@@ -202,6 +187,17 @@ public class StartView implements Initializable {
 
     @FXML
     public void onResetClick(ActionEvent actionEvent) {
+        tempLabel.setText("0");
+        batchLabel.setText("0");
+        producedLabel.setText("0");
+        humidityLabel.setText("0");
+        amountBatchLabel.setText("0");
+        acceptedLabel.setText("0");
+        vibrationLabel.setText("0");
+        amountCurrentBatchLabel.setText("0");
+        defectiveLabel.setText("0");
+        speedLabel.setText("0");
+        productTypeLabel.setText("0");
         cmdCtrl.reset();
     }
 
@@ -237,7 +233,11 @@ public class StartView implements Initializable {
 
         if (!amountToProduceTextField.getText().isEmpty() &&
                 !productIDTextField.getText().isEmpty() &&
-                !speedTextField.getText().isEmpty()) {
+                !speedTextField.getText().isEmpty() &&
+                amountToProduceTextField.getText().matches("[0-9]*") &&
+                productIDTextField.getText().matches("[0-9]*") &&
+                speedTextField.getText().matches("[0-9]*")) {
+
             batchCtrl.setAmountToProduce(Float.parseFloat(amountToProduceTextField.getText()));
             batchCtrl.setProductType(Float.parseFloat(productIDTextField.getText()));
             cmdCtrl.setSpeed(Float.parseFloat(speedTextField.getText()));
@@ -245,10 +245,14 @@ public class StartView implements Initializable {
             amountToProduceTextField.clear();
             productIDTextField.clear();
             speedTextField.clear();
+
         } else {
             //Label der siger udfyld
+            invalidInputLabel.setDisable(false);
+            invalidInputLabel.setVisible(true);
+            invalidInputLabel.setText("Invalid input!");
+            System.out.println("CHANGE: Something is not correct");
         }
-
     }
 
     @FXML
@@ -257,85 +261,6 @@ public class StartView implements Initializable {
         productIDTextField.clear();
         speedTextField.clear();
     }
-
-    public void productCounter() {
-        timer.scheduleAtFixedRate(new TimerTask() {
-
-            public void run() {
-                if (batchCtrl.getAmountProduced() != run) {
-                    Platform.runLater(() -> producedLabel.setText(Integer.toString(batchCtrl.getAmountProduced())));
-                } else {
-                    timer.cancel();
-                }
-            }
-
-        }, 1, run);
-
-    }
-
-    public void setAmountCurrentBatchLabel() {
-        amountCurrentBatchLabel.setText(batchCtrl.getAmountToProduce().toString());
-    }
-
-    /*public void updateDefective() {
-        timer.scheduleAtFixedRate(new TimerTask() {
-
-            public void run() {
-                Platform.runLater(() -> defectiveLabel.setText("Defective: " + batchCtrl.getDefective()));
-            }
-        },1, run);
-
-    }
-
-    public void updateAccepted() {
-        timer.scheduleAtFixedRate(new TimerTask() {
-
-            public void run() {
-                Platform.runLater(() -> acceptedLabel.setText("Accepted: " + (batchCtrl.getAmountProduced() - batchCtrl.getDefective())));
-            }
-        },1, run);
-
-    }*/
-
-    /*public void updateHumidity() {
-        timer.scheduleAtFixedRate(new TimerTask() {
-
-            public void run() {
-                Platform.runLater(() -> humidityLabel.setText("Humidity: " + batchCtrl.getHumidity().toString()));
-            }
-        },1, run);
-
-    }
-
-    public void updateTemperature() {
-        timer.scheduleAtFixedRate(new TimerTask() {
-
-            public void run() {
-                Platform.runLater(() -> tempLabel.setText("Temperature: " + batchCtrl.getTemperature()));
-            }
-        },1, run);
-
-    }*/
-
-    /*public void updateVibration() {
-        timer.scheduleAtFixedRate(new TimerTask() {
-
-            public void run() {
-                Platform.runLater(() -> tempLabel.setText("Temperature: " + batchCtrl.getVibration()));
-            }
-        },1, run);
-
-    }*/
-
-    public void setSpeedLabel() {
-        speedLabel.setText(cmdCtrl.getSpeed().toString());
-    }
-
-    public void setBatchLabel() {
-        batchLabel.setText(batchCtrl.getBatchId().toString());
-    }
-
-
 
     private void setProductTypeLabel() {
         Float productType = batchCtrl.getProductType();
@@ -355,38 +280,19 @@ public class StartView implements Initializable {
         System.out.println(batchCtrl.getProductType());
     }
 
-    private void newTimer() {
-        timer = new Timer();
-    }
-
     private void incrementTime() {
         localTime = localTime.plusSeconds(1);
         timeOnLabel.setText(localTime.format(dtf));
     }
 
-    private void maintenanceChecker() {
-        while (true) {
+    public void consumerGUI() {
+        cmdCtrl.reset();
 
-            if (stopReason.stopReason() == "10") {
-                System.out.println("Maintenance - stop reason ID:" + stopReason.stopReason());
-                break;
-            } else if (stopReason.stopReason() == "11") {
-                System.out.println("Maintenance - stop reason ID:" + stopReason.stopReason());
-                break;
-            } else if (stopReason.stopReason() == "12") {
-                System.out.println("Maintenance - stop reason ID:" + stopReason.stopReason());
-                break;
-            } else if (stopReason.stopReason() == "13") {
-                System.out.println("Maintenance - stop reason ID:" + stopReason.stopReason());
-                break;
-            } else if (stopReason.stopReason() == "14") {
-                System.out.println("Maintenance - stop reason ID:" + stopReason.stopReason());
-                break;
-            }
+        Consumer<String> producedAmountUpdate = text -> Platform.runLater(() -> producedLabel.setText(text));
 
-            continue;
-        }
+        subscribe.setConsumer(producedAmountUpdate, subscribe.producedAmount);
 
+        subscribe.subscribe();
     }
 
 }
