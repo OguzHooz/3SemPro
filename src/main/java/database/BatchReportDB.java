@@ -3,13 +3,15 @@ package database;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.ResultSet;
 
-public class BatchReport {
+public class BatchReportDB {
 
     private DatabaseConnection dbConnection;
     private Connection connection;
+    private ResultSet rs;
 
-    public BatchReport() {
+    public BatchReportDB() {
         dbConnection = new DatabaseConnection();
         connection = dbConnection.getConnection();
     }
@@ -29,6 +31,26 @@ public class BatchReport {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    public int getBatchID() {
+        try {
+            Statement st = connection.createStatement();
+            String sql = "SELECT * FROM batchreport";
+            rs = st.getGeneratedKeys();
+            rs =  st.executeQuery(sql);
+
+            int batchid = 0;
+            while (rs.next()) {
+                batchid = rs.getInt("batchid");
+            }
+            st.close();
+            return batchid;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return 0;
     }
 
 }

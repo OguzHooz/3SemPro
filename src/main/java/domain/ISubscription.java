@@ -8,7 +8,7 @@ public interface ISubscription {
 
     public void setConsumer(Consumer<String> consumer, String nodeName);
 
-    public final static String BatchID = "BatchID";
+    public final static String batchID = "BatchID";
     public final static String amountToProduce = "Amount to Produce";
     public final static String producedAmount = "Produced Amount";
     public final static String acceptedProducts = "Accepted Products";

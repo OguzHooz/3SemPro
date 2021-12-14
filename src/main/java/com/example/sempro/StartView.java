@@ -17,10 +17,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
+
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.*;
+
 import domain.BatchController;
+
+import javax.swing.text.LabelView;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
 import java.lang.Thread;
@@ -29,7 +33,7 @@ public class StartView implements Initializable {
 
     private CommandController cmdCtrl;
     private BatchController batchCtrl;
-    private StopReason stopReason;
+    private BatchReport batchReport;
     int run = 500;
     private DateTimeFormatter dtf;
     private int seconds = 0;
@@ -39,10 +43,6 @@ public class StartView implements Initializable {
 
     private Timeline timeLine;
     private LocalTime localTime;
-
-    /**
-     * tag input fra textfield, speed, product id, batch id,
-     */
 
     //FXML
     @FXML
@@ -129,21 +129,25 @@ public class StartView implements Initializable {
     @FXML
     private Label invalidInputLabel;
 
+    @FXML
+    private Label maintenanceLabel;
+
     private ISubscription subscribe;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.cmdCtrl = new CommandController();
         this.batchCtrl = new BatchController();
+        this.batchReport = new BatchReport();
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         localTime = LocalTime.parse("00:00:00");
         timeLine = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
         timeLine.setCycleCount(Animation.INDEFINITE);
         //setTimeOnLabel();
-        stopReason = new StopReason();
         this.subscribe = new Subscription();
         consumerGUI();
     }
+
 
     @FXML
     public void onStartClick() {
@@ -153,6 +157,7 @@ public class StartView implements Initializable {
             batchLabel.setText(batchCtrl.getBatchId().toString());
             amountCurrentBatchLabel.setText(batchCtrl.getAmountToProduce().toString());
             setProductTypeLabel();
+            //batchLabel.setText((batchReport.getBatchID() + 1) + "");
 
             cmdCtrl.start();
             startTimeLabel.setText(dtf.format(java.time.LocalTime.now()));
@@ -187,13 +192,10 @@ public class StartView implements Initializable {
 
     @FXML
     public void onResetClick(ActionEvent actionEvent) {
-        tempLabel.setText("0");
         batchLabel.setText("0");
         producedLabel.setText("0");
-        humidityLabel.setText("0");
         amountBatchLabel.setText("0");
         acceptedLabel.setText("0");
-        vibrationLabel.setText("0");
         amountCurrentBatchLabel.setText("0");
         defectiveLabel.setText("0");
         speedLabel.setText("0");
@@ -252,6 +254,10 @@ public class StartView implements Initializable {
             invalidInputLabel.setVisible(true);
             invalidInputLabel.setText("Invalid input!");
             System.out.println("CHANGE: Something is not correct");
+
+            amountToProduceTextField.clear();
+            productIDTextField.clear();
+            speedTextField.clear();
         }
     }
 
@@ -289,8 +295,18 @@ public class StartView implements Initializable {
         cmdCtrl.reset();
 
         Consumer<String> producedAmountUpdate = text -> Platform.runLater(() -> producedLabel.setText(text));
+        Consumer<String> humidityUpdate = text -> Platform.runLater(() -> humidityLabel.setText(text));
+        Consumer<String> vibrationUpdate = text -> Platform.runLater(() -> vibrationLabel.setText(text));
+        Consumer<String> temperatureUpdate = text -> Platform.runLater(() -> tempLabel.setText(text));
+        Consumer<String> defectedUpdate = text -> Platform.runLater(() -> defectiveLabel.setText(text));
+        Consumer<String> acceptedUpdate = text -> Platform.runLater(() -> acceptedLabel.setText(text));
 
         subscribe.setConsumer(producedAmountUpdate, subscribe.producedAmount);
+        subscribe.setConsumer(humidityUpdate, subscribe.humidity);
+        subscribe.setConsumer(vibrationUpdate, subscribe.vibration);
+        subscribe.setConsumer(temperatureUpdate, subscribe.temperature);
+        subscribe.setConsumer(defectedUpdate, subscribe.defectiveProducts);
+        subscribe.setConsumer(acceptedUpdate, subscribe.acceptedProducts);
 
         subscribe.subscribe();
     }

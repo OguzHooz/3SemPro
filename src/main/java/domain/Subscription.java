@@ -44,17 +44,21 @@ public class Subscription implements ISubscription {
 
     //Production
     private final NodeId productCountNode = new NodeId(6, "::Program:Cube.Admin.ProdProcessedCount");
+    private final NodeId humidityNode = new NodeId(6, "::Program:Cube.Status.Parameter[2].Value");
+    private final NodeId vibrationNode = new NodeId(6, "::Program:Cube.Status.Parameter[4].Value");
+    private final NodeId temperatureNode = new NodeId(6, "::Program:Cube.Status.Parameter[3].Value");
+    private final NodeId defectedNode = new NodeId(6, "::Program:Cube.Admin.ProdDefectiveCount");
 
     private float totalProducedValue;
-
-/*
-    public static void main(String[] args) {
-        subscribeProductCount();
-    }
-*/
+    private float totalAcceptedValue;
+    private float totalDefectedValue;
+    private float humidityValue;
+    private float vibrationValue;
+    private float temperatureValue;
 
     public Subscription() {
-        machineConnection = new MachineConnection("127.0.0.1", 4840);
+        //machineConnection = new MachineConnection("127.0.0.1", 4840);
+        machineConnection = new MachineConnection("192.168.0.122", 4840);
         machineConnection.connect();
         consumerMap = new HashMap();
     }
@@ -68,14 +72,26 @@ public class Subscription implements ISubscription {
     public void subscribe() {
         List<MonitoredItemCreateRequest> requestList = new ArrayList();
         requestList.add(new MonitoredItemCreateRequest(readValueId(productCountNode), MonitoringMode.Reporting, monitoringParameters()));
+        requestList.add(new MonitoredItemCreateRequest(readValueId(humidityNode), MonitoringMode.Reporting, monitoringParameters()));
+        requestList.add(new MonitoredItemCreateRequest(readValueId(vibrationNode), MonitoringMode.Reporting, monitoringParameters()));
+        requestList.add(new MonitoredItemCreateRequest(readValueId(temperatureNode), MonitoringMode.Reporting, monitoringParameters()));
+        requestList.add(new MonitoredItemCreateRequest(readValueId(defectedNode), MonitoringMode.Reporting, monitoringParameters()));
 
         Consumer<DataValue> productCountItem = (dataValue) -> startConsumer(producedAmount, dataValue);
+        Consumer<DataValue> humidityItem = (dataValue) -> startConsumer(humidity, dataValue);
+        Consumer<DataValue> vibrationItem = (dataValue) -> startConsumer(vibration, dataValue);
+        Consumer<DataValue> temperatureItem = (dataValue) -> startConsumer(temperature, dataValue);
+        Consumer<DataValue> defectedItem = (dataValue) -> startConsumer(defectiveProducts, dataValue);
 
         try {
-            UaSubscription subscription = machineConnection.getClient().getSubscriptionManager().createSubscription(1000.0).get();
+            UaSubscription subscription = machineConnection.getClient().getSubscriptionManager().createSubscription(10.0).get();
             List<UaMonitoredItem> items = subscription.createMonitoredItems(TimestampsToReturn.Both, requestList).get();
 
             items.get(0).setValueConsumer(productCountItem);
+            items.get(1).setValueConsumer(humidityItem);
+            items.get(2).setValueConsumer(vibrationItem);
+            items.get(3).setValueConsumer(temperatureItem);
+            items.get(4).setValueConsumer(defectedItem);
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -93,6 +109,19 @@ public class Subscription implements ISubscription {
             case producedAmount:
                 this.totalProducedValue = Float.parseFloat(dataValue.getValue().getValue().toString());
                 break;
+            case humidity:
+                this.humidityValue = Float.parseFloat(dataValue.getValue().getValue().toString());
+                break;
+            case vibration:
+                this.vibrationValue = Float.parseFloat(dataValue.getValue().getValue().toString());
+            case temperature:
+                this.temperatureValue = Float.parseFloat(dataValue.getValue().getValue().toString());
+            case defectiveProducts:
+                this.totalDefectedValue = Float.parseFloat(dataValue.getValue().getValue().toString());
+                break;
+            case acceptedProducts:
+                this.totalAcceptedValue = 0;
+                break;
             default:
         }
     }
@@ -102,7 +131,7 @@ public class Subscription implements ISubscription {
                     Unsigned.uint(ATOMICLONG.getAndIncrement()),
                     10.0, // sampling interval
                     null, // filter, null means use default
-                    Unsigned.uint(5), // queue size
+                    Unsigned.uint(1), // queue size
                     true // discard oldest
             );
         }

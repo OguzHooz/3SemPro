@@ -1,5 +1,7 @@
 package domain;
 
+import database.BatchReportDB;
+
 public class BatchReport {
 
     private String company;
@@ -12,6 +14,11 @@ public class BatchReport {
     private String idleTime;
     private String timeOn;
     private String startTime;
+
+    private BatchReportDB batchReportDB = new BatchReportDB();
+
+    public BatchReport() {
+    }
 
     public BatchReport(String company, int amountProduced, int amountToProduce, String productType, int speed, int accepted,
                        int defected, String idleTime, String timeOn, String startTime) {
@@ -105,6 +112,10 @@ public class BatchReport {
 
     public void setStartTime(String startTime) {
         this.startTime = startTime;
+    }
+
+    public int getBatchID() {
+        return batchReportDB.getBatchID();
     }
 
 }
