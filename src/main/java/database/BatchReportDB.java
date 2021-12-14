@@ -8,12 +8,18 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BatchReportDB {
 
-    private DatabaseConnection dbConnection;
-    private Connection connection;
-     private BatchReport batchReport;
+    private  DatabaseConnection dbConnection;
+    private  Connection connection;
+
+     public static void main(String[]args) {
+         BatchReportDB batchReportDB=new BatchReportDB();
+         batchReportDB.getReportInfo();
+     }
 
     public BatchReportDB() {
         dbConnection = new DatabaseConnection();
@@ -38,34 +44,30 @@ public class BatchReportDB {
         }
     }
 
-    public ObservableList<BatchReport> getReportInfo() {
-        try {
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM batchreport");
-            while (rs.next()) {
-                String company = rs.getString("company");
-                int batchid = rs.getInt("batchid");
-                int amountproduced = rs.getInt("amountproduced");
-                int amounttoproduce = rs.getInt("amounttoproduce");
-                String productType=rs.getString("producttype");
-                int speed=rs.getInt("speed");
-                int accepted=rs.getInt("accepted");
-                int detected=rs.getInt("defected");
-                String idletime=rs.getString("idletime");
-                String timeon=rs.getString("timeon");
-                String starttime=rs.getString("starttime");
+    public  List getReportInfo() {
+        List<BatchReport> brList  = new ArrayList<>();
 
-                 batchReport = new BatchReport(company,batchid,amountproduced,amounttoproduce,
-                        productType,speed,accepted,detected,idletime,timeon,starttime);
-                ObservableList<BatchReport> brList = FXCollections.observableArrayList();
-                brList.add(batchReport);
-                return brList;
+        String sql = "SELECT * FROM batchreport " ;
+        try {
+            ResultSet rs = dbConnection.getConnection().createStatement().executeQuery(sql);
+           // Statement st = connection.createStatement();
+           // ResultSet rs = st.executeQuery("SELECT * FROM batchreport");
+            while (rs.next()) {
+                brList.add(new BatchReport(rs.getString("company"), rs.getInt("batchid"),
+                        rs.getInt("amountproduced"), rs.getInt("amounttoproduce"),
+                        rs.getString("producttype"), rs.getInt("speed"),
+                        rs.getInt("accepted"), rs.getInt("defected"),
+                        rs.getString("idletime"), rs.getString("timeon"),
+                        rs.getString("starttime")));
+               // ObservableList<BatchReport> brList = FXCollections.observableArrayList();
+                System.out.println(brList.get(0));
+                System.out.println("DB "+brList);
             }
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return null;
+        return brList;
 
     }
 

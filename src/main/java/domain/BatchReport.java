@@ -1,6 +1,7 @@
 package domain;
 
 import database.BatchReportDB;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class BatchReport {
@@ -17,6 +18,23 @@ public class BatchReport {
     private String startTime;
     private BatchReportDB batchReportDB;
 
+//    public BatchReport() {
+//
+//    }
+    public BatchReport(String company, int amountProduced, int amountToProduce, String productType, int speed, int accepted,
+                       int defected, String idleTime, String timeOn, String startTime) {
+        this.company = company;
+        this.amountProduced = amountProduced;
+        this.amountToProduce = amountToProduce;
+        this.productType = productType;
+        this.speed = speed;
+        this.accepted = accepted;
+        this.defected = defected;
+        this.idleTime = idleTime;
+        this.timeOn = timeOn;
+        this.startTime = startTime;
+    }
+
     public BatchReport(String company,int batchid, int amountProduced, int amountToProduce, String productType, int speed, int accepted,
                        int defected, String idleTime, String timeOn, String startTime) {
         this.company = company;
@@ -30,7 +48,10 @@ public class BatchReport {
         this.idleTime = idleTime;
         this.timeOn = timeOn;
         this.startTime = startTime;
-        this.batchReportDB=new BatchReportDB();
+    }
+
+    public BatchReport() {
+        this.batchReportDB = new BatchReportDB();
     }
 
     public String getCompany() {
@@ -113,13 +134,31 @@ public class BatchReport {
         this.startTime = startTime;
     }
 
-//    public void BatchReportDM(String company, int amountProduced, int amountToProduce, String productType, int speed,
+    public int getBatchid() {
+        return batchid;
+    }
+
+    public void setBatchid(int batchid) {
+        this.batchid = batchid;
+    }
+
+    //    public void BatchReportDM(String company, int amountProduced, int amountToProduce, String productType, int speed,
 //                              int accepted, int defected, String idleTime, String timeOn, String startTime) {
 //        //BatchReportDB batchReportDB=new BatchReportDB();
 //      batchReportDB.createBatchReport( company, amountProduced,  amountToProduce, productType, speed,
 //        accepted, defected,  idleTime,  timeOn,  startTime);
 //    }
-  public ObservableList<BatchReport> getIformationBR(){
-      return batchReportDB.getReportInfo();
-  }
+//  public ObservableList<BatchReport> getIformationBR(){
+//      this.batchReportDB = new BatchReportDB();
+//      return batchReportDB.getReportInfo();
+//  }
+
+    public ObservableList getInformationBR(){
+       // System.out.println("Domain "+getCompany());
+        ObservableList<BatchReport> OBlist;
+        OBlist = FXCollections.observableArrayList(batchReportDB.getReportInfo());
+        System.out.println("IN Domain "+OBlist);
+        return OBlist;
+
+    }
 }

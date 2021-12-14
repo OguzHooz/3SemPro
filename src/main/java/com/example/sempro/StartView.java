@@ -1,14 +1,11 @@
 package com.example.sempro;
 
-import database.BatchReportDB;
 import domain.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,13 +15,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.stage.Modality;
 import javafx.util.Duration;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.*;
 import domain.BatchController;
+import domain.BatchReport;
 import java.time.format.DateTimeFormatter;
 import org.apache.commons.lang3.time.StopWatch;
 
@@ -168,44 +164,44 @@ public class StartView implements Initializable {
     @FXML
     private TableView<BatchReport> tabelViewBR;
     @FXML
-    private TableColumn<?, ?> companyColumn;
+    private TableColumn <BatchReport,String> companyColumn;
 
     @FXML
-    private TableColumn<?, ?> batchidColumn;
+    private TableColumn <BatchReport,Integer> batchidColumn;
 
     @FXML
-    private TableColumn<?, ?> amountproducedColumn;
+    private TableColumn  <BatchReport,Integer> amountproducedColumn;
 
     @FXML
-    private TableColumn<?, ?> amounttoproduceColumn;
+    private TableColumn <BatchReport,String> amounttoproduceColumn;
 
     @FXML
-    private TableColumn<?, ?> productTypeColumn;
+    private TableColumn <BatchReport,String> productTypeColumn;
 
     @FXML
-    private TableColumn<?, ?> speedColumn;
+    private TableColumn <BatchReport,Integer>speedColumn;
 
     @FXML
-    private TableColumn<?, ?> acceptedColumn;
+    private TableColumn <BatchReport,Integer> acceptedColumn;
 
     @FXML
-    private TableColumn<?, ?> detectedColumn;
+    private TableColumn <BatchReport,Integer> defectedColumn;
 
     @FXML
-    private TableColumn<?, ?> IdletimeColumn;
+    private TableColumn<BatchReport,String> IdletimeColumn;
 
     @FXML
-    private TableColumn<?, ?> timeonColumn;
+    private TableColumn <BatchReport,String> timeonColumn;
 
     @FXML
-    private TableColumn<?, ?> starttimeColumn;
+    private TableColumn <BatchReport,String> starttimeColumn;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.cmdCtrl = new CommandController();
         this.batchCtrl = new BatchController();
-       // this.batchReport=new BatchReport();
+
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         localTime = LocalTime.parse("00:00:00");
         sw = new StopWatch();
@@ -213,12 +209,17 @@ public class StartView implements Initializable {
         timeLine.setCycleCount(Animation.INDEFINITE);
         //setTimeOnLabel();
         stopReason = new StopReason();
-
-        Columns();
-        //tabelViewBR=new TableView<>(batchReport.getIformationBR());
+        tableView();
+    }
+    public  void tableView(){
+        batchReport = new BatchReport();
+        columns();
+        tabelViewBR.setItems(batchReport.getInformationBR());
 
     }
-    public void Columns(){
+
+    public void columns(){
+        tabelViewBR.setItems(batchReport.getInformationBR());
         companyColumn.setCellValueFactory(new PropertyValueFactory<>("company"));
         batchidColumn.setCellValueFactory(new PropertyValueFactory<>("batchid"));
         amountproducedColumn.setCellValueFactory(new PropertyValueFactory<>("amountproduced"));
@@ -226,10 +227,14 @@ public class StartView implements Initializable {
         productTypeColumn.setCellValueFactory(new PropertyValueFactory<>("producttype"));
         speedColumn.setCellValueFactory(new PropertyValueFactory<>("speed"));
         acceptedColumn.setCellValueFactory(new PropertyValueFactory<>("accepted"));
-        detectedColumn.setCellValueFactory(new PropertyValueFactory<>("defected"));
-        batchidColumn.setCellValueFactory(new PropertyValueFactory<>("idletime"));
+        defectedColumn.setCellValueFactory(new PropertyValueFactory<>("defected"));
+        IdletimeColumn.setCellValueFactory(new PropertyValueFactory<>("idletime"));
         timeonColumn.setCellValueFactory(new PropertyValueFactory<>("timeon"));
         starttimeColumn.setCellValueFactory(new PropertyValueFactory<>("starttime"));
+     /*   tabelViewBR.getColumns().addAll(companyColumn,batchidColumn,amountproducedColumn,
+               amounttoproduceColumn,productTypeColumn,speedColumn,acceptedColumn,defectedColumn,IdletimeColumn
+               ,timeonColumn,starttimeColumn);*/
+
     }
 
     @FXML

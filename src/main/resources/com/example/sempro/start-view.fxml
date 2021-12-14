@@ -256,7 +256,7 @@
                               <TableColumn fx:id="productTypeColumn" minWidth="0.0" prefWidth="88.66668701171875" text="ProductType" />
                               <TableColumn fx:id="speedColumn" prefWidth="60.6666259765625" text="Speed" />
                               <TableColumn fx:id="acceptedColumn" prefWidth="74.0" text="Accepted" />
-                              <TableColumn fx:id="detectedColumn" prefWidth="71.33331298828125" text="Detected" />
+                              <TableColumn fx:id="defectedColumn" prefWidth="71.33331298828125" text="Defected" />
                               <TableColumn fx:id="IdletimeColumn" prefWidth="75.33331298828125" text="Idletime" />
                               <TableColumn fx:id="timeonColumn" prefWidth="60.6666259765625" text="Timeon" />
                               <TableColumn fx:id="starttimeColumn" prefWidth="69.3333740234375" text="Starttime" />
