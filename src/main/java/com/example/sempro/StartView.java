@@ -38,6 +38,7 @@ public class StartView implements Initializable {
     private CommandController cmdCtrl;
     private BatchController batchCtrl;
     private BatchReport batchReport;
+    private Textfile textfile;
     int run = 500;
     private DateTimeFormatter dtf;
     private int seconds = 0;
@@ -222,6 +223,7 @@ public class StartView implements Initializable {
         this.cmdCtrl = new CommandController(this.host, this.port);
         this.batchCtrl = new BatchController(this.host, this.port);
         this.batchReport = new BatchReport();
+        textfile = new Textfile();
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         localTime = LocalTime.parse("00:00:00");
         timeLine = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
@@ -278,6 +280,9 @@ public class StartView implements Initializable {
         productTypeBRLabel.getText(), Integer.parseInt(speedBRLabel.getText()), Integer.parseInt(acceptedBRLabel.getText()), Integer.parseInt(defectedBRLabel.getText()), idleTimeBRLabel.getText(),
         timeOnBRLabel.getText(), startTimeBRLabel.getText());
 
+        textfile.createTextfile(companyBRLabel.getText(), 12,Integer.parseInt(amountProducedBRLabel.getText()), Integer.parseInt(amountToProduceBRLabel.getText()),
+                productTypeBRLabel.getText(), Integer.parseInt(speedBRLabel.getText()), Integer.parseInt(acceptedBRLabel.getText()), Integer.parseInt(defectedBRLabel.getText()), idleTimeBRLabel.getText(),
+                timeOnBRLabel.getText(), startTimeBRLabel.getText());
     }
 //        companyBRLabel.getText();
 //        amountProducedBRLabel.getText();
