@@ -176,6 +176,13 @@ public class StartView implements Initializable {
     private CheckBox optimalSpeedBox;
 
     @FXML
+    private Label setCompanyLabel;
+
+    @FXML
+    private TextField companyTextField;
+    
+
+    @FXML
     private TableView<BatchReport> tabelViewBR;
     @FXML
     private TableColumn<BatchReport, String> companyColumn;
@@ -256,7 +263,9 @@ public class StartView implements Initializable {
             batchLabel.setText(batchCtrl.getBatchId().toString());
             amountCurrentBatchLabel.setText(batchCtrl.getAmountToProduce().toString());
             setProductTypeLabel();
-            //batchLabel.setText((batchReport.getBatchID() + 1) + "");
+
+            //Only works with simulation - can't connect to database while connected to machine.
+            batchLabel.setText((batchReport.getBatchID() + 1) + "");
 
             cmdCtrl.start();
             startTimeLabel.setText(dtf.format(java.time.LocalTime.now()));
