@@ -11,10 +11,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class BatchReportDB {
+    private ResultSet rs;
 
     private  DatabaseConnection dbConnection;
     private  Connection connection;
+
     public BatchReportDB() {
         dbConnection = new DatabaseConnection();
         connection = dbConnection.getConnection();
@@ -58,11 +61,6 @@ public class BatchReportDB {
 
     }
 
-}
-
-            while (rs.next()) {
-                batchid = rs.getInt("batchid");
-            }
     public int getBatchID() {
         try {
             Statement st = connection.createStatement();
@@ -71,6 +69,9 @@ public class BatchReportDB {
             rs =  st.executeQuery(sql);
 
             int batchid = 0;
+            while (rs.next()) {
+                batchid = rs.getInt("batchid");
+            }
             st.close();
             return batchid;
 
@@ -80,4 +81,4 @@ public class BatchReportDB {
         return 0;
     }
 
-    private ResultSet rs;
+}

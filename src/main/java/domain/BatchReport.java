@@ -20,7 +20,7 @@ public class BatchReport {
     private String startTime;
     private BatchReportDB batchReportDB;
 
-    private BatchReportDB batchReportDB = new BatchReportDB();
+
     public BatchReport(String company, int amountProduced, int amountToProduce, String productType, int speed, int accepted,
                        int defected, String idleTime, String timeOn, String startTime) {
         this.company = company;

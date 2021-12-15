@@ -46,7 +46,7 @@ public class StartView implements Initializable {
 
     private Timeline timeLine;
     private LocalTime localTime;
-  
+
 
     //FXML
     @FXML
