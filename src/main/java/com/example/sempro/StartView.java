@@ -5,6 +5,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -98,7 +100,7 @@ public class StartView implements Initializable {
     private Label producedLabel;
 
     @FXML
-    private TextField productIDTextField;
+    private ChoiceBox productIDChoiceBox;
 
     @FXML
     private Button resetBtn;
@@ -139,14 +141,6 @@ public class StartView implements Initializable {
     private Label maintenanceLabel;
 
     private ISubscription subscribe;
-    private LoginController loginController;
-    private String host;
-    private int port;
-
-    private static StartView instance = new StartView();
-    public static StartView getInstance() {
-        return instance;
-    }
 
     @FXML
     private Label companyBRLabel;
@@ -177,57 +171,62 @@ public class StartView implements Initializable {
 
     @FXML
     private Label startTimeBRLabel;
+
+    @FXML
+    private CheckBox optimalSpeedBox;
+
     @FXML
     private TableView<BatchReport> tabelViewBR;
     @FXML
-    private TableColumn <BatchReport,String> companyColumn;
+    private TableColumn<BatchReport, String> companyColumn;
 
     @FXML
-    private TableColumn <BatchReport,Integer> batchidColumn;
+    private TableColumn<BatchReport, Integer> batchidColumn;
 
     @FXML
-    private TableColumn  <BatchReport,Integer> amountproducedColumn;
+    private TableColumn<BatchReport, Integer> amountproducedColumn;
 
     @FXML
-    private TableColumn <BatchReport,String> amounttoproduceColumn;
+    private TableColumn<BatchReport, String> amounttoproduceColumn;
 
     @FXML
-    private TableColumn <BatchReport,String> productTypeColumn;
+    private TableColumn<BatchReport, String> productTypeColumn;
 
     @FXML
-    private TableColumn <BatchReport,Integer>speedColumn;
+    private TableColumn<BatchReport, Integer> speedColumn;
 
     @FXML
-    private TableColumn <BatchReport,Integer> acceptedColumn;
+    private TableColumn<BatchReport, Integer> acceptedColumn;
 
     @FXML
-    private TableColumn <BatchReport,Integer> defectedColumn;
+    private TableColumn<BatchReport, Integer> defectedColumn;
 
     @FXML
-    private TableColumn<BatchReport,String> IdletimeColumn;
+    private TableColumn<BatchReport, String> IdletimeColumn;
 
     @FXML
-    private TableColumn <BatchReport,String> timeonColumn;
+    private TableColumn<BatchReport, String> timeonColumn;
 
     @FXML
-    private TableColumn <BatchReport,String> starttimeColumn;
-
+    private TableColumn<BatchReport, String> starttimeColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.cmdCtrl = new CommandController(this.host, this.port);
-        this.batchCtrl = new BatchController(this.host, this.port);
+        this.cmdCtrl = new CommandController();
+        this.batchCtrl = new BatchController();
+        this.subscribe = new Subscription();
         this.batchReport = new BatchReport();
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         localTime = LocalTime.parse("00:00:00");
         timeLine = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
         timeLine.setCycleCount(Animation.INDEFINITE);
         //setTimeOnLabel();
-        this.subscribe = new Subscription(this.host, this.port);
         consumerGUI();
         tableView();
+        fillComboBox();
     }
-    public  void tableView(){
+
+    public void tableView() {
         batchReport = new BatchReport();
         columns();
         tabelViewBR.setItems(batchReport.getInformationBR());
@@ -235,7 +234,7 @@ public class StartView implements Initializable {
 
     }
 
-    public void columns(){
+    public void columns() {
         companyColumn.setCellValueFactory(new PropertyValueFactory<>("company"));
         batchidColumn.setCellValueFactory(new PropertyValueFactory<>("batchid"));
         amountproducedColumn.setCellValueFactory(new PropertyValueFactory<>("amountProduced"));
@@ -248,6 +247,7 @@ public class StartView implements Initializable {
         timeonColumn.setCellValueFactory(new PropertyValueFactory<>("timeOn"));
         starttimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
     }
+
     @FXML
     public void onStartClick() {
 
@@ -292,7 +292,6 @@ public class StartView implements Initializable {
     public void onResetClick(ActionEvent actionEvent) {
         batchLabel.setText("0");
         producedLabel.setText("0");
-        amountBatchLabel.setText("0");
         acceptedLabel.setText("0");
         amountCurrentBatchLabel.setText("0");
         defectiveLabel.setText("0");
@@ -328,23 +327,39 @@ public class StartView implements Initializable {
 
     @FXML
     public void changeOnAction(ActionEvent actionEvent) {
-        cmdCtrl.clear();
-        cmdCtrl.reset();
-
         if (!amountToProduceTextField.getText().isEmpty() &&
-                !productIDTextField.getText().isEmpty() &&
-                !speedTextField.getText().isEmpty() &&
+                (!speedTextField.getText().isEmpty() || optimalSpeedBox.isSelected()) &&
                 amountToProduceTextField.getText().matches("[0-9]*") &&
-                productIDTextField.getText().matches("[0-9]*") &&
                 speedTextField.getText().matches("[0-9]*")) {
 
+            cmdCtrl.clear();
+            cmdCtrl.reset();
+
+            if (optimalSpeedBox.isSelected()) {
+                if (productIDChoiceBox.getValue().equals("0")) {
+                    cmdCtrl.setSpeed(100);
+                } else if (productIDChoiceBox.getValue().equals("1")) {
+                    cmdCtrl.setSpeed(50);
+                } else if (productIDChoiceBox.getValue().equals("2")) {
+                    cmdCtrl.setSpeed(50);
+                } else if (productIDChoiceBox.getValue().equals("3")) {
+                    cmdCtrl.setSpeed(200);
+                } else if (productIDChoiceBox.getValue().equals("4")) {
+                    cmdCtrl.setSpeed(25);
+                } else if (productIDChoiceBox.getValue().equals("5")) {
+                    cmdCtrl.setSpeed(25);
+                }
+            } else if (!optimalSpeedBox.isSelected()){
+                cmdCtrl.setSpeed(Float.parseFloat(speedTextField.getText()));
+            }
+
             batchCtrl.setAmountToProduce(Float.parseFloat(amountToProduceTextField.getText()));
-            batchCtrl.setProductType(Float.parseFloat(productIDTextField.getText()));
-            cmdCtrl.setSpeed(Float.parseFloat(speedTextField.getText()));
+            batchCtrl.setProductType(Float.parseFloat(productIDChoiceBox.getValue().toString()));
 
             amountToProduceTextField.clear();
-            productIDTextField.clear();
             speedTextField.clear();
+            invalidInputLabel.setDisable(true);
+            invalidInputLabel.setVisible(false);
 
         } else {
             //Label der siger udfyld
@@ -354,7 +369,6 @@ public class StartView implements Initializable {
             System.out.println("CHANGE: Something is not correct");
 
             amountToProduceTextField.clear();
-            productIDTextField.clear();
             speedTextField.clear();
         }
     }
@@ -362,7 +376,6 @@ public class StartView implements Initializable {
     @FXML
     public void clearFieldOnAction(ActionEvent actionEvent) {
         amountToProduceTextField.clear();
-        productIDTextField.clear();
         speedTextField.clear();
     }
 
@@ -409,21 +422,8 @@ public class StartView implements Initializable {
         subscribe.subscribe();
     }
 
-    public String getHost() {
-        return this.host;
+    private void fillComboBox() {
+        String productTypes[] = {"0", "1", "2", "3", "4", "5"};
+        productIDChoiceBox.getItems().addAll(productTypes);
     }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public int getPort() {
-        return this.port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-
 }
