@@ -9,8 +9,8 @@ public class Main {
     static Connection connection;
 
     public static void main(String[] args) {
-        BatchController batch = new BatchController();
-        CommandController cmd = new CommandController();
+        //BatchController batch = new BatchController();
+        //CommandController cmd = new CommandController();
         float amount = 65535;
 
         try {

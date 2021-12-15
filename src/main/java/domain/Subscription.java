@@ -56,9 +56,14 @@ public class Subscription implements ISubscription {
     private float vibrationValue;
     private float temperatureValue;
 
-    public Subscription() {
+    private String host;
+    private int port;
+
+    public Subscription(String host, int port) {
         //machineConnection = new MachineConnection("127.0.0.1", 4840);
-        machineConnection = new MachineConnection("192.168.0.122", 4840);
+        this.host = host;
+        this.port = port;
+        machineConnection = new MachineConnection(host, port);
         machineConnection.connect();
         consumerMap = new HashMap();
     }

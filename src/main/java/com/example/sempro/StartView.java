@@ -133,18 +133,26 @@ public class StartView implements Initializable {
     private Label maintenanceLabel;
 
     private ISubscription subscribe;
+    private LoginController loginController;
+    private String host;
+    private int port;
+
+    private static StartView instance = new StartView();
+    public static StartView getInstance() {
+        return instance;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.cmdCtrl = new CommandController();
-        this.batchCtrl = new BatchController();
+        this.cmdCtrl = new CommandController(this.host, this.port);
+        this.batchCtrl = new BatchController(this.host, this.port);
         this.batchReport = new BatchReport();
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         localTime = LocalTime.parse("00:00:00");
         timeLine = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
         timeLine.setCycleCount(Animation.INDEFINITE);
         //setTimeOnLabel();
-        this.subscribe = new Subscription();
+        this.subscribe = new Subscription(this.host, this.port);
         consumerGUI();
     }
 
@@ -310,5 +318,32 @@ public class StartView implements Initializable {
 
         subscribe.subscribe();
     }
+
+    public void selectServer() {
+        if (loginController.getSimRB().isSelected()) {
+            host = "127.0.0.1";
+            port = 4840;
+        } else if (loginController.getMacRB().isSelected()) {
+            host = "192.168.0.122";
+            port = 4840;
+        }
+    }
+
+    public String getHost() {
+        return this.host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public int getPort() {
+        return this.port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
 
 }
