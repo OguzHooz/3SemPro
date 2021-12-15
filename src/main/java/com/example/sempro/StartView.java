@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.*;
@@ -211,7 +212,10 @@ public class StartView implements Initializable {
 
     @FXML
     private TableColumn <BatchReport,String> starttimeColumn;
-
+    @FXML
+    private Button saveBtn;
+    @FXML
+    private Button deletecolumnBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -226,6 +230,7 @@ public class StartView implements Initializable {
         this.subscribe = new Subscription(this.host, this.port);
         consumerGUI();
         tableView();
+        getInforfraControl();
     }
     public  void tableView(){
         batchReport = new BatchReport();
@@ -248,6 +253,59 @@ public class StartView implements Initializable {
         timeonColumn.setCellValueFactory(new PropertyValueFactory<>("timeOn"));
         starttimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
     }
+
+    public void getInforfraControl(){
+        amountProducedBRLabel.setText(producedLabel.getText());
+        amountToProduceBRLabel.setText(amountCurrentBatchLabel.getText());
+        productTypeBRLabel.setText(productTypeLabel.getText());
+        speedBRLabel.setText(speedLabel.getText());
+        acceptedBRLabel.setText(acceptedLabel.getText());
+        defectedBRLabel.setText(defectiveLabel.getText());
+        idleTimeBRLabel.setText(idleTimeLabel.getText());
+        timeOnBRLabel.setText(timeOnLabel.getText());
+        startTimeBRLabel.setText(timeOnLabel.getText());
+    }
+
+    @FXML
+    public void updateInfo(){
+        getInforfraControl();
+    }
+
+
+    @FXML
+    void saveOnAction(ActionEvent event) {
+        batchReport.BatchReportDM(companyBRLabel.getText(), Integer.parseInt(amountProducedBRLabel.getText()), Integer.parseInt(amountToProduceBRLabel.getText()),
+        productTypeBRLabel.getText(), Integer.parseInt(speedBRLabel.getText()), Integer.parseInt(acceptedBRLabel.getText()), Integer.parseInt(defectedBRLabel.getText()), idleTimeBRLabel.getText(),
+        timeOnBRLabel.getText(), startTimeBRLabel.getText());
+
+    }
+//        companyBRLabel.getText();
+//        amountProducedBRLabel.getText();
+//        amountToProduceBRLabel.getText();
+//        productTypeBRLabel.getText();
+//        speedBRLabel.getText();
+//        acceptedBRLabel.getText();
+//        defectedBRLabel.getText();
+//        idleTimeBRLabel.getText();
+//        timeOnBRLabel.getText();
+//        startTimeBRLabel.getText();
+
+    @FXML
+    void updateOnAction(ActionEvent event) {
+        tableView();
+
+    }
+  //  @FXML
+//    void deletecolumnOnAction(MouseEvent event) {
+//
+//        batchReport.deleteeReportinDM(Integer.parseInt(batchidColumn.getText()));
+//
+//    }
+  @FXML
+  void deletecolumnOnAction(ActionEvent event) {
+      batchReport.deleteeReportinDM(Integer.parseInt(batchidColumn.getText()));
+
+  }
     @FXML
     public void onStartClick() {
 

@@ -39,6 +39,22 @@ public class BatchReportDB {
             System.out.println(ex.getMessage());
         }
     }
+    public boolean deleteaReportinDB(int batchID) {
+        boolean deletechecked = false;
+        try {
+            String sql = "DELETE FROM batchreport  WHERE batchid= '" + batchID + "'";
+            ResultSet rt = dbConnection.getConnection().createStatement().executeQuery(sql);
+            rt.close();
+            while (rt.next()) {
+                deletechecked = true;
+                System.out.println(" updated"+deletechecked);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return deletechecked;
+    }
+
 
     public  List getReportInfo() {
         List<BatchReport> brList  = new ArrayList<>();

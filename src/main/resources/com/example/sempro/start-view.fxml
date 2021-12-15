@@ -276,7 +276,7 @@
                               </VBox>
                               <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                  <children>
-                                    <Label fx:id="companyBRLabel" text="Label" />
+                                    <Label fx:id="companyBRLabel" text="SDU" />
                                     <Label fx:id="amountProducedBRLabel" text="Label" />
                                     <Label fx:id="amountToProduceBRLabel" text="Label" />
                                     <Label fx:id="productTypeBRLabel" text="Label" />
@@ -290,7 +290,11 @@
                               </VBox>
                            </children>
                         </HBox>
-                        <Button fx:id="downloadReportBtn" layoutX="14.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" text="DOWNLOAD REPORT" />
+                        <Button fx:id="downloadReportBtn" layoutX="18.0" layoutY="346.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" text="DOWNLOAD REPORT" />
+                        <Button fx:id="saveBtn" layoutX="14.0" layoutY="296.0" mnemonicParsing="false" onAction="#saveOnAction" text="Save" />
+                        <Button fx:id="updaeBtn1" layoutX="188.0" layoutY="296.0" mnemonicParsing="false" onAction="#updateOnAction" prefHeight="25.0" prefWidth="99.0" text="Update Colums" />
+                        <Button fx:id="updateLables" layoutX="80.0" layoutY="296.0" mnemonicParsing="false" onAction="#updateInfo" prefHeight="25.0" prefWidth="97.0" text="Update Labels" />
+                        <Button fx:id="deletecolumnBtn" layoutX="190.0" layoutY="346.0" mnemonicParsing="false" onAction="#deletecolumnOnAction" text="Delete Column" />
                      </children></AnchorPane>
             </content>
           </Tab>
