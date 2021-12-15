@@ -319,16 +319,6 @@ public class StartView implements Initializable {
         subscribe.subscribe();
     }
 
-    public void selectServer() {
-        if (loginController.getSimRB().isSelected()) {
-            host = "127.0.0.1";
-            port = 4840;
-        } else if (loginController.getMacRB().isSelected()) {
-            host = "192.168.0.122";
-            port = 4840;
-        }
-    }
-
     public String getHost() {
         return this.host;
     }
