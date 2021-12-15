@@ -216,21 +216,22 @@ public class StartView implements Initializable {
         columns();
         tabelViewBR.setItems(batchReport.getInformationBR());
 
+
     }
 
     public void columns(){
-        tabelViewBR.setItems(batchReport.getInformationBR());
         companyColumn.setCellValueFactory(new PropertyValueFactory<>("company"));
         batchidColumn.setCellValueFactory(new PropertyValueFactory<>("batchid"));
-        amountproducedColumn.setCellValueFactory(new PropertyValueFactory<>("amountproduced"));
-        amounttoproduceColumn.setCellValueFactory(new PropertyValueFactory<>("amounttoproduce"));
-        productTypeColumn.setCellValueFactory(new PropertyValueFactory<>("producttype"));
+        amountproducedColumn.setCellValueFactory(new PropertyValueFactory<>("amountProduced"));
+        amounttoproduceColumn.setCellValueFactory(new PropertyValueFactory<>("amountToProduce"));
+        productTypeColumn.setCellValueFactory(new PropertyValueFactory<>("productType"));
         speedColumn.setCellValueFactory(new PropertyValueFactory<>("speed"));
         acceptedColumn.setCellValueFactory(new PropertyValueFactory<>("accepted"));
         defectedColumn.setCellValueFactory(new PropertyValueFactory<>("defected"));
-        IdletimeColumn.setCellValueFactory(new PropertyValueFactory<>("idletime"));
-        timeonColumn.setCellValueFactory(new PropertyValueFactory<>("timeon"));
-        starttimeColumn.setCellValueFactory(new PropertyValueFactory<>("starttime"));
+        IdletimeColumn.setCellValueFactory(new PropertyValueFactory<>("idleTime"));
+        timeonColumn.setCellValueFactory(new PropertyValueFactory<>("timeOn"));
+        starttimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+
      /*   tabelViewBR.getColumns().addAll(companyColumn,batchidColumn,amountproducedColumn,
                amounttoproduceColumn,productTypeColumn,speedColumn,acceptedColumn,defectedColumn,IdletimeColumn
                ,timeonColumn,starttimeColumn);*/

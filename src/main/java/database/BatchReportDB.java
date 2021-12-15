@@ -15,16 +15,9 @@ public class BatchReportDB {
 
     private  DatabaseConnection dbConnection;
     private  Connection connection;
-
-     public static void main(String[]args) {
-         BatchReportDB batchReportDB=new BatchReportDB();
-         batchReportDB.getReportInfo();
-     }
-
     public BatchReportDB() {
         dbConnection = new DatabaseConnection();
         connection = dbConnection.getConnection();
-        
     }
 
     public void createBatchReport(String company, int amountProduced, int amountToProduce, String productType, int speed,
@@ -46,12 +39,9 @@ public class BatchReportDB {
 
     public  List getReportInfo() {
         List<BatchReport> brList  = new ArrayList<>();
-
-        String sql = "SELECT * FROM batchreport " ;
         try {
-            ResultSet rs = dbConnection.getConnection().createStatement().executeQuery(sql);
-           // Statement st = connection.createStatement();
-           // ResultSet rs = st.executeQuery("SELECT * FROM batchreport");
+           Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM batchreport");
             while (rs.next()) {
                 brList.add(new BatchReport(rs.getString("company"), rs.getInt("batchid"),
                         rs.getInt("amountproduced"), rs.getInt("amounttoproduce"),
@@ -59,9 +49,6 @@ public class BatchReportDB {
                         rs.getInt("accepted"), rs.getInt("defected"),
                         rs.getString("idletime"), rs.getString("timeon"),
                         rs.getString("starttime")));
-               // ObservableList<BatchReport> brList = FXCollections.observableArrayList();
-                System.out.println(brList.get(0));
-                System.out.println("DB "+brList);
             }
 
         } catch (SQLException ex) {

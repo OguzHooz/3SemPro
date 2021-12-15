@@ -12,4 +12,5 @@ module com.example.sempro {
 
     opens com.example.sempro to javafx.fxml;
     exports com.example.sempro;
+    exports domain;
 }

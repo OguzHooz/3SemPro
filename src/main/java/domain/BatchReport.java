@@ -154,10 +154,8 @@ public class BatchReport {
 //  }
 
     public ObservableList getInformationBR(){
-       // System.out.println("Domain "+getCompany());
         ObservableList<BatchReport> OBlist;
         OBlist = FXCollections.observableArrayList(batchReportDB.getReportInfo());
-        System.out.println("IN Domain "+OBlist);
         return OBlist;
 
     }
