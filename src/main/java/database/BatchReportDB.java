@@ -59,3 +59,25 @@ public class BatchReportDB {
     }
 
 }
+
+            while (rs.next()) {
+                batchid = rs.getInt("batchid");
+            }
+    public int getBatchID() {
+        try {
+            Statement st = connection.createStatement();
+            String sql = "SELECT * FROM batchreport";
+            rs = st.getGeneratedKeys();
+            rs =  st.executeQuery(sql);
+
+            int batchid = 0;
+            st.close();
+            return batchid;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return 0;
+    }
+
+    private ResultSet rs;

@@ -4,6 +4,8 @@ import database.BatchReportDB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import database.BatchReportDB;
+
 public class BatchReport {
    private int batchid;
     private String company;
@@ -18,9 +20,7 @@ public class BatchReport {
     private String startTime;
     private BatchReportDB batchReportDB;
 
-//    public BatchReport() {
-//
-//    }
+    private BatchReportDB batchReportDB = new BatchReportDB();
     public BatchReport(String company, int amountProduced, int amountToProduce, String productType, int speed, int accepted,
                        int defected, String idleTime, String timeOn, String startTime) {
         this.company = company;
@@ -132,6 +132,10 @@ public class BatchReport {
 
     public void setStartTime(String startTime) {
         this.startTime = startTime;
+    }
+
+    public int getBatchID() {
+        return batchReportDB.getBatchID();
     }
 
     public int getBatchid() {

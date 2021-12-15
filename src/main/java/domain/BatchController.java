@@ -8,41 +8,25 @@ import org.eclipse.milo.opcua.stack.core.types.enumerated.TimestampsToReturn;
 public class BatchController {
 
     private MachineConnection machineConnection;
+    private String host;
+    private int port;
 
-    public BatchController() {
+    public BatchController(String host, int port) {
         //Simulation
-        this.machineConnection = new MachineConnection("127.0.0.1", 4840);
+        //this.machineConnection = new MachineConnection("127.0.0.1", 4840);
         //Machine
-        //this.machineConnection = new MachineConnection("192.168.0.122", 4840);
+        this.host = host;
+        this.port = port;
+        this.machineConnection = new MachineConnection(host, port);
         this.machineConnection.connect();
     }
 
-    // Antal produceret (amountProduced)
-    public int getAmountProduced() {
-        int value = 0;
-        try {
-            NodeId nodeId5 = new NodeId(6, "::Program:Cube.Admin.ProdProcessedCount");
-            DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId5)
-                    .get();
-
-            Variant variant = dataValue.getValue();
-
-            value = (int) variant.getValue();
-
-            System.out.println("Amount produced: " + value);
-            return value;
-
-        } catch (Throwable ex) {
-            ex.printStackTrace();
-            return value;
-        }
-    }
 
     public Object getAmountToProduce() {
         Object value = 0;
         try {
 
-            NodeId nodeId5 = new NodeId(6, "::Program:Cube.Status.Parameter[1].Value");
+            NodeId nodeId5 = new NodeId(6, "::Program:Cube.Command.Parameter[2].Value");
             DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId5)
                     .get();
 
@@ -75,7 +59,7 @@ public class BatchController {
         Object value = 0;
         try {
 
-            NodeId batchId = new NodeId(6, "::Program:Cube.Status.Parameter[0].Value");
+            NodeId batchId = new NodeId(6, "::Program:Cube.Command.Parameter[0].Value");
             DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, batchId)
                     .get();
 
@@ -136,83 +120,4 @@ public class BatchController {
             ex.printStackTrace();
         }
     }
-
-
-    public float getDefective() {
-        float value = 0;
-        try {
-
-            NodeId nodeId = new NodeId(1, "::Program:Cube.Admin.ProdDefectiveCount");
-            DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId)
-                    .get();
-            Variant variant = dataValue.getValue();
-
-            value = (float) variant.getValue();
-            System.out.println("domain.Read: Defective: " + value);
-            return value;
-
-        } catch (Throwable ex) {
-            ex.printStackTrace();
-            return value;
-        }
-    }
-
-    public Object getHumidity() {
-        Object value = 0;
-        try {
-
-            NodeId nodeId = new NodeId(1, "::Program:Cube.Status.Parameter[2]");
-            DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId)
-                    .get();
-            Variant variant = dataValue.getValue();
-
-            value = variant.getValue();
-            System.out.println("domain.Read: Humidity: " + value);
-            return value;
-
-        } catch (Throwable ex) {
-            ex.printStackTrace();
-            return value;
-        }
-    }
-
-    public float getTemperature() {
-        float value = 0;
-        try {
-
-            NodeId nodeId = new NodeId(1, "::Program:Cube.Status.Parameter[3]");
-            DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId)
-                    .get();
-            Variant variant = dataValue.getValue();
-
-            value = (float) variant.getValue();
-            System.out.println("domain.Read: Temperature: " + value);
-            return value;
-
-        } catch (Throwable ex) {
-            ex.printStackTrace();
-            return value;
-        }
-    }
-
-    public float getVibration() {
-        float value = 0;
-        try {
-
-            NodeId nodeId = new NodeId(1, "::Program:Cube.Status.Parameter[4]");
-            DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId)
-                    .get();
-            Variant variant = dataValue.getValue();
-
-            value = (float) variant.getValue();
-            System.out.println("domain.Read: Vibration: " + value);
-            return value;
-
-        } catch (Throwable ex) {
-            ex.printStackTrace();
-            return value;
-        }
-    }
-
-
 }

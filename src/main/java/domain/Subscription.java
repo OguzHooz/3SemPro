@@ -1,19 +1,12 @@
-/*
-package domain;*/
+
+package domain;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- *//*
+ */
 
-
-*/
-/**
- *
- * @author athil
- *//*
-
-
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,130 +27,122 @@ import org.eclipse.milo.opcua.stack.core.types.structured.MonitoringParameters;
 import org.eclipse.milo.opcua.stack.core.types.structured.ReadValueId;
 import org.eclipse.milo.opcua.stack.core.types.builtin.unsigned.UInteger;
 import org.eclipse.milo.opcua.stack.core.types.builtin.unsigned.Unsigned;
+import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicLong;
 
-public class Subscription {
+
+public class Subscription implements ISubscription {
 
     private static MachineConnection machineConnection;
+    private Map<String, Consumer<String>> consumerMap;
+    private static final AtomicLong ATOMICLONG = new AtomicLong(1L);
 
-    */
-/*public static void main(String[] args) {
+    //Production
+    private final NodeId productCountNode = new NodeId(6, "::Program:Cube.Admin.ProdProcessedCount");
+    private final NodeId humidityNode = new NodeId(6, "::Program:Cube.Status.Parameter[2].Value");
+    private final NodeId vibrationNode = new NodeId(6, "::Program:Cube.Status.Parameter[4].Value");
+    private final NodeId temperatureNode = new NodeId(6, "::Program:Cube.Status.Parameter[3].Value");
+    private final NodeId defectedNode = new NodeId(6, "::Program:Cube.Admin.ProdDefectiveCount");
 
-        try
-        {
-            machineConnection = new MachineConnection("127.0.0.1", 4840);
-            machineConnection.connect();
+    private float totalProducedValue;
+    private float totalAcceptedValue;
+    private float totalDefectedValue;
+    private float humidityValue;
+    private float vibrationValue;
+    private float temperatureValue;
 
-            NodeId nodeId = new NodeId(6,"::Program:Cube.Admin.ProdProcessedCount");
-            NodeId reset = new NodeId(6, "::Program:Cube.Admin.ProdProcessedCount");
+    private String host;
+    private int port;
 
-            // what to read
-            ReadValueId readValueId = new ReadValueId(nodeId, AttributeId.Value.uid(), null, null);
-
-            // create a subscription @ 1000ms
-            UaSubscription subscription = machineConnection.getClient().getSubscriptionManager().createSubscription(1000.0).get();
-
-            // important: client handle must be unique per item
-            UInteger clientHandle = subscription.getSubscriptionId();
-            MonitoringParameters parameters = new MonitoringParameters(
-                    clientHandle,
-                    1000.0,     // sampling interval
-                    null,       // filter, null means use default
-                    Unsigned.uint(10),   // queue size
-                    true        // discard oldest
-            );
-
-            // creation request
-            MonitoredItemCreateRequest request = new MonitoredItemCreateRequest(readValueId, MonitoringMode.Reporting, parameters);
-
-
-            // setting the consumer after the subscription creation
-            UaSubscription.ItemCreationCallback onItemCreated =  (item, id) -> item.setValueConsumer(Subscription::onSubscriptionValue);
-
-
-            List<UaMonitoredItem> items = subscription.createMonitoredItems(TimestampsToReturn.Both, Arrays.asList(request), onItemCreated).get();
-
-            for (UaMonitoredItem item : items) {
-                if (item.getStatusCode().isGood()) {
-                    System.out.println("item created for nodeId=" + item.getReadValueId().getNodeId());
-                } else{
-                    System.out.println("failed to create item for nodeId=" + item.getReadValueId().getNodeId() + " (status=" + item.getStatusCode() + ")");
-                }
-            }
-
-            // let the example run for 50 seconds then terminate
-            Thread.sleep(50000);
-        }
-        catch(Throwable ex)
-        {
-            ex.printStackTrace();
-        }
-
-    }*//*
-
-    public static void main(String[] args) {
-        subscribeProductCount();
+    public Subscription(String host, int port) {
+        //machineConnection = new MachineConnection("127.0.0.1", 4840);
+        this.host = host;
+        this.port = port;
+        machineConnection = new MachineConnection(host, port);
+        machineConnection.connect();
+        consumerMap = new HashMap();
     }
-
 
     private static void onSubscriptionValue(UaMonitoredItem item, DataValue value) {
         Variant variant = value.getValue();
         int val = (int) variant.getValue();
-        System.out.println("subscription value received: item="+ item.getReadValueId().getNodeId() + ", value=" + val);
+        System.out.println("subscription value received: item=" + item.getReadValueId().getNodeId() + ", value=" + val);
     }
 
-    public static Object subscribeProductCount() {
-        UaSubscription.ItemCreationCallback onItemCreated = 0;
-        try
-        {
-            machineConnection = new MachineConnection("127.0.0.1", 4840);
-            machineConnection.connect();
+    public void subscribe() {
+        List<MonitoredItemCreateRequest> requestList = new ArrayList();
+        requestList.add(new MonitoredItemCreateRequest(readValueId(productCountNode), MonitoringMode.Reporting, monitoringParameters()));
+        requestList.add(new MonitoredItemCreateRequest(readValueId(humidityNode), MonitoringMode.Reporting, monitoringParameters()));
+        requestList.add(new MonitoredItemCreateRequest(readValueId(vibrationNode), MonitoringMode.Reporting, monitoringParameters()));
+        requestList.add(new MonitoredItemCreateRequest(readValueId(temperatureNode), MonitoringMode.Reporting, monitoringParameters()));
+        requestList.add(new MonitoredItemCreateRequest(readValueId(defectedNode), MonitoringMode.Reporting, monitoringParameters()));
 
-            NodeId nodeId = new NodeId(6,"::Program:Cube.Admin.ProdProcessedCount");
-            NodeId reset = new NodeId(6, "::Program:Cube.Admin.ProdProcessedCount");
+        Consumer<DataValue> productCountItem = (dataValue) -> startConsumer(producedAmount, dataValue);
+        Consumer<DataValue> humidityItem = (dataValue) -> startConsumer(humidity, dataValue);
+        Consumer<DataValue> vibrationItem = (dataValue) -> startConsumer(vibration, dataValue);
+        Consumer<DataValue> temperatureItem = (dataValue) -> startConsumer(temperature, dataValue);
+        Consumer<DataValue> defectedItem = (dataValue) -> startConsumer(defectiveProducts, dataValue);
 
-            // what to read
-            ReadValueId readValueId = new ReadValueId(nodeId, AttributeId.Value.uid(), null, null);
+        try {
+            UaSubscription subscription = machineConnection.getClient().getSubscriptionManager().createSubscription(10.0).get();
+            List<UaMonitoredItem> items = subscription.createMonitoredItems(TimestampsToReturn.Both, requestList).get();
 
-            // create a subscription @ 1000ms
-            UaSubscription subscription = machineConnection.getClient().getSubscriptionManager().createSubscription(1000.0).get();
+            items.get(0).setValueConsumer(productCountItem);
+            items.get(1).setValueConsumer(humidityItem);
+            items.get(2).setValueConsumer(vibrationItem);
+            items.get(3).setValueConsumer(temperatureItem);
+            items.get(4).setValueConsumer(defectedItem);
 
-            // important: client handle must be unique per item
-            UInteger clientHandle = subscription.getSubscriptionId();
-            MonitoringParameters parameters = new MonitoringParameters(
-                    clientHandle,
-                    1000.0,     // sampling interval
-                    null,       // filter, null means use default
-                    Unsigned.uint(10),   // queue size
-                    true        // discard oldest
-            );
-
-            // creation request
-            MonitoredItemCreateRequest request = new MonitoredItemCreateRequest(readValueId, MonitoringMode.Reporting, parameters);
-
-
-            // setting the consumer after the subscription creation
-            onItemCreated =  (item, id) -> item.setValueConsumer(Subscription::onSubscriptionValue);
-
-
-            List<UaMonitoredItem> items = subscription.createMonitoredItems(TimestampsToReturn.Both, Arrays.asList(request), onItemCreated).get();
-
-            for (UaMonitoredItem item : items) {
-                if (item.getStatusCode().isGood()) {
-                    System.out.println("item created for nodeId=" + item.getReadValueId().getNodeId());
-                    return onItemCreated;
-                } else{
-                    System.out.println("failed to create item for nodeId=" + item.getReadValueId().getNodeId() + " (status=" + item.getStatusCode() + ")");
-                }
-            }
-
-            // let the example run for 50 seconds then terminate
-            Thread.sleep(50000);
-        }
-        catch(Throwable ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return onItemCreated;
     }
+
+    public void setConsumer(Consumer<String> consumer, String nodeName) {
+        consumerMap.put(nodeName, consumer);
+    }
+
+    private void startConsumer(String nodeName, DataValue dataValue) {
+        consumerMap.get(nodeName).accept(dataValue.getValue().getValue().toString());
+        
+        switch (nodeName) {
+            case producedAmount:
+                this.totalProducedValue = Float.parseFloat(dataValue.getValue().getValue().toString());
+                break;
+            case humidity:
+                this.humidityValue = Float.parseFloat(dataValue.getValue().getValue().toString());
+                break;
+            case vibration:
+                this.vibrationValue = Float.parseFloat(dataValue.getValue().getValue().toString());
+            case temperature:
+                this.temperatureValue = Float.parseFloat(dataValue.getValue().getValue().toString());
+            case defectiveProducts:
+                this.totalDefectedValue = Float.parseFloat(dataValue.getValue().getValue().toString());
+                break;
+            case acceptedProducts:
+                this.totalAcceptedValue = 0;
+                break;
+            default:
+        }
+    }
+
+        private MonitoringParameters monitoringParameters() {
+            return new MonitoringParameters(
+                    Unsigned.uint(ATOMICLONG.getAndIncrement()),
+                    10.0, // sampling interval
+                    null, // filter, null means use default
+                    Unsigned.uint(1), // queue size
+                    true // discard oldest
+            );
+        }
+
+        private ReadValueId readValueId(NodeId name) {
+            return new ReadValueId(name, AttributeId.Value.uid(), null, null);
+        }
 }
-*/
+

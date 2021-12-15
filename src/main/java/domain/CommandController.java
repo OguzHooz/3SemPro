@@ -8,12 +8,16 @@ import org.eclipse.milo.opcua.stack.core.types.enumerated.TimestampsToReturn;
 public class CommandController {
 
     private MachineConnection machineConnection;
+    private String host;
+    private int port;
 
-    public CommandController() {
+    public CommandController(String host, int port) {
         //Simulation
-        this.machineConnection = new MachineConnection("127.0.0.1", 4840);
+        //this.machineConnection = new MachineConnection("127.0.0.1", 4840);
         //Machine
-        //this.machineConnection = new MachineConnection("192.168.0.122", 4840);
+        this.host = host;
+        this.port = port;
+        this.machineConnection = new MachineConnection(host, port);
         this.machineConnection.connect();
     }
 
@@ -113,8 +117,7 @@ public class CommandController {
     public Object getSpeed() {
         Object value = 0;
         try {
-
-            while(true) {
+            
                 NodeId nodeId = new NodeId(6, "::Program:Cube.Command.MachSpeed");
                 DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId)
                         .get();
@@ -125,7 +128,6 @@ public class CommandController {
 
                 System.out.println("Speed: " + value);
                 return value;
-            }
 
         } catch (Throwable ex) {
             ex.printStackTrace();
