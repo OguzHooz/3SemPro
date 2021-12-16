@@ -267,6 +267,7 @@
                                     <Label text="Idle time:" />
                                     <Label text="TimeOn" />
                                     <Label prefHeight="17.0" prefWidth="53.0" text="StartTime" />
+                                    <Label fx:id="oeeLabel" text="OEE:" />
                                  </children>
                               </VBox>
                               <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
@@ -281,6 +282,7 @@
                                     <Label fx:id="idleTimeBRLabel" text="Label" />
                                     <Label fx:id="timeOnBRLabel" text="Label" />
                                     <Label fx:id="startTimeBRLabel" text="Label" />
+                                    <Label fx:id="setoeeLabel" text="Label" />
                                  </children>
                               </VBox>
                            </children>

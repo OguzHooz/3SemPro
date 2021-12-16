@@ -180,7 +180,13 @@ public class StartView implements Initializable {
 
     @FXML
     private TextField companyTextField;
+
+    @FXML
+    private Label oee;
     
+    @FXML
+    private Label setoeeLabel;
+
 
     @FXML
     private TableView<BatchReport> tabelViewBR;
@@ -364,6 +370,7 @@ public class StartView implements Initializable {
 
             batchCtrl.setAmountToProduce(Float.parseFloat(amountToProduceTextField.getText()));
             batchCtrl.setProductType(Float.parseFloat(productIDChoiceBox.getValue().toString()));
+            setCompanyLabel.setText(companyTextField.getText());
 
             amountToProduceTextField.clear();
             speedTextField.clear();
