@@ -10,3 +10,75 @@ Idle time: 00:00
 Time on: 00:00
 Start time: 00:00
 -------------------------------------------------------
+Company: SDU
+Batch ID: 12
+Amount produced: 0
+Amount to produce: 0
+Product type: Pilsner (0)
+Speed: 0
+Accepted: 0
+Defeceted: 0
+Idle time: 00:00
+Time on: 00:00:07
+Start time: 00:00:07
+-------------------------------------------------------
+Company: SDU
+Batch ID: 12
+Amount produced: 0
+Amount to produce: 0
+Product type: Pilsner (0)
+Speed: 0
+Accepted: 0
+Defeceted: 0
+Idle time: 00:00
+Time on: 00:00:07
+Start time: 00:00:07
+-------------------------------------------------------
+Company: SDU
+Batch ID: 12
+Amount produced: 0
+Amount to produce: 0
+Product type: Pilsner (0)
+Speed: 0
+Accepted: 0
+Defeceted: 0
+Idle time: 00:00
+Time on: 00:00:07
+Start time: 00:00:07
+-------------------------------------------------------
+Company: SDU
+Batch ID: 12
+Amount produced: 0
+Amount to produce: 0
+Product type: Pilsner (0)
+Speed: 0
+Accepted: 0
+Defeceted: 0
+Idle time: 00:00
+Time on: 00:00:07
+Start time: 00:00:07
+-------------------------------------------------------
+Company: SDU
+Batch ID: 12
+Amount produced: 0
+Amount to produce: 0
+Product type: Pilsner (0)
+Speed: 0
+Accepted: 0
+Defeceted: 0
+Idle time: 00:00
+Time on: 00:00:01
+Start time: 00:00:01
+-------------------------------------------------------
+Company: SDU
+Batch ID: 12
+Amount produced: 0
+Amount to produce: 0
+Product type: Pilsner (0)
+Speed: 0
+Accepted: 0
+Defeceted: 0
+Idle time: 00:00
+Time on: 00:00:03
+Start time: 00:00:03
+-------------------------------------------------------

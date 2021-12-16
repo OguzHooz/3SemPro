@@ -258,11 +258,12 @@
                               <TableColumn fx:id="starttimeColumn" prefWidth="69.3333740234375" text="Starttime" />
                           </columns>
                         </TableView>
-                        <HBox layoutX="14.0" prefHeight="279.0" prefWidth="275.0">
+                        <HBox layoutX="14.0" prefHeight="296.0" prefWidth="261.0">
                            <children>
-                              <VBox prefHeight="233.0" prefWidth="114.0" spacing="10.0">
+                              <VBox prefHeight="300.0" prefWidth="114.0" spacing="10.0">
                                  <children>
                                     <Label text="Company:" />
+                                    <Label text="BatchID" />
                                     <Label text="AmountProduced" />
                                     <Label text="AmountToProduce" />
                                     <Label text="ProductType" />
@@ -277,6 +278,7 @@
                               <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                  <children>
                                     <Label fx:id="companyBRLabel" text="SDU" />
+                                    <Label fx:id="batchIDBRlabel" text="Label" />
                                     <Label fx:id="amountProducedBRLabel" text="Label" />
                                     <Label fx:id="amountToProduceBRLabel" text="Label" />
                                     <Label fx:id="productTypeBRLabel" text="Label" />

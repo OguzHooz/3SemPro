@@ -13,14 +13,23 @@ import java.util.List;
 
 
 public class BatchReportDB {
+    private static BatchReport batchReport;
     private ResultSet rs;
 
     private  DatabaseConnection dbConnection;
     private  Connection connection;
 
+
+
     public BatchReportDB() {
         dbConnection = new DatabaseConnection();
         connection = dbConnection.getConnection();
+
+    }
+
+    public static void main(String[] args) {
+        BatchReportDB batchReportDB=new BatchReportDB();
+        System.out.println();
     }
 
     public void createBatchReport(String company, int amountProduced, int amountToProduce, String productType, int speed,
@@ -39,20 +48,17 @@ public class BatchReportDB {
             System.out.println(ex.getMessage());
         }
     }
-    public boolean deleteaReportinDB(int batchID) {
-        boolean deletechecked = false;
+    public void deleteaReportinDB(int batchID) {
+        
         try {
+            Statement st = connection.createStatement();
             String sql = "DELETE FROM batchreport  WHERE batchid= '" + batchID + "'";
-            ResultSet rt = dbConnection.getConnection().createStatement().executeQuery(sql);
-            rt.close();
-            while (rt.next()) {
-                deletechecked = true;
-                System.out.println(" updated"+deletechecked);
-            }
+            st.executeUpdate(sql);
+            st.close();
+            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return deletechecked;
     }
 
 
