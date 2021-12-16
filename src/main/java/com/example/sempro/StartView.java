@@ -289,6 +289,7 @@ public class StartView implements Initializable {
         textfile.createTextfile(companyBRLabel.getText(), 12,Integer.parseInt(amountProducedBRLabel.getText()), Integer.parseInt(amountToProduceBRLabel.getText()),
                 productTypeBRLabel.getText(), Integer.parseInt(speedBRLabel.getText()), Integer.parseInt(acceptedBRLabel.getText()), Integer.parseInt(defectedBRLabel.getText()), idleTimeBRLabel.getText(),
                 timeOnBRLabel.getText(), startTimeBRLabel.getText());
+        tableView();
     }
 
     @FXML
