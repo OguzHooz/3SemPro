@@ -136,6 +136,7 @@ public class BatchReportDB {
                         rs.getString("idletime"), rs.getString("timeon"),
                         rs.getString("starttime")));
             }
+            st.close();
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

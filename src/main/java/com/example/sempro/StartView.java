@@ -441,7 +441,12 @@ public class StartView implements Initializable {
 
     @FXML
     private void oeeOnAction(ActionEvent event) {
-        //int batchID = tabelViewBR.getSelectionModel().getSelectedItem().getBatchID_DB();
-        //setoeeLabel.setText(Integer.toString(oee.createOEE(batchID)));
+        if (tabelViewBR.getSelectionModel().getSelectedItem() != null) {
+            int batchID = tabelViewBR.getSelectionModel().getSelectedItem().getBatchID();
+            setoeeLabel.setText(Integer.toString(oee.createOEE(batchID)));
+        } else {
+            System.out.println("Please select a batch");
+        }
+
     }
 }

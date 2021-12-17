@@ -133,6 +133,7 @@ public class BatchReport {
     }
 
     public int getBatchID() {
+        batchReportDB = new BatchReportDB();
         return batchReportDB.getBatchID();
     }
 
@@ -154,6 +155,7 @@ public class BatchReport {
 //      this.batchReportDB = new BatchReportDB();
 //      return batchReportDB.getReportInfo();
 //  }
+
 
     public ObservableList getInformationBR(){
         ObservableList<BatchReport> OBlist;
