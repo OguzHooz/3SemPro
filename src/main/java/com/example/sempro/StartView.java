@@ -39,6 +39,7 @@ public class StartView implements Initializable {
     private CommandController cmdCtrl;
     private BatchController batchCtrl;
     private BatchReport batchReport;
+    private OEE oee;
     int run = 500;
     private DateTimeFormatter dtf;
     private int seconds = 0;
@@ -180,12 +181,12 @@ public class StartView implements Initializable {
 
     @FXML
     private TextField companyTextField;
-
-    @FXML
-    private Label oee;
     
     @FXML
     private Label setoeeLabel;
+
+    @FXML
+    private Button getOEEBtn;
 
 
     @FXML
@@ -229,22 +230,17 @@ public class StartView implements Initializable {
         this.batchCtrl = new BatchController();
         this.subscribe = new Subscription();
         this.batchReport = new BatchReport();
+        this.oee = new OEE();
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         localTime = LocalTime.parse("00:00:00");
         timeLine = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
         timeLine.setCycleCount(Animation.INDEFINITE);
         //setTimeOnLabel();
-        consumerGUI();
-        tableView();
-        fillComboBox();
-    }
 
-    public void tableView() {
-        batchReport = new BatchReport();
         columns();
         tabelViewBR.setItems(batchReport.getInformationBR());
-
-
+        consumerGUI();
+        fillComboBox();
     }
 
     public void columns() {
@@ -441,5 +437,11 @@ public class StartView implements Initializable {
     private void fillComboBox() {
         String productTypes[] = {"0", "1", "2", "3", "4", "5"};
         productIDChoiceBox.getItems().addAll(productTypes);
+    }
+
+    @FXML
+    private void oeeOnAction(ActionEvent event) {
+        //int batchID = tabelViewBR.getSelectionModel().getSelectedItem().getBatchID_DB();
+        //setoeeLabel.setText(Integer.toString(oee.createOEE(batchID)));
     }
 }

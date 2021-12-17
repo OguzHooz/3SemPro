@@ -15,7 +15,7 @@ public class OEE {
      */
 
     public OEE() {
-
+        batchReportDB = new BatchReportDB();
     }
 
     public int getTotalCount(int batchID) {

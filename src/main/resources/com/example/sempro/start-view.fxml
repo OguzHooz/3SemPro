@@ -288,6 +288,7 @@
                            </children>
                         </HBox>
                         <Button fx:id="downloadReportBtn" layoutX="14.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" text="DOWNLOAD REPORT" />
+                        <Button fx:id="getOEEBtn" layoutX="104.0" layoutY="295.0" mnemonicParsing="false" onAction="#oeeOnAction" text="Get OEE" />
                      </children></AnchorPane>
             </content>
           </Tab>

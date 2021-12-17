@@ -40,27 +40,6 @@ public class BatchReportDB {
         }
     }
 
-    public  List getReportInfo() {
-        List<BatchReport> brList  = new ArrayList<>();
-        try {
-           Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM batchreport");
-            while (rs.next()) {
-                brList.add(new BatchReport(rs.getString("company"), rs.getInt("batchid"),
-                        rs.getInt("amountproduced"), rs.getInt("amounttoproduce"),
-                        rs.getString("producttype"), rs.getInt("speed"),
-                        rs.getInt("accepted"), rs.getInt("defected"),
-                        rs.getString("idletime"), rs.getString("timeon"),
-                        rs.getString("starttime")));
-            }
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        return brList;
-
-    }
-
     public int getBatchID() {
         try {
             Statement st = connection.createStatement();
@@ -144,5 +123,25 @@ public class BatchReportDB {
         return 0;
     }
 
+    public List getReportInfo() {
+        List<BatchReport> brList  = new ArrayList<>();
+        try {
+            Statement st = connection.createStatement();
+            rs = st.executeQuery("SELECT * FROM batchreport");
+            while (rs.next()) {
+                brList.add(new BatchReport(rs.getString("company"), rs.getInt("batchid"),
+                        rs.getInt("amountproduced"), rs.getInt("amounttoproduce"),
+                        rs.getString("producttype"), rs.getInt("speed"),
+                        rs.getInt("accepted"), rs.getInt("defected"),
+                        rs.getString("idletime"), rs.getString("timeon"),
+                        rs.getString("starttime")));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return brList;
+
+    }
 
 }
