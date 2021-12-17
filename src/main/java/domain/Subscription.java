@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.example.sempro.LoginController;
 import org.eclipse.milo.opcua.sdk.client.OpcUaClient;
 import org.eclipse.milo.opcua.sdk.client.api.config.OpcUaClientConfigBuilder;
 import org.eclipse.milo.opcua.sdk.client.api.subscriptions.UaMonitoredItem;
@@ -56,14 +57,11 @@ public class Subscription implements ISubscription {
     private float vibrationValue;
     private float temperatureValue;
 
-    private String host;
-    private int port;
-
-    public Subscription(String host, int port) {
-        //machineConnection = new MachineConnection("127.0.0.1", 4840);
-        this.host = host;
-        this.port = port;
-        machineConnection = new MachineConnection(host, port);
+    public Subscription() {
+        //Simulation
+        machineConnection = new MachineConnection("127.0.0.1", 4840);
+        //Machine
+        //this.machineConnection = new MachineConnection("192.168.0.122, 4840);
         machineConnection.connect();
         consumerMap = new HashMap();
     }
@@ -144,5 +142,6 @@ public class Subscription implements ISubscription {
         private ReadValueId readValueId(NodeId name) {
             return new ReadValueId(name, AttributeId.Value.uid(), null, null);
         }
+
 }
 

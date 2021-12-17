@@ -5,6 +5,9 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.Property;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,6 +44,9 @@ public class StartView implements Initializable {
     private CommandController cmdCtrl;
     private BatchController batchCtrl;
     private BatchReport batchReport;
+    private OEE oee;
+    private User user;
+    private CreateUserService createUserService;
     private Textfile textfile;
     int run = 500;
     private DateTimeFormatter dtf;
@@ -56,6 +62,9 @@ public class StartView implements Initializable {
     //FXML
     @FXML
     private Button abortBtn;
+
+    @FXML
+    private TableView<User> userManagementTable;
 
     @FXML
     private Label acceptedLabel;
@@ -103,7 +112,7 @@ public class StartView implements Initializable {
     private Label producedLabel;
 
     @FXML
-    private TextField productIDTextField;
+    private ChoiceBox productIDChoiceBox;
 
     @FXML
     private Button resetBtn;
@@ -144,14 +153,6 @@ public class StartView implements Initializable {
     private Label maintenanceLabel;
 
     private ISubscription subscribe;
-    private LoginController loginController;
-    private String host;
-    private int port;
-
-    private static StartView instance = new StartView();
-    public static StartView getInstance() {
-        return instance;
-    }
 
     @FXML
     private Label companyBRLabel;
@@ -184,40 +185,95 @@ public class StartView implements Initializable {
 
     @FXML
     private Label startTimeBRLabel;
+
+    @FXML
+    private CheckBox optimalSpeedBox;
+
+    @FXML
+    private Label setCompanyLabel;
+
+    @FXML
+    private TextField companyTextField;
+    
+    @FXML
+    private Label setoeeLabel;
+
+    @FXML
+    private Button getOEEBtn;
+
+    @FXML
+    private Label batchReportInvalid;
+    
+    @FXML
+    private Label updateUserIDLabel;
+
+    @FXML
+    private TextField updateUsernameTextField;
+
+    @FXML
+    private TextField updatePasswordTextField;
+
+    @FXML
+    private TextField updateEmailTextField;
+
+    @FXML
+    private RadioButton updateRManagerRB;
+
+    @FXML
+    private RadioButton updateRWorkerRB;
+
+    @FXML
+    private RadioButton updateRGuestRB;
+
+    @FXML
+    private TableColumn<User, Integer> userIDColumn;
+
+    @FXML
+    private TableColumn<User, String> usernameColumn;
+
+    @FXML
+    private TableColumn<User, String> passwordColumn;
+
+    @FXML
+    private TableColumn<User, String> emailColumn;
+
+    @FXML
+    private TableColumn<User, String> roleColumn;
+
     @FXML
     private TableView<BatchReport> tabelViewBR;
     @FXML
-    private TableColumn <BatchReport,String> companyColumn;
+    private TableColumn<BatchReport, String> companyColumn;
 
     @FXML
-    private TableColumn <BatchReport,Integer> batchidColumn;
+    private TableColumn<BatchReport, Integer> batchidColumn;
 
     @FXML
-    private TableColumn  <BatchReport,Integer> amountproducedColumn;
+    private TableColumn<BatchReport, Integer> amountproducedColumn;
 
     @FXML
-    private TableColumn <BatchReport,String> amounttoproduceColumn;
+    private TableColumn<BatchReport, String> amounttoproduceColumn;
 
     @FXML
-    private TableColumn <BatchReport,String> productTypeColumn;
+    private TableColumn<BatchReport, String> productTypeColumn;
 
     @FXML
-    private TableColumn <BatchReport,Integer>speedColumn;
+    private TableColumn<BatchReport, Integer> speedColumn;
 
     @FXML
-    private TableColumn <BatchReport,Integer> acceptedColumn;
+    private TableColumn<BatchReport, Integer> acceptedColumn;
 
     @FXML
-    private TableColumn <BatchReport,Integer> defectedColumn;
+    private TableColumn<BatchReport, Integer> defectedColumn;
 
     @FXML
-    private TableColumn<BatchReport,String> IdletimeColumn;
+    private TableColumn<BatchReport, String> IdletimeColumn;
 
     @FXML
-    private TableColumn <BatchReport,String> timeonColumn;
+    private TableColumn<BatchReport, String> timeonColumn;
 
     @FXML
-    private TableColumn <BatchReport,String> starttimeColumn;
+    private TableColumn<BatchReport, String> starttimeColumn;
     @FXML
     private Button saveBtn;
     @FXML
@@ -225,29 +281,31 @@ public class StartView implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.cmdCtrl = new CommandController(this.host, this.port);
-        this.batchCtrl = new BatchController(this.host, this.port);
+        this.cmdCtrl = new CommandController();
+        this.batchCtrl = new BatchController();
+        this.subscribe = new Subscription();
         this.batchReport = new BatchReport();
+        this.oee = new OEE();
+        this.user = new User();
+        this.createUserService = new CreateUserService();
         textfile = new Textfile();
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         localTime = LocalTime.parse("00:00:00");
         timeLine = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
         timeLine.setCycleCount(Animation.INDEFINITE);
         //setTimeOnLabel();
-        this.subscribe = new Subscription(this.host, this.port);
+
+        columnsBatchReport();
+        tabelViewBR.setItems(batchReport.getInformationBR());
+        //columnsUserManagement();
+        //userManagementTable.setItems(createUserService.getInfoUser());
         consumerGUI();
+        fillComboBox();
         tableView();
         getInforfraControl();
     }
-    public  void tableView(){
-        batchReport = new BatchReport();
-        columns();
-        tabelViewBR.setItems(batchReport.getInformationBR());
 
-
-    }
-
-    public void columns(){
+    public void columnsBatchReport() {
         companyColumn.setCellValueFactory(new PropertyValueFactory<>("company"));
         batchidColumn.setCellValueFactory(new PropertyValueFactory<>("batchid"));
         amountproducedColumn.setCellValueFactory(new PropertyValueFactory<>("amountProduced"));
@@ -260,6 +318,15 @@ public class StartView implements Initializable {
         timeonColumn.setCellValueFactory(new PropertyValueFactory<>("timeOn"));
         starttimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
     }
+
+    public void columnsUserManagement() {
+        userIDColumn.setCellValueFactory(new PropertyValueFactory<>("userID"));
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
+    }
+
 
     public void getInforfraControl(){
         amountProducedBRLabel.setText(producedLabel.getText());
@@ -319,7 +386,9 @@ public class StartView implements Initializable {
             batchLabel.setText(batchCtrl.getBatchId().toString());
             amountCurrentBatchLabel.setText(batchCtrl.getAmountToProduce().toString());
             setProductTypeLabel();
-            //batchLabel.setText((batchReport.getBatchID() + 1) + "");
+
+            //Only works with simulation - can't connect to database while connected to machine.
+            batchLabel.setText((batchReport.getBatchID() + 1) + "");
 
             cmdCtrl.start();
             startTimeLabel.setText(dtf.format(java.time.LocalTime.now()));
@@ -355,7 +424,6 @@ public class StartView implements Initializable {
     public void onResetClick(ActionEvent actionEvent) {
         batchLabel.setText("0");
         producedLabel.setText("0");
-        amountBatchLabel.setText("0");
         acceptedLabel.setText("0");
         amountCurrentBatchLabel.setText("0");
         defectiveLabel.setText("0");
@@ -400,23 +468,40 @@ public class StartView implements Initializable {
 
     @FXML
     public void changeOnAction(ActionEvent actionEvent) {
-        cmdCtrl.clear();
-        cmdCtrl.reset();
-
         if (!amountToProduceTextField.getText().isEmpty() &&
-                !productIDTextField.getText().isEmpty() &&
-                !speedTextField.getText().isEmpty() &&
+                (!speedTextField.getText().isEmpty() || optimalSpeedBox.isSelected()) &&
                 amountToProduceTextField.getText().matches("[0-9]*") &&
-                productIDTextField.getText().matches("[0-9]*") &&
                 speedTextField.getText().matches("[0-9]*")) {
 
+            cmdCtrl.clear();
+            cmdCtrl.reset();
+
+            if (optimalSpeedBox.isSelected()) {
+                if (productIDChoiceBox.getValue().equals("0")) {
+                    cmdCtrl.setSpeed(100);
+                } else if (productIDChoiceBox.getValue().equals("1")) {
+                    cmdCtrl.setSpeed(50);
+                } else if (productIDChoiceBox.getValue().equals("2")) {
+                    cmdCtrl.setSpeed(50);
+                } else if (productIDChoiceBox.getValue().equals("3")) {
+                    cmdCtrl.setSpeed(200);
+                } else if (productIDChoiceBox.getValue().equals("4")) {
+                    cmdCtrl.setSpeed(25);
+                } else if (productIDChoiceBox.getValue().equals("5")) {
+                    cmdCtrl.setSpeed(25);
+                }
+            } else if (!optimalSpeedBox.isSelected()){
+                cmdCtrl.setSpeed(Float.parseFloat(speedTextField.getText()));
+            }
+
             batchCtrl.setAmountToProduce(Float.parseFloat(amountToProduceTextField.getText()));
-            batchCtrl.setProductType(Float.parseFloat(productIDTextField.getText()));
-            cmdCtrl.setSpeed(Float.parseFloat(speedTextField.getText()));
+            batchCtrl.setProductType(Float.parseFloat(productIDChoiceBox.getValue().toString()));
+            setCompanyLabel.setText(companyTextField.getText());
 
             amountToProduceTextField.clear();
-            productIDTextField.clear();
             speedTextField.clear();
+            invalidInputLabel.setDisable(true);
+            invalidInputLabel.setVisible(false);
 
         } else {
             //Label der siger udfyld
@@ -426,7 +511,6 @@ public class StartView implements Initializable {
             System.out.println("CHANGE: Something is not correct");
 
             amountToProduceTextField.clear();
-            productIDTextField.clear();
             speedTextField.clear();
         }
     }
@@ -434,7 +518,6 @@ public class StartView implements Initializable {
     @FXML
     public void clearFieldOnAction(ActionEvent actionEvent) {
         amountToProduceTextField.clear();
-        productIDTextField.clear();
         speedTextField.clear();
     }
 
@@ -481,21 +564,36 @@ public class StartView implements Initializable {
         subscribe.subscribe();
     }
 
-    public String getHost() {
-        return this.host;
+    private void fillComboBox() {
+        String productTypes[] = {"0", "1", "2", "3", "4", "5"};
+        productIDChoiceBox.getItems().addAll(productTypes);
     }
 
-    public void setHost(String host) {
-        this.host = host;
+    @FXML
+    private void oeeOnAction(ActionEvent event) {
+        if (tabelViewBR.getSelectionModel().getSelectedItem() != null) {
+            batchReport = (BatchReport) tabelViewBR.getSelectionModel().getSelectedItem();
+
+            setoeeLabel.setText(Integer.toString(oee.createOEE(batchReport.getBatchid())));
+        } else {
+            batchReportInvalid.setText("Please select a batch to get OEE");
+            batchReportInvalid.setDisable(false);
+            batchReportInvalid.setVisible(true);
+            System.out.println("Please select a batch");
+        }
+
     }
 
-    public int getPort() {
-        return this.port;
+    @FXML
+    public void selectOnAction(ActionEvent event) {
+        if (userManagementTable.getSelectionModel().getSelectedItem() != null) {
+            user = (User) userManagementTable.getSelectionModel().getSelectedItem();
+
+            updateUserIDLabel.setText(Integer.toString(user.getUserID()));
+            updateUsernameTextField.setText(user.getUsername());
+            updatePasswordTextField.setText(user.getPassword());
+            updateEmailTextField.setText(user.getEmail());
+
+        }
     }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-
 }

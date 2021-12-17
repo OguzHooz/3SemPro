@@ -4,20 +4,17 @@ import org.eclipse.milo.opcua.stack.core.types.builtin.DataValue;
 import org.eclipse.milo.opcua.stack.core.types.builtin.NodeId;
 import org.eclipse.milo.opcua.stack.core.types.builtin.Variant;
 import org.eclipse.milo.opcua.stack.core.types.enumerated.TimestampsToReturn;
+import com.example.sempro.LoginController;
 
 public class BatchController {
 
     private MachineConnection machineConnection;
-    private String host;
-    private int port;
 
-    public BatchController(String host, int port) {
+    public BatchController() {
         //Simulation
-        //this.machineConnection = new MachineConnection("127.0.0.1", 4840);
+        this.machineConnection = new MachineConnection("127.0.0.1", 4840);
         //Machine
-        this.host = host;
-        this.port = port;
-        this.machineConnection = new MachineConnection(host, port);
+        //this.machineConnection = new MachineConnection("192.168.0.122", 4840);
         this.machineConnection.connect();
     }
 

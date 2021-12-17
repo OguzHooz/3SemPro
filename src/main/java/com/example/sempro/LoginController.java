@@ -1,5 +1,8 @@
 package com.example.sempro;
 
+import domain.BatchController;
+import domain.CommandController;
+import domain.Subscription;
 import database.DatabaseConnection;
 import domain.*;
 import javafx.event.ActionEvent;
@@ -10,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
@@ -24,6 +28,8 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
+    @FXML
+    public ToggleGroup simORmac;
     @FXML
     private Button exitBtn;
 
