@@ -4,8 +4,6 @@ import database.BatchReportDB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import database.BatchReportDB;
-
 public class BatchReport {
    private int batchid;
     private String company;

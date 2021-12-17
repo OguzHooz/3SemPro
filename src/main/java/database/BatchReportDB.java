@@ -81,4 +81,68 @@ public class BatchReportDB {
         return 0;
     }
 
+    /*
+        OEE = (Good Count * Ideal Cycle Time) / Planned Production Time
+
+        Good Count = Total Count - Rejected Count
+        Ideal Cycle Time = "... is the theoretical minimum time to produce one piece.", in our case: speed
+        Planned Production Time = 8 hours = 28800 seconds
+
+     */
+
+    public int getProducedAmount(int batchID) {
+        try {
+            Statement st = connection.createStatement();
+            String sql = "SELECT amountproduced FROM batchreport WHERE batchid = " + batchID;
+            rs = st.executeQuery(sql);
+            int amountProduced = 0;
+            while (rs.next()) {
+                amountProduced = rs.getInt("amountproduced");
+            }
+            st.close();
+            return amountProduced;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return 0;
+    }
+
+    public int getDefective(int batchID) {
+        try {
+            Statement st = connection.createStatement();
+            String sql = "SELECT defected FROM batchreport WHERE batchid = " + batchID;
+            rs = st.executeQuery(sql);
+            int defective = 0;
+            while (rs.next()) {
+                defective = rs.getInt("defected");
+            }
+            st.close();
+            return defective;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return 0;
+    }
+
+    public int getSpeed(int batchID) {
+        try {
+            Statement st = connection.createStatement();
+            String sql = "SELECT speed FROM batchreport WHERE batchid = " + batchID;
+            rs = st.executeQuery(sql);
+            int speed = 0;
+            while (rs.next()) {
+                speed = rs.getInt("speed");
+            }
+            st.close();
+            return speed;
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return 0;
+    }
+
+
 }
