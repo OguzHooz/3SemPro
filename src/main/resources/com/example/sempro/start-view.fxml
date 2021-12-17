@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.StartView">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.StartView">
    <children>
       <TabPane prefHeight="800.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -299,12 +312,56 @@
                      <children>
                         <TableView layoutX="600.0" prefHeight="771.0" prefWidth="601.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
+                            <TableColumn fx:id="userIDColumn" prefWidth="75.0" text="User ID" />
+                            <TableColumn fx:id="usernameColumn" prefWidth="75.0" text="Username" />
+                              <TableColumn fx:id="passwordColumn" prefWidth="75.0" text="Password" />
+                              <TableColumn fx:id="emailColumn" prefWidth="75.0" text="Email" />
+                              <TableColumn fx:id="roleColumn" prefWidth="75.0" text="Role" />
                           </columns>
                         </TableView>
-                        <Button layoutX="456.0" layoutY="66.0" mnemonicParsing="false" text="UPDATE USER" />
+                        <Button layoutX="216.0" layoutY="412.0" mnemonicParsing="false" text="UPDATE USER" />
                         <Button fx:id="createUserBtn" layoutX="457.0" layoutY="32.0" mnemonicParsing="false" onAction="#createUserOnAction" text="CREATE USER" />
+                        <VBox layoutX="235.0" layoutY="118.0" prefHeight="275.0" prefWidth="146.0">
+                           <children>
+                              <Label text="User ID">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="updateUserIDLabel" text="0" />
+                              <Label text="Username">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="updateUsernameTextFIeld" />
+                              <Label text="Password">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="updatePasswordTextFIeld" />
+                              <Label text="Email">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="updateEmailTextField" />
+                              <Label text="Role">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <RadioButton fx:id="updateRManagerRB" mnemonicParsing="false" selected="true" text="Manager">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="updateUserToggleGroup" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="updateRWorkerRB" mnemonicParsing="false" text="Worker" toggleGroup="$updateUserToggleGroup" />
+                              <RadioButton fx:id="updateRGuestRB" mnemonicParsing="false" text="Guest" toggleGroup="$updateUserToggleGroup" />
+                           </children>
+                        </VBox>
+                        <Button fx:id="selectUserButton" layoutX="356.0" layoutY="412.0" mnemonicParsing="false" onAction="#selectOnAction" text="SELECT USER" />
                      </children>
                   </AnchorPane>
               </content>

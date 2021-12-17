@@ -1,6 +1,8 @@
 package domain;
 
 import database.CreateUser;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class CreateUserService {
 
@@ -16,4 +18,10 @@ public class CreateUserService {
 
     //Den her klasse henter data fra GUI og sender til databasen når der skal oprettes en bruger.
 
+    public ObservableList getInfoUser(){
+        ObservableList<BatchReport> obList;
+        obList = FXCollections.observableArrayList(createUser.getUserInfo());
+        return obList;
+
+    }
 }

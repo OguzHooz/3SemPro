@@ -5,6 +5,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.Property;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -40,6 +41,8 @@ public class StartView implements Initializable {
     private BatchController batchCtrl;
     private BatchReport batchReport;
     private OEE oee;
+    private User user;
+    private CreateUserService createUserService;
     int run = 500;
     private DateTimeFormatter dtf;
     private int seconds = 0;
@@ -54,6 +57,9 @@ public class StartView implements Initializable {
     //FXML
     @FXML
     private Button abortBtn;
+
+    @FXML
+    private TableView<User> userManagementTable;
 
     @FXML
     private Label acceptedLabel;
@@ -190,7 +196,42 @@ public class StartView implements Initializable {
 
     @FXML
     private Label batchReportInvalid;
+    
+    @FXML
+    private Label updateUserIDLabel;
 
+    @FXML
+    private TextField updateUsernameTextField;
+
+    @FXML
+    private TextField updatePasswordTextField;
+
+    @FXML
+    private TextField updateEmailTextField;
+
+    @FXML
+    private RadioButton updateRManagerRB;
+
+    @FXML
+    private RadioButton updateRWorkerRB;
+
+    @FXML
+    private RadioButton updateRGuestRB;
+
+    @FXML
+    private TableColumn<User, Integer> userIDColumn;
+
+    @FXML
+    private TableColumn<User, String> usernameColumn;
+
+    @FXML
+    private TableColumn<User, String> passwordColumn;
+
+    @FXML
+    private TableColumn<User, String> emailColumn;
+
+    @FXML
+    private TableColumn<User, String> roleColumn;
 
     @FXML
     private TableView<BatchReport> tabelViewBR;
@@ -234,19 +275,23 @@ public class StartView implements Initializable {
         this.subscribe = new Subscription();
         this.batchReport = new BatchReport();
         this.oee = new OEE();
+        this.user = new User();
+        this.createUserService = new CreateUserService();
         dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         localTime = LocalTime.parse("00:00:00");
         timeLine = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
         timeLine.setCycleCount(Animation.INDEFINITE);
         //setTimeOnLabel();
 
-        columns();
+        columnsBatchReport();
         tabelViewBR.setItems(batchReport.getInformationBR());
+        //columnsUserManagement();
+        //userManagementTable.setItems(createUserService.getInfoUser());
         consumerGUI();
         fillComboBox();
     }
 
-    public void columns() {
+    public void columnsBatchReport() {
         companyColumn.setCellValueFactory(new PropertyValueFactory<>("company"));
         batchidColumn.setCellValueFactory(new PropertyValueFactory<>("batchid"));
         amountproducedColumn.setCellValueFactory(new PropertyValueFactory<>("amountProduced"));
@@ -258,6 +303,14 @@ public class StartView implements Initializable {
         IdletimeColumn.setCellValueFactory(new PropertyValueFactory<>("idleTime"));
         timeonColumn.setCellValueFactory(new PropertyValueFactory<>("timeOn"));
         starttimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+    }
+
+    public void columnsUserManagement() {
+        userIDColumn.setCellValueFactory(new PropertyValueFactory<>("userID"));
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
     }
 
     @FXML
@@ -445,10 +498,9 @@ public class StartView implements Initializable {
     @FXML
     private void oeeOnAction(ActionEvent event) {
         if (tabelViewBR.getSelectionModel().getSelectedItem() != null) {
-            int batchID = tabelViewBR.getSelectionModel().getSelectedItem().getBatchID();
-            setoeeLabel.setText(Integer.toString(oee.createOEE(batchID)));
-            batchReportInvalid.setDisable(true);
-            batchReportInvalid.setVisible(false);
+            batchReport = (BatchReport) tabelViewBR.getSelectionModel().getSelectedItem();
+
+            setoeeLabel.setText(Integer.toString(oee.createOEE(batchReport.getBatchid())));
         } else {
             batchReportInvalid.setText("Please select a batch to get OEE");
             batchReportInvalid.setDisable(false);
@@ -456,5 +508,18 @@ public class StartView implements Initializable {
             System.out.println("Please select a batch");
         }
 
+    }
+
+    @FXML
+    public void selectOnAction(ActionEvent event) {
+        if (userManagementTable.getSelectionModel().getSelectedItem() != null) {
+            user = (User) userManagementTable.getSelectionModel().getSelectedItem();
+
+            updateUserIDLabel.setText(Integer.toString(user.getUserID()));
+            updateUsernameTextField.setText(user.getUsername());
+            updatePasswordTextField.setText(user.getPassword());
+            updateEmailTextField.setText(user.getEmail());
+
+        }
     }
 }

@@ -1,5 +1,9 @@
 package domain;
 
+import database.CreateUser;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class User {
 
     private int userID;
@@ -7,6 +11,10 @@ public class User {
     private String username;
     private String password;
     private String email;
+
+    public User() {
+
+    }
 
     public User(int userID,
                 String role,
@@ -20,7 +28,7 @@ public class User {
     }
 
     public int getUserID() {
-        return userID;
+        return this.userID;
     }
 
     public void setUserID(int userID) {
@@ -28,7 +36,7 @@ public class User {
     }
 
     public String getRole() {
-        return role;
+        return this.role;
     }
 
     public void setRole(String role) {
@@ -36,7 +44,7 @@ public class User {
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public void setUsername(String username) {
@@ -44,7 +52,7 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -52,10 +60,11 @@ public class User {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

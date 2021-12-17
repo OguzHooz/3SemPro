@@ -6,11 +6,12 @@ module com.example.sempro {
     requires org.eclipse.milo.opcua.sdk.client;
     requires java.logging;
     requires java.sql;
-    requires org.apache.commons.lang3;
+    //requires org.apache.commons.lang3;
     requires java.desktop;
 
 
     opens com.example.sempro to javafx.fxml;
     exports com.example.sempro;
     exports domain;
+    exports database;
 }
