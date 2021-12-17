@@ -288,7 +288,8 @@
                            </children>
                         </HBox>
                         <Button fx:id="downloadReportBtn" layoutX="14.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" text="DOWNLOAD REPORT" />
-                        <Button fx:id="getOEEBtn" layoutX="104.0" layoutY="295.0" mnemonicParsing="false" onAction="#oeeOnAction" text="Get OEE" />
+                        <Button fx:id="getOEEBtn" layoutX="164.0" layoutY="327.0" mnemonicParsing="false" onAction="#oeeOnAction" text="Get OEE" />
+                        <Label fx:id="batchReportInvalid" disable="true" layoutX="81.0" layoutY="385.0" text="Label" visible="false" />
                      </children></AnchorPane>
             </content>
           </Tab>

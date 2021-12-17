@@ -188,6 +188,9 @@ public class StartView implements Initializable {
     @FXML
     private Button getOEEBtn;
 
+    @FXML
+    private Label batchReportInvalid;
+
 
     @FXML
     private TableView<BatchReport> tabelViewBR;
@@ -444,7 +447,12 @@ public class StartView implements Initializable {
         if (tabelViewBR.getSelectionModel().getSelectedItem() != null) {
             int batchID = tabelViewBR.getSelectionModel().getSelectedItem().getBatchID();
             setoeeLabel.setText(Integer.toString(oee.createOEE(batchID)));
+            batchReportInvalid.setDisable(true);
+            batchReportInvalid.setVisible(false);
         } else {
+            batchReportInvalid.setText("Please select a batch to get OEE");
+            batchReportInvalid.setDisable(false);
+            batchReportInvalid.setVisible(true);
             System.out.println("Please select a batch");
         }
 

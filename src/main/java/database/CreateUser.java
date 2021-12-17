@@ -29,7 +29,7 @@ public class CreateUser {
             st.executeQuery(sql);
             st.close();
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("database.CreateUser: " + ex.getMessage());
         }
     }
 
