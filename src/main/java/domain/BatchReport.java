@@ -145,8 +145,8 @@ public class BatchReport {
         this.batchid = batchid;
     }
 
-        public void BatchReportDM(String company, int amountProduced, int amountToProduce, String productType, int speed,
-                              int accepted, int defected, String idleTime, String timeOn, String startTime) {
+        public void BatchReportDM(String company, float amountProduced, float amountToProduce, String productType, float speed,
+                              float accepted, float defected, String idleTime, String timeOn, String startTime) {
       batchReportDB.createBatchReport( company, amountProduced,  amountToProduce, productType, speed,
         accepted, defected,  idleTime,  timeOn,  startTime);
     }

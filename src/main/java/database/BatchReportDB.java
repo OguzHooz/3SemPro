@@ -27,8 +27,8 @@ public class BatchReportDB {
 
     }
 
-    public void createBatchReport(String company, int amountProduced, int amountToProduce, String productType, int speed,
-                                  int accepted, int defected, String idleTime, String timeOn, String startTime) {
+    public void createBatchReport(String company, float amountProduced, float amountToProduce, String productType, float speed,
+                                  float accepted, float defected, String idleTime, String timeOn, String startTime) {
         try {
             Statement st = connection.createStatement();
             String sql = "INSERT INTO batchreport "
@@ -128,8 +128,7 @@ public class BatchReportDB {
             rs = st.executeQuery(sql);
             int speed = 0;
             while (rs.next()) {
-                batchid = rs.getInt("batchid");
-                System.out.println(batchid);
+            // batchID = rs.getInt("batchid");
                 speed = rs.getInt("speed");
             }
             st.close();

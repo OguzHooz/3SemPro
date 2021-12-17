@@ -295,14 +295,16 @@ public class StartView implements Initializable {
         timeLine.setCycleCount(Animation.INDEFINITE);
         //setTimeOnLabel();
 
-        columnsBatchReport();
-        tabelViewBR.setItems(batchReport.getInformationBR());
         //columnsUserManagement();
         //userManagementTable.setItems(createUserService.getInfoUser());
         consumerGUI();
         fillComboBox();
         tableView();
         getInforfraControl();
+    }
+    public void  tableView(){
+        columnsBatchReport();
+        tabelViewBR.setItems(batchReport.getInformationBR());
     }
 
     public void columnsBatchReport() {
@@ -329,6 +331,7 @@ public class StartView implements Initializable {
 
 
     public void getInforfraControl(){
+        companyBRLabel.setText(companyTextField.getText());
         amountProducedBRLabel.setText(producedLabel.getText());
         batchIDBRlabel.setText(batchLabel.getText());
         amountToProduceBRLabel.setText(amountCurrentBatchLabel.getText());
@@ -349,12 +352,12 @@ public class StartView implements Initializable {
 
     @FXML
     void saveOnAction(ActionEvent event) {
-        batchReport.BatchReportDM(companyBRLabel.getText(), parseInt(amountProducedBRLabel.getText()), parseInt(amountToProduceBRLabel.getText()),
-        productTypeBRLabel.getText(), parseInt(speedBRLabel.getText()), parseInt(acceptedBRLabel.getText()), parseInt(defectedBRLabel.getText()), idleTimeBRLabel.getText(),
+        batchReport.BatchReportDM(companyBRLabel.getText(), Float.parseFloat(amountProducedBRLabel.getText()), Float.parseFloat(amountToProduceBRLabel.getText()),
+        productTypeBRLabel.getText(), Float.parseFloat(speedBRLabel.getText()), Float.parseFloat(acceptedBRLabel.getText()), Float.parseFloat(defectedBRLabel.getText()), idleTimeBRLabel.getText(),
         timeOnBRLabel.getText(), startTimeBRLabel.getText());
 
-        textfile.createTextfile(companyBRLabel.getText(), 12,Integer.parseInt(amountProducedBRLabel.getText()), Integer.parseInt(amountToProduceBRLabel.getText()),
-                productTypeBRLabel.getText(), Integer.parseInt(speedBRLabel.getText()), Integer.parseInt(acceptedBRLabel.getText()), Integer.parseInt(defectedBRLabel.getText()), idleTimeBRLabel.getText(),
+        textfile.createTextfile(companyBRLabel.getText(), 12,Float.parseFloat(amountProducedBRLabel.getText()), Float.parseFloat(amountToProduceBRLabel.getText()),
+                productTypeBRLabel.getText(), Float.parseFloat(speedBRLabel.getText()), Float.parseFloat(acceptedBRLabel.getText()), Float.parseFloat(defectedBRLabel.getText()), idleTimeBRLabel.getText(),
                 timeOnBRLabel.getText(), startTimeBRLabel.getText());
         tableView();
     }

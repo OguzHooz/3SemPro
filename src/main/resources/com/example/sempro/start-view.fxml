@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.StartView">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.StartView">
    <children>
       <TabPane prefHeight="800.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -286,7 +286,7 @@
                               </VBox>
                               <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                                  <children>
-                                    <Label fx:id="companyBRLabel" text="SDU" />
+                                    <Label fx:id="companyBRLabel" text="Label" />
                                     <Label fx:id="batchIDBRlabel" text="Label" />
                                     <Label fx:id="amountProducedBRLabel" text="Label" />
                                     <Label fx:id="amountToProduceBRLabel" text="Label" />
@@ -302,13 +302,13 @@
                               </VBox>
                            </children>
                         </HBox>
-                        <Button fx:id="getOEEBtn" layoutX="164.0" layoutY="327.0" mnemonicParsing="false" onAction="#oeeOnAction" text="Get OEE" />
+                        <Button fx:id="getOEEBtn" layoutX="4.0" layoutY="339.0" mnemonicParsing="false" onAction="#oeeOnAction" text="Get OEE" />
                         <Label fx:id="batchReportInvalid" disable="true" layoutX="81.0" layoutY="385.0" text="Label" visible="false" />
-                        <Button fx:id="saveBtn" layoutX="14.0" layoutY="296.0" mnemonicParsing="false" onAction="#saveOnAction" text="Save" />
-                        <Button fx:id="updaeBtn1" layoutX="188.0" layoutY="296.0" mnemonicParsing="false" onAction="#updateOnAction" prefHeight="25.0" prefWidth="99.0" text="Update Colums" />
-                        <Button fx:id="updateLables" layoutX="80.0" layoutY="296.0" mnemonicParsing="false" onAction="#updateInfo" prefHeight="25.0" prefWidth="97.0" text="Update Labels" />
-                        <Button fx:id="deletecolumnBtn" layoutX="190.0" layoutY="346.0" mnemonicParsing="false" onAction="#deletecolumnOnAction" text="Delete Column" />
-                        <Button fx:id="downloadReportBtn" layoutX="14.0" layoutY="327.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" text="DOWNLOAD REPORT" />
+                        <Button fx:id="saveBtn" layoutX="-7.0" layoutY="381.0" mnemonicParsing="false" onAction="#saveOnAction" text="Save" />
+                        <Button fx:id="updaeBtn1" layoutX="162.0" layoutY="381.0" mnemonicParsing="false" onAction="#updateOnAction" prefHeight="25.0" prefWidth="99.0" text="Update Colums" />
+                        <Button fx:id="updateLables" layoutX="46.0" layoutY="381.0" mnemonicParsing="false" onAction="#updateInfo" prefHeight="25.0" prefWidth="97.0" text="Update Labels" />
+                        <Button fx:id="deletecolumnBtn" layoutX="164.0" layoutY="435.0" mnemonicParsing="false" onAction="#deletecolumnOnAction" text="Delete Column" />
+                        <Button fx:id="downloadReportBtn" layoutX="-12.0" layoutY="435.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" text="DOWNLOAD REPORT" />
                      </children></AnchorPane>
             </content>
           </Tab>

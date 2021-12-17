@@ -9,8 +9,8 @@ public class Textfile {
     public Textfile() {
     }
 
-    public void createTextfile(String company, int batchID, int amountProduced, int amountToProduce, String productType, int speed, int accepted,
-                               int defected, String idleTime, String timeOn, String startTime) {
+    public void createTextfile(String company, int batchID, float amountProduced, float amountToProduce, String productType, float speed, float accepted,
+                               float defected, String idleTime, String timeOn, String startTime) {
         try {
             FileWriter fw = new FileWriter("batch_report.txt", true);
             PrintWriter pw = new PrintWriter(fw);

@@ -64,7 +64,7 @@ public class LoginController implements Initializable {
         encrypt = new Encrypt();
         user=new User();
 
-        startView = StartView.getInstance();
+      //  startView = StartView.getInstance();
     }
 
     @FXML

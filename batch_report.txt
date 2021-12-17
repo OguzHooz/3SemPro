@@ -358,3 +358,123 @@ Idle time: 00:00
 Time on: 00:00
 Start time: 00:00
 -------------------------------------------------------
+Company: SDU
+Batch ID: 12
+Amount produced: 0
+Amount to produce: 0
+Product type: 0
+Speed: 0
+Accepted: 0
+Defeceted: 0
+Idle time: 00:00
+Time on: 00:00
+Start time: 00:00
+-------------------------------------------------------
+Company: SDU
+Batch ID: 12
+Amount produced: 0
+Amount to produce: 0
+Product type: 0
+Speed: 0
+Accepted: 0
+Defeceted: 0
+Idle time: 00:00
+Time on: 00:00
+Start time: 00:00
+-------------------------------------------------------
+Company: SDU
+Batch ID: 12
+Amount produced: 0
+Amount to produce: 0
+Product type: 0
+Speed: 0
+Accepted: 0
+Defeceted: 0
+Idle time: 00:00
+Time on: 00:00
+Start time: 00:00
+-------------------------------------------------------
+Company: SDU
+Batch ID: 12
+Amount produced: 0
+Amount to produce: 0
+Product type: 0
+Speed: 0
+Accepted: 0
+Defeceted: 0
+Idle time: 00:00
+Time on: 00:00
+Start time: 00:00
+-------------------------------------------------------
+Company: SDU
+Batch ID: 12
+Amount produced: 0
+Amount to produce: 0
+Product type: 0
+Speed: 0
+Accepted: 0
+Defeceted: 0
+Idle time: 00:00
+Time on: 00:00
+Start time: 00:00
+-------------------------------------------------------
+Company: SDU
+Batch ID: 12
+Amount produced: 0
+Amount to produce: 0
+Product type: 0
+Speed: 0
+Accepted: 0
+Defeceted: 0
+Idle time: 00:00
+Time on: 00:00
+Start time: 00:00
+-------------------------------------------------------
+Company: SDU
+Batch ID: 12
+Amount produced: 0
+Amount to produce: 0
+Product type: 0
+Speed: 0
+Accepted: 0
+Defeceted: 0
+Idle time: 00:00
+Time on: 00:00
+Start time: 00:00
+-------------------------------------------------------
+Company: SDU
+Batch ID: 12
+Amount produced: 1.0
+Amount to produce: 123.0
+Product type: Pilsner (0)
+Speed: 100.0
+Accepted: 0.0
+Defeceted: 0.0
+Idle time: 00:00
+Time on: 00:00:00
+Start time: 00:00:00
+-------------------------------------------------------
+Company: odense
+Batch ID: 12
+Amount produced: 30.0
+Amount to produce: 100.0
+Product type: Stout (3)
+Speed: 200.0
+Accepted: 0.0
+Defeceted: 0.0
+Idle time: 00:00
+Time on: 00:00:09
+Start time: 00:00:09
+-------------------------------------------------------
+Company: 
+Batch ID: 12
+Amount produced: 0.0
+Amount to produce: 0.0
+Product type: 0
+Speed: 0.0
+Accepted: 0.0
+Defeceted: 0.0
+Idle time: 00:00
+Time on: 00:00
+Start time: 00:00
+-------------------------------------------------------
