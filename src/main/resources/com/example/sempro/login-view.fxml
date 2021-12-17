@@ -3,19 +3,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="loginAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.LoginController">
+<AnchorPane fx:id="loginAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.LoginController">
    <children>
       <TextField fx:id="usernameTextField" layoutX="225.0" layoutY="140.0" promptText="Username" />
       <TextField fx:id="passwordTextField" layoutX="225.0" layoutY="200.0" promptText="Password" />
       <Label layoutX="273.0" layoutY="123.0" text="Username" />
       <Label layoutX="275.0" layoutY="181.0" text="Password" />
-      <Button fx:id="loginBtn" layoutX="225.0" layoutY="318.0" mnemonicParsing="false" onAction="#onLoginClick" text="Login" />
-      <Button fx:id="exitBtn" layoutX="345.0" layoutY="318.0" mnemonicParsing="false" onAction="#onExitClick" prefWidth="46.0" text="Exit" />
-      <RadioButton fx:id="simRB" layoutX="251.0" layoutY="243.0" mnemonicParsing="false" selected="true" text="Simulation">
-         <toggleGroup>
-            <ToggleGroup fx:id="simORmac" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="macRB" layoutX="252.0" layoutY="275.0" mnemonicParsing="false" text="Machine" toggleGroup="$simORmac" />
+      <Button fx:id="loginBtn" layoutX="229.0" layoutY="240.0" mnemonicParsing="false" onAction="#onLoginClick" text="Login" />
+      <Button fx:id="exitBtn" layoutX="325.0" layoutY="240.0" mnemonicParsing="false" onAction="#onExitClick" prefWidth="46.0" text="Exit" />
+      <Label fx:id="loginMessageLabel" layoutX="261.0" layoutY="88.0" />
    </children>
 </AnchorPane>
