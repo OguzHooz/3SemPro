@@ -88,8 +88,9 @@ public class LoginController implements Initializable {
 
                 loginMessageLabel.setText("It is not authenticated");
                 loginMessageLabel.setTextFill(Color.RED);
-        } else {
             }
+        }else {
+
             loginMessageLabel.setText("One of fields is empty");
             loginMessageLabel.setTextFill(Color.RED);
         }
