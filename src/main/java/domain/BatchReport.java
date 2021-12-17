@@ -158,6 +158,7 @@ public class BatchReport {
 
     }
     public void deleteeReportinDM(int batchID){
+        batchReportDB = new BatchReportDB();
         batchReportDB.deleteaReportinDB(batchID);
     }
 }

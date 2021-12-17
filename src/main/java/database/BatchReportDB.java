@@ -16,8 +16,8 @@ public class BatchReportDB {
     private static BatchReport batchReport;
     private ResultSet rs;
 
-    private  DatabaseConnection dbConnection;
-    private  Connection connection;
+    private DatabaseConnection dbConnection;
+    private Connection connection;
 
 
 
@@ -25,11 +25,6 @@ public class BatchReportDB {
         dbConnection = new DatabaseConnection();
         connection = dbConnection.getConnection();
 
-    }
-
-    public static void main(String[] args) {
-        BatchReportDB batchReportDB=new BatchReportDB();
-        System.out.println();
     }
 
     public void createBatchReport(String company, int amountProduced, int amountToProduce, String productType, int speed,
@@ -52,10 +47,10 @@ public class BatchReportDB {
         
         try {
             Statement st = connection.createStatement();
-            String sql = "DELETE FROM batchreport  WHERE batchid= '" + batchID + "'";
+            String sql = "DELETE FROM batchreport WHERE batchid= " + batchID;
             st.executeUpdate(sql);
             st.close();
-            
+            System.out.println("Batch ID: " + batchID + "deleted");
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -93,6 +88,7 @@ public class BatchReportDB {
             int batchid = 0;
             while (rs.next()) {
                 batchid = rs.getInt("batchid");
+                System.out.println(batchid);
             }
             st.close();
             return batchid;

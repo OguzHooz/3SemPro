@@ -299,14 +299,16 @@ public class StartView implements Initializable {
     }
 
   @FXML
-  void deletecolumnOnAction(ActionEvent event) {
+  void deletecolumnOnAction(ActionEvent event) {;
 
-      ObservableList<BatchReport> brselected, allbr;
-      allbr = tabelViewBR.getItems();
-      brselected = tabelViewBR.getSelectionModel().getSelectedItems();
-      brselected.forEach(allbr::remove);
-      batchReport.deleteeReportinDM(batchReport.getBatchID());
-      tableView();
+      if (tabelViewBR.getSelectionModel().getSelectedItem() != null) {
+          batchReport = (BatchReport) tabelViewBR.getSelectionModel().getSelectedItem();
+          batchReport.deleteeReportinDM(batchReport.getBatchid());
+          tableView();
+      } else {
+          System.out.println("GUI: TabelView NULL");
+      }
+
   }
 
     @FXML
