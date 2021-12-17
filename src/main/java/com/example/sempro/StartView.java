@@ -5,10 +5,6 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.beans.property.Property;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +20,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
-import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.*;
@@ -32,10 +27,8 @@ import java.util.*;
 import domain.BatchController;
 import domain.BatchReport;
 
-import javax.swing.text.LabelView;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
-import java.lang.Thread;
 
 import static java.lang.Integer.parseInt;
 
@@ -224,6 +217,8 @@ public class StartView implements Initializable {
 
     @FXML
     private RadioButton updateRGuestRB;
+    @FXML
+    private TableView<?> tableviewUser;
 
     @FXML
     private TableColumn<User, Integer> userIDColumn;
@@ -278,6 +273,8 @@ public class StartView implements Initializable {
     private Button saveBtn;
     @FXML
     private Button deletecolumnBtn;
+    @FXML
+    private Button deleteUseBt;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -299,12 +296,17 @@ public class StartView implements Initializable {
         //userManagementTable.setItems(createUserService.getInfoUser());
         consumerGUI();
         fillComboBox();
-        tableView();
+        tableViewBR();
         getInforfraControl();
+        tableViewUser();
     }
-    public void  tableView(){
+    public void tableViewBR(){
         columnsBatchReport();
         tabelViewBR.setItems(batchReport.getInformationBR());
+    }
+    public void tableViewUser(){
+        columnsUserManagement();
+        userManagementTable.setItems(createUserService.getInfoUser());
     }
 
     public void columnsBatchReport() {
@@ -359,12 +361,12 @@ public class StartView implements Initializable {
         textfile.createTextfile(companyBRLabel.getText(), 12,Float.parseFloat(amountProducedBRLabel.getText()), Float.parseFloat(amountToProduceBRLabel.getText()),
                 productTypeBRLabel.getText(), Float.parseFloat(speedBRLabel.getText()), Float.parseFloat(acceptedBRLabel.getText()), Float.parseFloat(defectedBRLabel.getText()), idleTimeBRLabel.getText(),
                 timeOnBRLabel.getText(), startTimeBRLabel.getText());
-        tableView();
+        tableViewBR();
     }
 
     @FXML
     void updateOnAction(ActionEvent event) {
-        tableView();
+        tableViewBR();
 
     }
 
@@ -374,7 +376,7 @@ public class StartView implements Initializable {
       if (tabelViewBR.getSelectionModel().getSelectedItem() != null) {
           batchReport = (BatchReport) tabelViewBR.getSelectionModel().getSelectedItem();
           batchReport.deleteeReportinDM(batchReport.getBatchid());
-          tableView();
+          tableViewBR();
       } else {
           System.out.println("GUI: TabelView NULL");
       }
@@ -589,6 +591,7 @@ public class StartView implements Initializable {
 
     @FXML
     public void selectOnAction(ActionEvent event) {
+
         if (userManagementTable.getSelectionModel().getSelectedItem() != null) {
             user = (User) userManagementTable.getSelectionModel().getSelectedItem();
 
@@ -597,6 +600,48 @@ public class StartView implements Initializable {
             updatePasswordTextField.setText(user.getPassword());
             updateEmailTextField.setText(user.getEmail());
 
+            if (user.getRole().equals("Worker")) {
+                updateRWorkerRB.setSelected(true);
+            } else if (user.getRole().equals("Manager")) {
+                updateRManagerRB.setSelected(true);
+            } else if (user.getRole().equals("Guest")) {
+                updateRGuestRB.setSelected(true);
+            }
+
+        } else {
+            System.out.println("GUI.Startview: error");
         }
+    }
+
+    @FXML
+    public void updateUserOnAction(ActionEvent event) {
+        if (updateRManagerRB.isSelected()) {
+            createUserService.updateUser(Integer.parseInt(updateUserIDLabel.getText()), updateUsernameTextField.getText(), updatePasswordTextField.getText(),
+                    updateEmailTextField.getText(), updateRManagerRB.getText());
+        } else if (updateRWorkerRB.isSelected()) {
+            createUserService.updateUser(Integer.parseInt(updateUserIDLabel.getText()), updateUsernameTextField.getText(), updatePasswordTextField.getText(),
+                    updateEmailTextField.getText(), updateRWorkerRB.getText());
+        } else if (updateRGuestRB.isSelected()) {
+            createUserService.updateUser(Integer.parseInt(updateUserIDLabel.getText()), updateUsernameTextField.getText(), updatePasswordTextField.getText(),
+                    updateEmailTextField.getText(), updateRGuestRB.getText());
+        }
+
+        tableViewUser();
+    }
+    @FXML
+    void UpdateColumnUserOnAction(ActionEvent event) {
+tableViewUser();
+    }
+
+    @FXML
+    void deleteUseOnAction(ActionEvent event) {
+        if (userManagementTable.getSelectionModel().getSelectedItem() != null) {
+            user = (User) userManagementTable.getSelectionModel().getSelectedItem();
+            createUserService.deleteUserinDM(user.getUserID());
+            tableViewUser();
+        } else {
+            System.out.println("GUI: TabelView NULL");
+        }
+
     }
 }

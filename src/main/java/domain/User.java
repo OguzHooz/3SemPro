@@ -17,14 +17,15 @@ public class User {
     }
 
     public User(int userID,
-                String role,
                 String username,
                 String password,
-                String email) {
+                String email,
+                String role) {
         this.userID = userID;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.role = role;
     }
 
     public User(String username,String password) {

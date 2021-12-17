@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CreateUserController implements Initializable {
+    private StartView startView;
 
     @FXML
     private TextField usernameTxtField;
@@ -53,6 +54,7 @@ public class CreateUserController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         create = new CreateUserService();
         alertLbl.setVisible(false);
+        startView=new StartView();
     }
 
     @FXML
@@ -63,6 +65,7 @@ public class CreateUserController implements Initializable {
 
     @FXML
     void confirmOnClick(ActionEvent event) {
+
         TextField[] textFields = {usernameTxtField, passwordTxtField, confirmPasswordTxtField, emailTxtField};
         for (TextField text : textFields) {
             if (text.getText().isEmpty()) {
@@ -94,9 +97,11 @@ public class CreateUserController implements Initializable {
         } else if (guestRadioBtn.isSelected()) {
             create.createUser(usernameTxtField.getText(), passwordTxtField.getText(), emailTxtField.getText(), guestRadioBtn.getText());
         }
-
+        
         Stage stage = (Stage) cancelBtn.getScene().getWindow();
         stage.close();
+
+
     }
 
     private boolean emailValidation() {

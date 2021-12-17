@@ -40,7 +40,7 @@ public class CreateUser {
     }
 
     public List getUserInfo() {
-        List<User> userList  = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
         try {
             Statement st = connection.createStatement();
             rs = st.executeQuery("SELECT * FROM user_info");
@@ -144,5 +144,31 @@ public class CreateUser {
         return "";
     }
 
+    public void updateUser(int userID, String username, String password, String email, String role) {
+        try {
+            Statement st = connection.createStatement();
+            String sql = "UPDATE user_info SET username = '" +
+                    username + "', password = '" + password +
+                    "', email = '" + email + "', role = '" + role + "' WHERE userid = " + userID;
+            st.executeUpdate(sql);
+            st.close();
 
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void deleteUserinDB(int userID) {
+
+        try {
+            String sql = "DELETE FROM user_info WHERE userid= '" + userID + "'";
+            ResultSet rt = dbConnection.getConnection().createStatement().executeQuery(sql);
+            rt.close();
+            System.out.println("Batch ID: " + userID + "deleted");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
+    }
 }
