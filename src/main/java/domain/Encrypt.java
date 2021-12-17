@@ -2,7 +2,6 @@ package domain;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
 
 public class Encrypt {
 

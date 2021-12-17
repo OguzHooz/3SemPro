@@ -25,8 +25,6 @@ public class Batch {
     public float getId() {
         return id;
     }
-
-    //TEST
     public void setId(float id) {
         this.id = id;
     }

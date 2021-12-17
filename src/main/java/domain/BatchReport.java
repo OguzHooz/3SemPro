@@ -31,6 +31,7 @@ public class BatchReport {
         this.idleTime = idleTime;
         this.timeOn = timeOn;
         this.startTime = startTime;
+        this.batchReportDB = new BatchReportDB();
     }
 
     public BatchReport(String company,int batchid, int amountProduced, int amountToProduce, String productType, int speed, int accepted,
@@ -46,6 +47,7 @@ public class BatchReport {
         this.idleTime = idleTime;
         this.timeOn = timeOn;
         this.startTime = startTime;
+        this.batchReportDB = new BatchReportDB();
     }
 
     public BatchReport() {
@@ -133,7 +135,6 @@ public class BatchReport {
     }
 
     public int getBatchID() {
-        batchReportDB = new BatchReportDB();
         return batchReportDB.getBatchID();
     }
 
@@ -150,6 +151,7 @@ public class BatchReport {
       batchReportDB.createBatchReport( company, amountProduced,  amountToProduce, productType, speed,
         accepted, defected,  idleTime,  timeOn,  startTime);
     }
+
     public ObservableList getInformationBR(){
         ObservableList<BatchReport> OBlist;
         OBlist = FXCollections.observableArrayList(batchReportDB.getReportInfo());
@@ -157,7 +159,6 @@ public class BatchReport {
 
     }
     public void deleteeReportinDM(int batchID){
-        batchReportDB = new BatchReportDB();
         batchReportDB.deleteaReportinDB(batchID);
     }
 }

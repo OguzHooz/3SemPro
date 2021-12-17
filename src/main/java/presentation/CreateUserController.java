@@ -1,7 +1,6 @@
-package com.example.sempro;
+package presentation;
 
 import domain.CreateUserService;
-
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -11,7 +10,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -41,9 +39,6 @@ public class CreateUserController implements Initializable {
 
     @FXML
     private Label alertLbl;
-
-    @FXML
-    private Button confirmBtn;
 
     @FXML
     private Button cancelBtn;

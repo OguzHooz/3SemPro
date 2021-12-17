@@ -11,8 +11,8 @@ module com.example.sempro {
     requires java.desktop;
 
 
-    opens com.example.sempro to javafx.fxml;
-    exports com.example.sempro;
+    opens presentation to javafx.fxml;
+    exports presentation;
     exports domain;
     exports database;
 }

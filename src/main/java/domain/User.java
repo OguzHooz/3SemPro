@@ -1,9 +1,5 @@
 package domain;
 
-import database.CreateUser;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 public class User {
 
     private int userID;
@@ -32,10 +28,6 @@ public class User {
         this.username = username;
         this.password = password;
     }
-
-//    public User() {
-//
-//    }
 
     public int getUserID() {
         return this.userID;

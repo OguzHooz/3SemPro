@@ -1,13 +1,13 @@
 package database;
 
 import domain.Encrypt;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Login {
     private DatabaseConnection databaseConnection;
     private Encrypt encrypt;
+
     public Login() {
         this.databaseConnection=new DatabaseConnection();
         this.encrypt=new Encrypt();

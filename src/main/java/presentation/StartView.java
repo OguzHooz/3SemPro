@@ -1,4 +1,4 @@
-package com.example.sempro;
+package presentation;
 
 import domain.*;
 import javafx.animation.Animation;
@@ -9,10 +9,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -30,43 +32,30 @@ import domain.BatchReport;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
 
-import static java.lang.Integer.parseInt;
-
 public class StartView implements Initializable {
 
     private CommandController cmdCtrl;
     private BatchController batchCtrl;
+    private ISubscription subscribe;
     private BatchReport batchReport;
     private OEE oee;
     private User user;
     private CreateUserService createUserService;
     private Textfile textfile;
-    int run = 500;
     private DateTimeFormatter dtf;
-    private int seconds = 0;
-    private int minutes = 0;
-
-    private TimerTask timerTask;
-
     private Timeline timeLine;
     private LocalTime localTime;
 
 
     //FXML
     @FXML
-    private Button abortBtn;
+    private AnchorPane startViewAnchorPane;
 
     @FXML
     private TableView<User> userManagementTable;
 
     @FXML
     private Label acceptedLabel;
-
-    @FXML
-    private Label amountBatchLabel;
-
-    @FXML
-    private TextField amountBatchTextField;
 
     @FXML
     private Label amountCurrentBatchLabel;
@@ -76,18 +65,6 @@ public class StartView implements Initializable {
 
     @FXML
     private Label batchLabel;
-
-    @FXML
-    private Button changeBtn;
-
-    @FXML
-    private Button clearBtn;
-
-    @FXML
-    private Button clearFieldBtn;
-
-    @FXML
-    private Button createUserBtn;
 
     @FXML
     private Label defectiveLabel;
@@ -108,9 +85,6 @@ public class StartView implements Initializable {
     private ChoiceBox productIDChoiceBox;
 
     @FXML
-    private Button resetBtn;
-
-    @FXML
     private Label speedLabel;
 
     @FXML
@@ -118,11 +92,6 @@ public class StartView implements Initializable {
 
     @FXML
     private Button startBtn;
-
-    @FXML
-    private Button stopBtn;
-    @FXML
-    private Button downloadReportBtn;
 
     @FXML
     private Label tempLabel;
@@ -141,11 +110,6 @@ public class StartView implements Initializable {
 
     @FXML
     private Label invalidInputLabel;
-
-    @FXML
-    private Label maintenanceLabel;
-
-    private ISubscription subscribe;
 
     @FXML
     private Label companyBRLabel;
@@ -192,9 +156,6 @@ public class StartView implements Initializable {
     private Label setoeeLabel;
 
     @FXML
-    private Button getOEEBtn;
-
-    @FXML
     private Label batchReportInvalid;
     
     @FXML
@@ -204,7 +165,7 @@ public class StartView implements Initializable {
     private TextField updateUsernameTextField;
 
     @FXML
-    private TextField updatePasswordTextField;
+    private PasswordField updatePasswordTextField;
 
     @FXML
     private TextField updateEmailTextField;
@@ -217,8 +178,6 @@ public class StartView implements Initializable {
 
     @FXML
     private RadioButton updateRGuestRB;
-    @FXML
-    private TableView<?> tableviewUser;
 
     @FXML
     private TableColumn<User, Integer> userIDColumn;
@@ -269,12 +228,6 @@ public class StartView implements Initializable {
 
     @FXML
     private TableColumn<BatchReport, String> starttimeColumn;
-    @FXML
-    private Button saveBtn;
-    @FXML
-    private Button deletecolumnBtn;
-    @FXML
-    private Button deleteUseBt;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -290,10 +243,6 @@ public class StartView implements Initializable {
         localTime = LocalTime.parse("00:00:00");
         timeLine = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
         timeLine.setCycleCount(Animation.INDEFINITE);
-        //setTimeOnLabel();
-
-        //columnsUserManagement();
-        //userManagementTable.setItems(createUserService.getInfoUser());
         consumerGUI();
         fillComboBox();
         tableViewBR();
@@ -302,7 +251,11 @@ public class StartView implements Initializable {
     }
     public void tableViewBR(){
         columnsBatchReport();
-        tabelViewBR.setItems(batchReport.getInformationBR());
+        if (tabelViewBR.getSelectionModel().getSelectedItems() != null) {
+            tabelViewBR.setItems(batchReport.getInformationBR());
+        } else {
+            System.out.println("Choose a column");
+        }
     }
     public void tableViewUser(){
         columnsUserManagement();
@@ -351,7 +304,6 @@ public class StartView implements Initializable {
         getInforfraControl();
     }
 
-
     @FXML
     void saveOnAction(ActionEvent event) {
         batchReport.BatchReportDM(companyBRLabel.getText(), Float.parseFloat(amountProducedBRLabel.getText()), Float.parseFloat(amountToProduceBRLabel.getText()),
@@ -367,7 +319,6 @@ public class StartView implements Initializable {
     @FXML
     void updateOnAction(ActionEvent event) {
         tableViewBR();
-
     }
 
   @FXML
@@ -443,14 +394,12 @@ public class StartView implements Initializable {
     }
 
     @FXML
-    public void onExitClick(ActionEvent actionEvent) {
-        Stage stage;
-        Parent root;
+    public void onExitClick(ActionEvent event) {
         try {
-            stage = (Stage) exitBtn.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("login-view.fxml"));
-            stage.setScene(new Scene(root));
-            stage.show();
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("login-view.fxml"));
+            ((Node) (event.getSource())).getScene().getWindow().setWidth(600);
+            ((Node) (event.getSource())).getScene().getWindow().setHeight(400);
+            startViewAnchorPane.getChildren().setAll(pane);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -629,12 +578,12 @@ public class StartView implements Initializable {
         tableViewUser();
     }
     @FXML
-    void UpdateColumnUserOnAction(ActionEvent event) {
-tableViewUser();
+    public void UpdateColumnUserOnAction(ActionEvent event) {
+        tableViewUser();
     }
 
     @FXML
-    void deleteUseOnAction(ActionEvent event) {
+    public void deleteUseOnAction(ActionEvent event) {
         if (userManagementTable.getSelectionModel().getSelectedItem() != null) {
             user = (User) userManagementTable.getSelectionModel().getSelectedItem();
             createUserService.deleteUserinDM(user.getUserID());

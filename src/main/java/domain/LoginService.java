@@ -7,6 +7,7 @@ public class LoginService {
     private String password;
     private User user;
     private Login login;
+
     public LoginService(String username, String password) {
         user=new User();
         login=new Login();

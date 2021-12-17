@@ -1,8 +1,6 @@
 package database;
 
-import domain.BatchReport;
 import domain.Encrypt;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

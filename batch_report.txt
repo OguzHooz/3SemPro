@@ -478,3 +478,75 @@ Idle time: 00:00
 Time on: 00:00
 Start time: 00:00
 -------------------------------------------------------
+Company: TEST
+Batch ID: 12
+Amount produced: 32.0
+Amount to produce: 500.0
+Product type: Pilsner (0)
+Speed: 600.0
+Accepted: 0.0
+Defeceted: 0.0
+Idle time: 00:00
+Time on: 00:00:03
+Start time: 00:00:03
+-------------------------------------------------------
+Company: 
+Batch ID: 12
+Amount produced: 32.0
+Amount to produce: 0.0
+Product type: 0
+Speed: 0.0
+Accepted: 0.0
+Defeceted: 0.0
+Idle time: 00:00
+Time on: 00:00
+Start time: 00:00
+-------------------------------------------------------
+Company: A
+Batch ID: 12
+Amount produced: 6.0
+Amount to produce: 100.0
+Product type: Pilsner (0)
+Speed: 600.0
+Accepted: 0.0
+Defeceted: 0.0
+Idle time: 00:00
+Time on: 00:00:00
+Start time: 00:00:00
+-------------------------------------------------------
+Company: A
+Batch ID: 12
+Amount produced: 11.0
+Amount to produce: 1000.0
+Product type: Pilsner (0)
+Speed: 600.0
+Accepted: 0.0
+Defeceted: 0.0
+Idle time: 00:00
+Time on: 00:00:01
+Start time: 00:00:01
+-------------------------------------------------------
+Company: A
+Batch ID: 12
+Amount produced: 10.0
+Amount to produce: 1000.0
+Product type: Pilsner (0)
+Speed: 600.0
+Accepted: 0.0
+Defeceted: 0.0
+Idle time: 00:00
+Time on: 00:00:01
+Start time: 00:00:01
+-------------------------------------------------------
+Company: djaw
+Batch ID: 12
+Amount produced: 6.0
+Amount to produce: 1000.0
+Product type: Pilsner (0)
+Speed: 200.0
+Accepted: 0.0
+Defeceted: 0.0
+Idle time: 00:00
+Time on: 00:00:02
+Start time: 00:00:02
+-------------------------------------------------------

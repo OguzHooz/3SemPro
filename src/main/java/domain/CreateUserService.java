@@ -1,6 +1,5 @@
 package domain;
 
-import database.BatchReportDB;
 import database.CreateUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

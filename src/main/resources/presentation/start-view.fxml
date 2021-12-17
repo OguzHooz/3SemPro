@@ -4,6 +4,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
@@ -17,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sempro.StartView">
+<AnchorPane fx:id="startViewAnchorPane" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.StartView">
    <children>
       <TabPane prefHeight="800.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -263,7 +264,7 @@
                               <TableColumn fx:id="defectedColumn" prefWidth="71.33331298828125" text="Defected" />
                               <TableColumn fx:id="IdletimeColumn" prefWidth="75.33331298828125" text="Idletime" />
                               <TableColumn fx:id="timeonColumn" prefWidth="60.6666259765625" text="Timeon" />
-                              <TableColumn fx:id="starttimeColumn" prefWidth="69.3333740234375" text="Starttime" />
+                              <TableColumn fx:id="starttimeColumn" prefWidth="86.4000244140625" text="Starttime" />
                           </columns>
                         </TableView>
                         <HBox layoutX="14.0" prefHeight="296.0" prefWidth="261.0">
@@ -319,10 +320,10 @@
                         <TableView fx:id="userManagementTable" layoutX="600.0" prefHeight="771.0" prefWidth="601.0">
                           <columns>
                             <TableColumn fx:id="userIDColumn" prefWidth="75.0" text="User ID" />
-                            <TableColumn fx:id="usernameColumn" prefWidth="75.0" text="Username" />
-                              <TableColumn fx:id="passwordColumn" prefWidth="75.0" text="Password" />
-                              <TableColumn fx:id="emailColumn" prefWidth="75.0" text="Email" />
-                              <TableColumn fx:id="roleColumn" prefWidth="75.0" text="Role" />
+                            <TableColumn fx:id="usernameColumn" prefWidth="108.7999267578125" text="Username" />
+                              <TableColumn fx:id="passwordColumn" prefWidth="134.4000244140625" text="Password" />
+                              <TableColumn fx:id="emailColumn" prefWidth="181.5999755859375" text="Email" />
+                              <TableColumn fx:id="roleColumn" prefWidth="103.2000732421875" text="Role" />
                           </columns>
                         </TableView>
                         <Button fx:id="updateUserButton" layoutX="152.0" layoutY="412.0" mnemonicParsing="false" onAction="#updateUserOnAction" text="UPDATE USER" />
@@ -346,7 +347,7 @@
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="updatePasswordTextField" />
+                              <PasswordField fx:id="updatePasswordTextField" />
                               <Label text="Email">
                                  <font>
                                     <Font name="System Bold" size="16.0" />

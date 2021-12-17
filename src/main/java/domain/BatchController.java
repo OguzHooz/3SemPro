@@ -4,7 +4,6 @@ import org.eclipse.milo.opcua.stack.core.types.builtin.DataValue;
 import org.eclipse.milo.opcua.stack.core.types.builtin.NodeId;
 import org.eclipse.milo.opcua.stack.core.types.builtin.Variant;
 import org.eclipse.milo.opcua.stack.core.types.enumerated.TimestampsToReturn;
-import com.example.sempro.LoginController;
 
 public class BatchController {
 
@@ -71,18 +70,6 @@ public class BatchController {
         } catch (Throwable ex) {
             ex.printStackTrace();
             return value;
-        }
-    }
-
-    public void setBatchId(float id) {
-        try {
-
-            NodeId nodeId = new NodeId(6, "::Program:Cube.Command.Parameter[0].Value");
-            machineConnection.getClient().writeValue(nodeId, DataValue.valueOnly(new Variant(id))).get();
-            System.out.println("domain.write, set batch ID to: " + id);
-
-        } catch (Throwable ex) {
-            ex.printStackTrace();
         }
     }
 
