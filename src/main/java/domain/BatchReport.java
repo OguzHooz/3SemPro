@@ -153,6 +153,7 @@ public class BatchReport {
     }
 
     public ObservableList getInformationBR(){
+        batchReportDB=new BatchReportDB();
         ObservableList<BatchReport> OBlist;
         OBlist = FXCollections.observableArrayList(batchReportDB.getReportInfo());
         return OBlist;
