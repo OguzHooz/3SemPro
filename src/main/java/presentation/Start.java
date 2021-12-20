@@ -14,7 +14,7 @@ public class Start extends Application {
         //FXMLLoader fxmlLoader = new FXMLLoader(Start.class.getResource("login-view.fxml"));
 
         // Use this if on machine
-        FXMLLoader fxmlLoader = new FXMLLoader(Start.class.getResource("start-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Start.class.getResource("login-view.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         stage.setTitle("B&R");

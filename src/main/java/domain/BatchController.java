@@ -13,9 +13,9 @@ public class BatchController {
 
     public BatchController() {
         //Simulation
-        //this.machineConnection = new MachineConnection("127.0.0.1", 4840);
+        this.machineConnection = new MachineConnection("127.0.0.1", 4840);
         //Machine
-        this.machineConnection = new MachineConnection("192.168.0.122", 4840);
+        //this.machineConnection = new MachineConnection("192.168.0.122", 4840);
         this.machineConnection.connect();
     }
 

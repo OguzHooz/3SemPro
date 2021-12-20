@@ -533,7 +533,7 @@ public class StartView implements Initializable {
         if (tabelViewBR.getSelectionModel().getSelectedItem() != null) {
             batchReport = (BatchReport) tabelViewBR.getSelectionModel().getSelectedItem();
 
-            setoeeLabel.setText(Integer.toString(oee.createOEE(batchReport.getBatchid())));
+            setoeeLabel.setText(Double.toString(oee.createOEE(batchReport.getBatchid())));
         } else {
             batchReportInvalid.setText("Please select a batch to get OEE");
             batchReportInvalid.setDisable(false);

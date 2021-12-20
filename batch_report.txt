@@ -562,3 +562,15 @@ Idle time: 00:00
 Time on: 00:00:02
 Start time: 00:00:02
 -------------------------------------------------------
+Company: SDU - T
+Batch ID: 12
+Amount produced: 150.0
+Amount to produce: 150.0
+Product type: Stout (3)
+Speed: 200.0
+Accepted: 0.0
+Defeceted: 0.0
+Idle time: 00:00
+Time on: 00:00:48
+Start time: 00:00:48
+-------------------------------------------------------

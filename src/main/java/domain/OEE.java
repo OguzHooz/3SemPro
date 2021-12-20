@@ -30,12 +30,12 @@ public class OEE {
         return batchReportDB.getSpeed(batchID);
     }
 
-    public int createOEE(int batchID) {
+    public double createOEE(int batchID) {
         int goodCount = getTotalCount(batchID) - getRejectedCount(batchID);
         int idealCycleTime = getIdealCycleTime(batchID);
         int plannedProductionTime = 28800;
 
-        int valueOEE = (goodCount * idealCycleTime) / plannedProductionTime;
+        double valueOEE = (goodCount * (60.0 / idealCycleTime)) / plannedProductionTime;
 
         return valueOEE;
     }
