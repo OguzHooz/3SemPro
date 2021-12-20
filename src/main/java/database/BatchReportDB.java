@@ -54,22 +54,27 @@ public class BatchReportDB {
     }
 
     public int getBatchID() {
-        try {
-            Statement st = connection.createStatement();
-            String sql = "SELECT * FROM batchreport";
-            rs = st.getGeneratedKeys();
-            rs =  st.executeQuery(sql);
+        if (connection != null) {
+            try {
+                Statement st = connection.createStatement();
+                String sql = "SELECT * FROM batchreport";
+                rs = st.getGeneratedKeys();
+                rs =  st.executeQuery(sql);
 
-            int batchid = 0;
-            while (rs.next()) {
-                batchid = rs.getInt("batchid");
+                int batchid = 0;
+                while (rs.next()) {
+                    batchid = rs.getInt("batchid");
+                }
+                st.close();
+                return batchid;
+
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
             }
-            st.close();
-            return batchid;
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+        } else {
+            System.out.println("BatchReportDB getBatchID(): no connection to database");
         }
+
         return 0;
     }
 
@@ -139,21 +144,25 @@ public class BatchReportDB {
 
     public List getReportInfo() {
         List<BatchReport> brList  = new ArrayList<>();
-        try {
-            Statement st = connection.createStatement();
-            rs = st.executeQuery("SELECT * FROM batchreport");
-            while (rs.next()) {
-                brList.add(new BatchReport(rs.getString("company"), rs.getInt("batchid"),
-                        rs.getInt("amountproduced"), rs.getInt("amounttoproduce"),
-                        rs.getString("producttype"), rs.getInt("speed"),
-                        rs.getInt("accepted"), rs.getInt("defected"),
-                        rs.getString("idletime"), rs.getString("timeon"),
-                        rs.getString("starttime")));
-            }
-            st.close();
+        if (connection != null) {
+            try {
+                Statement st = connection.createStatement();
+                rs = st.executeQuery("SELECT * FROM batchreport");
+                while (rs.next()) {
+                    brList.add(new BatchReport(rs.getString("company"), rs.getInt("batchid"),
+                            rs.getInt("amountproduced"), rs.getInt("amounttoproduce"),
+                            rs.getString("producttype"), rs.getInt("speed"),
+                            rs.getInt("accepted"), rs.getInt("defected"),
+                            rs.getString("idletime"), rs.getString("timeon"),
+                            rs.getString("starttime")));
+                }
+                st.close();
 
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+            System.out.println("No connection to database");
         }
         return brList;
 

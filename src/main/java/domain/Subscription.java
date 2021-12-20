@@ -43,9 +43,9 @@ public class Subscription implements ISubscription {
 
     public Subscription() {
         //Simulation
-        machineConnection = new MachineConnection("127.0.0.1", 4840);
+        //machineConnection = new MachineConnection("127.0.0.1", 4840);
         //Machine
-        //this.machineConnection = new MachineConnection("192.168.0.122, 4840);
+        this.machineConnection = new MachineConnection("192.168.0.122", 4840);
         machineConnection.connect();
         consumerMap = new HashMap();
     }
@@ -69,6 +69,7 @@ public class Subscription implements ISubscription {
         Consumer<DataValue> vibrationItem = (dataValue) -> startConsumer(vibration, dataValue);
         Consumer<DataValue> temperatureItem = (dataValue) -> startConsumer(temperature, dataValue);
         Consumer<DataValue> defectedItem = (dataValue) -> startConsumer(defectiveProducts, dataValue);
+
 
         try {
             UaSubscription subscription = machineConnection.getClient().getSubscriptionManager().createSubscription(10.0).get();
@@ -107,7 +108,7 @@ public class Subscription implements ISubscription {
                 this.totalDefectedValue = Float.parseFloat(dataValue.getValue().getValue().toString());
                 break;
             case acceptedProducts:
-                this.totalAcceptedValue = 0;
+                this.totalAcceptedValue = this.totalProducedValue - this.totalDefectedValue;
                 break;
             default:
         }

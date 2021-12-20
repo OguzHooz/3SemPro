@@ -28,6 +28,7 @@ import java.util.*;
 
 import domain.BatchController;
 import domain.BatchReport;
+import org.eclipse.milo.opcua.stack.core.types.builtin.DataValue;
 
 import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
@@ -297,6 +298,8 @@ public class StartView implements Initializable {
         idleTimeBRLabel.setText(idleTimeLabel.getText());
         timeOnBRLabel.setText(timeOnLabel.getText());
         startTimeBRLabel.setText(timeOnLabel.getText());
+        int acceptedCount = batchCtrl.getProducedCount() - batchCtrl.getDefectiveCount();
+        acceptedLabel.setText(Float.toString(acceptedCount));
     }
 
     @FXML
@@ -365,6 +368,8 @@ public class StartView implements Initializable {
     public void onStopClick(ActionEvent event) {
        getInforfraControl();
         cmdCtrl.stop();
+        int acceptedCount = batchCtrl.getProducedCount() - batchCtrl.getDefectiveCount();
+        acceptedLabel.setText(Float.toString(acceptedCount));
         if (startBtn.isDisable()) {
             timeLine.stop();
             startBtn.setDisable(false);

@@ -39,19 +39,24 @@ public class CreateUser {
 
     public List getUserInfo() {
         List<User> userList = new ArrayList<>();
-        try {
-            Statement st = connection.createStatement();
-            rs = st.executeQuery("SELECT * FROM user_info");
-            while (rs.next()) {
-                userList.add(new User(rs.getInt("userid"), rs.getString("username"),
-                        rs.getString("password"), rs.getString("email"),
-                        rs.getString("role")));
-            }
-            st.close();
+        if (connection != null) {
+            try {
+                Statement st = connection.createStatement();
+                rs = st.executeQuery("SELECT * FROM user_info");
+                while (rs.next()) {
+                    userList.add(new User(rs.getInt("userid"), rs.getString("username"),
+                            rs.getString("password"), rs.getString("email"),
+                            rs.getString("role")));
+                }
+                st.close();
 
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+            System.out.println("No connection to database");
         }
+
         return userList;
 
     }

@@ -5,15 +5,17 @@ import org.eclipse.milo.opcua.stack.core.types.builtin.NodeId;
 import org.eclipse.milo.opcua.stack.core.types.builtin.Variant;
 import org.eclipse.milo.opcua.stack.core.types.enumerated.TimestampsToReturn;
 
+import java.sql.Time;
+
 public class BatchController {
 
     private MachineConnection machineConnection;
 
     public BatchController() {
         //Simulation
-        this.machineConnection = new MachineConnection("127.0.0.1", 4840);
+        //this.machineConnection = new MachineConnection("127.0.0.1", 4840);
         //Machine
-        //this.machineConnection = new MachineConnection("192.168.0.122", 4840);
+        this.machineConnection = new MachineConnection("192.168.0.122", 4840);
         this.machineConnection.connect();
     }
 
@@ -102,6 +104,38 @@ public class BatchController {
 
         } catch (Throwable ex) {
             ex.printStackTrace();
+        }
+    }
+
+    public int getProducedCount() {
+        int count = 0;
+        try {
+            NodeId nodeId = new NodeId(6, "::Program:Cube.Admin.ProdProcessedCount");
+            DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId)
+                    .get();
+
+            Variant variant = dataValue.getValue();
+            count = (int) variant.getValue();
+            return count;
+        } catch (Throwable ex) {
+            ex.printStackTrace();
+            return count;
+        }
+    }
+
+    public int getDefectiveCount() {
+        int count = 0;
+        try {
+            NodeId nodeId = new NodeId(6, "::Program:Cube.Admin.ProdDefectiveCount");
+            DataValue dataValue = machineConnection.getClient().readValue(0, TimestampsToReturn.Both, nodeId)
+                    .get();
+
+            Variant variant = dataValue.getValue();
+            count = (int) variant.getValue();
+            return count;
+        } catch (Throwable ex) {
+            ex.printStackTrace();
+            return count;
         }
     }
 }
