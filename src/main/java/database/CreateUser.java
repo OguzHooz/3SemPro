@@ -164,9 +164,10 @@ public class CreateUser {
     public void deleteUserinDB(int userID) {
 
         try {
+            Statement st = connection.createStatement();
             String sql = "DELETE FROM user_info WHERE userid= '" + userID + "'";
-            ResultSet rt = dbConnection.getConnection().createStatement().executeQuery(sql);
-            rt.close();
+            st.executeUpdate(sql);
+            st.close();
             System.out.println("Batch ID: " + userID + "deleted");
         } catch (SQLException throwables) {
             throwables.printStackTrace();

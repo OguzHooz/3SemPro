@@ -6,11 +6,11 @@ import javafx.collections.ObservableList;
 
 public class CreateUserService {
 
-    CreateUser createUser = new CreateUser();
+    CreateUser createUser;
     Encrypt encrypt = new Encrypt();
-    private User user;
 
     public CreateUserService() {
+        this.createUser=new CreateUser();
 
     }
 
@@ -31,7 +31,7 @@ public class CreateUserService {
         createUser.updateUser(userID, username, encrypt.encrypt(password), email, role);
     }
     public void deleteUserinDM(int userID){
-        user=new User();
+       createUser=new CreateUser();
         createUser.deleteUserinDB(userID);
     }
 }

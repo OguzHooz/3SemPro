@@ -478,6 +478,18 @@ Idle time: 00:00
 Time on: 00:00
 Start time: 00:00
 -------------------------------------------------------
+Company: Slagelse
+Batch ID: 12
+Amount produced: 0.0
+Amount to produce: 100.0
+Product type: ALE (4)
+Speed: 600.0
+Accepted: 0.0
+Defeceted: 0.0
+Idle time: 00:00
+Time on: 00:00:13
+Start time: 00:00:13
+-------------------------------------------------------
 Company: TEST
 Batch ID: 12
 Amount produced: 32.0
